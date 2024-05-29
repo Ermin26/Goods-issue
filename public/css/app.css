@@ -1,0 +1,436 @@
+* {
+    color: black;
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0%;
+    padding: 0%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+
+
+#main {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: hidden;
+    padding: 4px;
+    margin: 0 20px;
+}
+#main h2{
+    text-align: center;
+    padding: 4px;
+}
+
+section{
+    max-width: 100%;
+}
+
+.izdal{
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: auto;
+    position: relative;
+    left: 0;
+    margin-right: auto;
+}
+
+.izdal input{
+    border: none;
+}
+
+.print {
+    margin-bottom: 15vh;
+}
+
+#numbersSection{
+    margin: 40px 0;
+    padding: 0;
+    width: 100%;
+}
+.numbers{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    justify-content: start;
+}
+
+.mb{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+    align-items: center;
+    justify-content: start;
+    margin: 0;
+}
+
+.form-control{
+    padding: 0;
+    width: 30px;
+    border: 1px solid white;
+    margin-left: 4px;
+    text-align: start;
+}
+.form-control:focus{
+    box-shadow: none;
+}
+
+input[name="numPerYear"]{
+    margin-left: 30px;
+}
+input[name="numPerMonth"]{
+    margin-left: 16px;
+}
+
+.numbers span{
+    border: 1px solid white;
+    margin-left:2px ;
+}
+
+.dates{
+    display: flex;
+    padding: 0;
+    align-items: center;
+}
+.dates ul{
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+    list-style: none;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+input[name="soldDate"]{
+    margin-left: 7px;
+}
+
+ul input{
+    border: 1px solid white;
+}
+.row{
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+#btns{
+    margin-left: 52px;
+}
+
+#btns button{
+    width: auto !important;
+    margin: 2px;
+    padding: 4px;
+}
+
+
+
+.table{
+    margin: 10px 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 4px;
+    width: 90%;
+}
+
+.table th{
+    text-align: center;
+}
+/*
+.table th:not(:first-child){
+    width: 120px;
+}
+*/
+.table th:first-child{
+    width: 420px;
+}
+#payment{
+    width: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.checkBoxes{
+    text-align: center;
+}
+
+/*
+
+@media (max-width: 3000px) {
+    
+    #izdal {
+        display: inline-flex;
+        flex-direction: column;
+        padding: 0px;
+    }
+
+    #hiderow {
+        display: inline-flex;
+        flex-direction: row;
+        transform: translate(150px, 340px);
+        -webkit-transform: translate(150px, 340px);
+        -moz-transform: translate(150px, 340px);
+        -ms-transform: translate(150px, 340px);
+        -o-transform: translate(150px, 340px);
+    }
+
+    #dates {
+        padding: 0px;
+        margin-left: -50px;
+    }
+
+    #dates-left {
+        padding: 0px;
+        margin-left: 98px;
+    }
+
+    #info {
+        margin: 0;
+        padding: 0;
+    }
+
+    #info-ul {
+        padding: 0px;
+    }
+
+    #info-ul li {
+        margin-left: 25px;
+    }
+
+
+}
+
+@media (max-width: 1500px) {
+    #izdal {
+        margin-top: 0px;
+    }
+
+    #hiderow {
+        display: inline-flex;
+        flex-direction: row;
+        transform: translate(50px, 330px);
+        -webkit-transform: translate(50px, 330px);
+        -moz-transform: translate(50px, 330px);
+        -ms-transform: translate(50px, 330px);
+        -o-transform: translate(50px, 330px);
+    }
+
+    #dates {
+        padding: 0px;
+        margin-left: -50px;
+    }
+
+    #dates-left {
+        padding: 0px;
+        margin-left: 98px;
+    }
+
+    #info {
+        margin: 0;
+        padding: 0;
+    }
+
+    #info-ul {
+        padding: 0px;
+    }
+
+    #info-ul li {
+        margin-left: 25px;
+    }
+
+
+}
+
+@media (max-width: 1024px) {
+    #izdal {
+        margin-top: 0px;
+    }
+
+    #hiderow {
+        display: inline-flex;
+        flex-direction: row;
+        transform: translate(50px, 330px);
+        -webkit-transform: translate(50px, 330px);
+        -moz-transform: translate(50px, 330px);
+        -ms-transform: translate(50px, 330px);
+        -o-transform: translate(50px, 330px);
+    }
+
+    #dates {
+        padding: 0px;
+        margin-left: -50px;
+    }
+
+    #dates-left {
+        padding: 0px;
+        margin-left: 98px;
+    }
+
+    #info {
+        margin: 0;
+        padding: 0;
+    }
+
+    #info-ul {
+        padding: 0px;
+    }
+
+    #info-ul li {
+        margin-left: 25px;
+    }
+
+
+}
+
+@media (max-width: 550px) {
+    #izdal {
+        margin-top: 0px;
+    }
+
+    #hiderow {
+        display: inline-flex;
+        flex-direction: row;
+        transform: translate(50px, 330px);
+        -webkit-transform: translate(50px, 330px);
+        -moz-transform: translate(50px, 330px);
+        -ms-transform: translate(50px, 330px);
+        -o-transform: translate(50px, 330px);
+    }
+
+    #dates {
+        padding: 0px;
+        margin-left: -50px;
+    }
+
+    #dates-left {
+        padding: 0px;
+        margin-left: 50px;
+    }
+
+    #info {
+        margin: 0;
+        padding: 0;
+    }
+
+    #info-ul {
+        padding: 0px;
+    }
+
+    #info-ul li {
+        margin-left: 25px;
+    }
+
+
+}
+
+@media (max-width: 450px) {
+    .containerr {
+        overflow-x: auto;
+    }
+
+    #izdal {
+        margin-top: 0px;
+    }
+
+    #hiderow {
+        display: inline-flex;
+        flex-direction: row;
+        transform: translate(50px, 440px);
+        -webkit-transform: translate(50px, 440px);
+        -moz-transform: translate(50px, 440px);
+        -ms-transform: translate(50px, 440px);
+        -o-transform: translate(50px, 440px);
+    }
+
+    #dates {
+        display: inline-flex;
+        flex-direction: column;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    #info {
+        margin: 0;
+        padding: 0;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    #info-ul {
+        margin: 0px;
+    }
+
+    #info-ul li {
+        margin-top: 2px;
+        margin-left: 7px;
+    }
+
+}
+
+
+@media print {
+    * {
+        margin: 0;
+        padding: 0;
+        color: black;
+    }
+
+    #izdal {
+        margin-top: 4px;
+    }
+
+    #navbar {
+        display: none;
+    }
+
+    input[type] {
+        border: 0;
+    }
+
+    #addrow,
+    #zaključi,
+    #placaj,
+    #hideOnPrint,
+    #hiderow, #rowDelete, #successAlert, #errorAlert{
+        display: none;
+    }
+    #userInfo,.name,.role{
+        display:none !important;
+    }
+
+    .container {
+        overflow: hidden;
+    }
+
+
+    #payDate,
+    #soldDate {
+        width: 100px;
+    }
+
+    #numPerYear,
+    #year,
+    #numPerMonth,
+    #month,
+    #kt {
+        width: 60px;
+    }
+
+}
+
+*/

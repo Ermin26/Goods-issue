@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#navbar{
+    position: sticky;
+    top: 0;
+    height: 62px;
+    padding: 0;
+}
+#userInfo{
+    position: sticky;
+    justify-content: end;
+    margin-right: 10px;
+    top: 62px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(209, 210, 211);
+}
+.name,.role{
+    width: fit-content;
+    margin: 2px;
+    font-weight: 700;
+}
+
+.navbar-nav{
+    align-items: center;
+}
+#iconLi{
+    max-height: 50px;
+    width: 50px;
+    margin: 1px;
+}
+#notificationIcon{
+    display: inline-flex;
+    position: relative;
+    padding: 0;
+    align-items: center;
+    top: 4px;
+}
+#notificationIcon:hover{
+    cursor: pointer;
+}
+#notificationIcon >svg{
+    margin-top: 5px;
+}
+#notNumber{
+    position: relative;
+    top: -10px;
+    right: 8px;
+    background-color: red;
+    width: 14px;
+    border-radius: 50%;
+    text-align: center;
+}
+#notNum{
+    margin: 0;
+    padding: 1px;
+    width: 100%;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+}
+
+#notifications{
+    visibility:hidden;
+    position: absolute;
+    text-wrap: nowrap;
+    width: 320px;
+    margin-left: -260px;
+    margin-top: 0px;
+}
+#notifications a{
+    text-decoration: none;
+    color:black;
+}
+
+#notificationIcon:hover~#notifications, #notifications:hover{
+    cursor: pointer;
+    visibility: visible;
+    position: absolute;
+    width: fit-content;
+    text-wrap: nowrap;
+    margin-left: -260px;
+    margin-top: 0px;
+    list-style: none;
+    background-color: white;
+    text-align: start;
+    border: 1px solid black;
+}
+#notifications li:hover{
+    background-color: rgb(161, 161, 161);
+    box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
+}
+@media print{
+    #userInfo,.name,.role{
+        display:none !important;
+    }
+}
+
+@media (max-width: 992px){
+    
+    
+}
+
+@media (max-width: 767px){
+    #userInfo{
+        top: 59px;
+    }
+    .navbar-nav{
+        align-items: start;
+    }
+    #notificationIcon:hover~#notifications, #notifications:hover{
+        text-wrap: wrap;
+    }
+
+}
