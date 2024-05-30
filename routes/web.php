@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('home');
 Route::get('/all', function () {
     return view('bills.selled');
 });
@@ -34,11 +36,14 @@ Route::get('/users', function () {
 
 Route::get('/add', function () {
     return view('users.add');
-});
+})->name('add');
 
 Route::get('/register', function () {
     return view('users.register');
-});
+})->name('register');
+
+Route::post('/createUser', [Controller::class, 'registerUser'])->name('createUser');
+
 Route::get('/login', function () {
     return view('login.login');
 });
