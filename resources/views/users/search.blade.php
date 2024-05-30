@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/search.css')}}">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+    <title>Selled Products</title>
+</head>
+
+<body>
+     @include('navbar') %>
+
+        <div class="row row-cols-2" id="row">
+            <div class="col-3 p-0 border-end border-bottom border-3 border-dark" id="search">
+                <div class="ms-3 text-center">
+                    <h1 class="mt-1">Search employee</h1>
+                    <form class="text-center" action="/search" method="post">
+                        <div class="form-group mt-3 w-50 ms-auto me-auto">
+                            <label for="user">Employee</label>
+                            <input type="text" class="form-control w-100 border-2 border-dark" name="username" id="user"
+                                placeholder="required" required>
+                        </div>
+
+                        <div class="form-group mt-3 w-50 ms-auto me-auto">
+                            <label for="product">Product</label>
+                            <input type="text" class="form-control w-100 border-2 border-dark" name="product"
+                                id="product" placeholder="Not required">
+                        </div>
+
+                        <div class="footer mb-4">
+                            <button class="btn btn-sm btn-primary mt-3 ms-2">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <% if(usersData.length) {%>
+                    <div class="mt-4">
+                        <div class="btns mt-4 p-1 d-flex  justify-content-evenly">
+                            <button class="btn btn-primary" onclick="allBills()">All</button>
+                            <button class="btn btn-danger" onclick="notPayed()">Not Payed</button>
+                            <button class="btn btn-success" onclick="window.print()">Print</button>
+                        </div>
+                    </div>
+                    <% } %>
+                        <% if(buyedProducts.length) {%>
+                            <div id="qtyBuyedProducts" class="mt-3 mb-5">
+
+                                <caption>
+                                    <h2 class="text-center">Product buyed</h2>
+                                </caption>
+
+                                <table id="tableProducts" class="table table-info table-hover text-center">
+                                    <thead>
+                                        <th>Product</th>
+                                        <th>Buyed</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <% for (productBuyed of buyedProducts) {%>
+                                                <td>
+                                                    <%= productBuyed.productName%>
+                                                </td>
+                                                <td>
+                                                    <%= productBuyed.productsBuyed %>
+                                                </td>
+                                                <% } %>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% } %>
+            </div>
+
+            <div class="col-9" id="result">
+                <h1 class="mb-2 text-center" id="h1Results">Results</h1>
+                <div id="allBills">
+                    <div class="head text-center">
+                        <% if(usersData.length) {%>
+                            <% if(searched) {%>
+                                <h1 id="searched"><strong>
+                                        All bills for user <br> <strong class="text-primary">
+                                            <%= searched %>
+                                        </strong>.
+                                    </strong></h1>
+                                <% } %>
+                                    <% } %>
+                    </div>
+                    <% if(!usersData.length){ %>
+                        <h2 class="text-center mt-3">Nothing to show here.</h2>
+                        <%- include('../flashError') %>
+                            <% }else{ %>
+                                <% for (data of usersData) {%>
+                                    <div id="data">
+                                        <table id="table" class="table table-dark table-hover mt-3 text-center">
+                                            <thead id="table-data">
+                                                <th class="col">Product</th>
+                                                <th class="col">Qty</th>
+                                                <th class="col">Total</th>
+                                                <th class="col">Month</th>
+                                                <th class="col">Week</th>
+                                                <th class="col">Free</th>
+                                                <th class="col">Payed</th>
+                                                <th class="col">Sold date</th>
+                                                <th class="col">Sold by</th>
+                                            </thead>
+                                            <tbody>
+                                                <% for (names of data) {%>
+                                                    <% for(product of names.products) {%>
+                                                        <tr>
+                                                            <td>
+                                                                <%= product.name %>
+                                                            </td>
+                                                            </td>
+                                                            <td>
+                                                                <%= product.qty %>
+                                                            </td>
+                                                            </td>
+                                                            <td>
+                                                                <%= product.total %>
+                                                            </td>
+                                                            <td>
+                                                                <%= names.month %>
+                                                            </td>
+                                                            <td>
+                                                                <%= names.kt %>
+                                                            </td>
+                                                            <td>
+
+                                                                <% if(product.firstOfWeek=='true' ){ %>
+                                                                    <img src="../payed.jpg" alt="Free">
+                                                                    <% } else { %>
+                                                                        <img src="../notPay.jpg" alt="Not Free">
+                                                                        <% } %>
+                                                            </td>
+
+                                                            <td>
+
+                                                                <% if(names.pay=='true' ){ %>
+                                                                    <img src="../payed.jpg" alt="Payed">
+                                                                    <% } else { %>
+                                                                        <img src="../notPay.jpg" alt="Not Payed">
+                                                                        <% } %>
+                                                            </td>
+                                                            <td>
+                                                                <%= names.soldDate %>
+                                                            </td>
+                                                            <td>
+                                                                <%= names.izdal %>
+                                                            </td>
+                                                        </tr>
+                                                        <% }%>
+                                                            <% }%>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <% } %>
+                </div>
+                <% } %>
+                    <!-- UNPAYED BILLS-->
+                    <div id="unPayedBills" class="text-center">
+                        <div class="mt-4 mb-3">
+                            <h1 id="unPayedH1" class="text-danger">Unpayed bills from user <br>
+                                <strong class="text-primary">
+                                    <%= searched %>
+                                </strong>
+                            </h1>
+                        </div>
+                        <% for(data of usersData) {%>
+                            <table id="notPayedTable" class="table table-dark table-hover mt-3 text-center">
+                                <thead id="table-data">
+                                    <th class="col">Product</th>
+                                    <th class="col">Qty</th>
+                                    <th class="col">Total</th>
+                                    <th class="col">Month</th>
+                                    <th class="col">Week</th>
+                                    <th class="col">Payed</th>
+                                    <th id="edit" class="col">Edit</th>
+                                    <th class="col">Sold date</th>
+                                    <th class="col">Sold by</th>
+                                </thead>
+                                <tbody>
+                                    <% for(user of data) {%>
+                                        <% if(user.pay=="false" ) {%>
+                                            <% for(products of user.products) {%>
+                                                <tr>
+                                                    <td>
+                                                        <%= products.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= products.qty %>
+                                                    </td>
+                                                    <td>
+                                                        <%= products.total %>
+                                                    </td>
+                                                    <td>
+                                                        <%= user.month %>
+                                                    </td>
+                                                    <td>
+                                                        <%= user.kt %>
+                                                    </td>
+                                                    <td>
+                                                        <img src="../notPay.jpg" alt="Not Payed">
+                                                    </td>
+                                                    <td id="editLink"><a href="/all/<%= user.id %>">Edit</a></td>
+                                                    <td>
+                                                        <%= user.soldDate %>
+                                                    </td>
+                                                    <td>
+                                                        <%= user.izdal %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% } %>
+                                                        <% } %>
+                                                            <tr class="bg-danger">
+                                                                <td>Skupaj</td>
+                                                                <td id="qtys"></td>
+                                                                <td id="payed" class="bg-danger"></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                    </div>
+
+
+            </div>
+
+        </div>
+        <script>
+            document.getElementById("unPayedBills").style.display = "none";
+            document.getElementById("allBills").style.display = "block";
+            function notPayed() {
+                document.getElementById("allBills").style.display = "none";
+                document.getElementById("unPayedBills").style.display = "block";
+            }
+            function allBills() {
+                document.getElementById("allBills").style.display = "block";
+                document.getElementById("unPayedBills").style.display = "none";
+            }
+
+            let taable = document.getElementById('notPayedTable');
+            let rows = taable.rows.length - 2
+            let pay = 0;
+            let qtys = 0;
+            for (let i = 1; i <= rows; i++) {
+                //console.log(rows[i].cells[5].innerHTML)
+                // var x = document.getElementById('myTable').rows[i].cells[5].children[0].value;
+                var x = document.getElementById('notPayedTable').rows[i].cells[2].innerHTML
+                var y = document.getElementById('notPayedTable').rows[i].cells[1].innerHTML
+                pay += parseFloat(x, 10);
+                qtys += parseFloat(y, 10);
+
+            }
+            document.getElementById('payed').innerHTML = pay.toFixed(2) + ' ' + '€';
+            document.getElementById('qtys').innerHTML = qtys;
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>

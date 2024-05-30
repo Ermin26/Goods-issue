@@ -1,0 +1,140 @@
+
+a {
+    text-decoration: none;
+}
+#col1,#col2{
+    max-height: 85vh;
+    overflow-y: auto;
+}
+#cashTable{
+    margin-top: 72px;
+    font-weight: 700;
+}
+#bills{
+    margin-bottom: 15vh;
+}
+@media (max-width: 3000px) {
+    #btn-func {
+        margin: 3px;
+    }
+
+    .caption {
+        margin-left: 10px;
+    }
+
+    #bills {
+        display: inline-flex;
+
+
+    }
+
+    #table-data,
+    #table-head {
+        position: sticky;
+        top: 0;
+    }
+
+    #myBtn {
+        display: none;
+        position: fixed;
+        margin-bottom: 2px;
+        top: 60px;
+        right: 5px;
+        z-index: 99;
+        font-size: 36px;
+        border: 1px solid rgb(71, 222, 249);
+        outline: none;
+        background-color: rgba(10, 13, 45, 0.986);
+        color: rgb(71, 222, 249);
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 4px;
+    }
+
+    #bottom {
+        display: none;
+        position: fixed;
+        top: 125px;
+        right: 5px;
+        z-index: 99;
+        font-size: 36px;
+        border: 1px solid rgb(71, 222, 249);
+        outline: none;
+        background-color: rgba(10, 13, 45, 0.986);
+        color: rgb(71, 222, 249);
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 4px;
+    }
+
+    #myBtn:hover,
+    #bottom:hover {
+        background-color: rgb(68, 202, 119);
+        color: black;
+    }
+}
+
+@media (max-width: 1024px) {
+    #btn-func {
+        margin: 3px;
+    }
+
+    .caption {
+        margin-left: 10px;
+    }
+
+    #bills {
+        display: inline-flex;
+
+
+    }
+
+    #table-data,
+    #table-head,
+    #costsInfo {
+        position: sticky;
+        top: 0px;
+    }
+}
+
+@media (max-width: 767px) {
+    #cols {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #col1,
+    #col2 {
+        width: 100%;
+        text-align: center;
+    }
+
+    #bills {
+        display: inline-flex;
+    }
+
+    #table-data,
+    #table-head {
+        position: sticky;
+        top: 0px;
+    }
+}
+
+@media (max-width: 450px) {
+    #bills {
+        display: inline-flex;
+        width: 100%;
+
+    }
+
+    #tableOfCosts {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    #table-data,
+    #table-head {
+        position: sticky;
+        top: 0px;
+    }
+}

@@ -6,30 +6,40 @@
 html {
     margin: 0%;
     padding: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0;
     width: 100%;
-    overflow-x: hidden;
+    height: 100vh;
+    overflow: hidden;
 }
-
-
 
 #main {
     max-width: 100%;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     margin-left: auto;
     margin-right: auto;
-    overflow-x: hidden;
-    padding: 4px;
-    margin: 0 20px;
+    padding: 10px 20px;
+    margin: 0;
+    margin-bottom: 10vh;
+    overflow-y: visible;
 }
-#main h2{
+.topSection h2{
     text-align: center;
     padding: 4px;
+    margin: 0;
+}
+
+.topSection hr{
+    border: 2px solid black;
 }
 
 section{
@@ -46,16 +56,18 @@ section{
     margin-right: auto;
 }
 
+.izdal p:first-child{
+    margin: 2px 0;
+
+}
+
 .izdal input{
     border: none;
 }
 
-.print {
-    margin-bottom: 15vh;
-}
 
 #numbersSection{
-    margin: 40px 0;
+    margin: 40px 0 10px 0;
     padding: 0;
     width: 100%;
 }
@@ -121,13 +133,19 @@ input[name="soldDate"]{
 ul input{
     border: 1px solid white;
 }
+
+.btnSection{
+    display: flex;
+}
 .row{
     max-width: 100%;
     margin: 0;
     padding: 0;
 }
 #btns{
-    margin-left: 52px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #btns button{
@@ -166,7 +184,33 @@ ul input{
 .checkBoxes{
     text-align: center;
 }
+.buyer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 90% !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+}
 
+.buyer ul{
+    list-style: none;
+    width: auto;
+    display: inline-flex;
+    flex-direction: column;
+    margin-left: auto;
+    padding: 0;
+}
+
+.buyer ul li:first-child{
+    margin: 6px 0;
+}
+.printBtn{
+    width: auto !important;
+    margin: 6px;
+    padding: 6px 12px;
+}
 /*
 
 @media (max-width: 3000px) {

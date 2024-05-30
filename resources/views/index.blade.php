@@ -13,11 +13,11 @@
 <body>
     @include('navbar')
 <section id="main">
-    <section>
+    <section class="topSection">
         <h2>Providio, 2000 Maribor</h2>
         <hr>
         <article class="izdal">
-            <p>Izdal:</p><br>
+            <p>Izdal:</p>
             <div class="mb-2">
                 <label for="izdal">Delavec: </label>
                 <input type="text" id="izdal" name="izdal" value="Ermin Joldić">
@@ -53,7 +53,7 @@
             </article>
         </section>
     </section>
-    <section>
+    <section class="btnSection">
         <div id="btns" class="row d-flex flex-row flex-wrap">
             <button class="btn btn-outline-primary d-inline" type="submit">Dodaj izdelek</button>
             <button class="btn btn-outline-primary d-inline" type="submit">Zaključi</button>
@@ -98,13 +98,13 @@
                 <input type="text" name="buyer" id="buyer" value="" placeholder="Kupec">
             </li>
             <li>
-                <h4>PODPIS KUPCA</h4><br>
+                <h5>PODPIS KUPCA</h5>
                 <h4>________________________________</h4>
             </li>
         </ul>
     </section>
     <div class="row">
-        <button class="btn btn-primary">Print</button>
+        <button class="btn btn-success printBtn">Print</button>
     </div>
 </section>
 

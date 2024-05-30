@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('css/allpages.css')}}">
+    <link rel="stylesheet" href="{{asset('css/allUsers.css')}}">
+    <title>All users</title>
+</head>
+
+<body>
+    @include('navbar') %>
+        <%# include('../flashError') %>
+            <div class="containerr">
+                <div id="row" class="row row-cols-2 ms-auto me-auto w-100">
+
+                    <div id="col" class="col1 col text-center">
+                        <div class="users mt-3">
+                            <div>
+                                <h1>All Users</h1>
+                            </div>
+                            <table class="table table-info table-hover table-bordered border-dark align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(user of users) {%>
+                                        <tr>
+                                            <td>
+                                                <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%> <%= user.username %><% }else {%> / <% } %>
+                                            </td>
+                                            <td>
+                                                <%= user.role %>
+                                            </td>
+                                                <td>
+                                                    <a href="/users/edit/<%= user.id %> "><button
+                                                            class="btn btn-warning">Edit</button></a>
+                                                </td>
+                                                <td>
+                                                    <form action="/users/<%= user._id%>/?_method=DELETE" method="post">
+                                                        <button class="btn btn-danger">DELETE</button>
+                                                    </form>
+                                                </td>
+                                        </tr>
+                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="col" class="col text-center col2">
+                        <div class="employees mt-3">
+                            <div>
+                                <h1>All Employees</h1>
+                            </div>
+                            <div id="tableEmployee">
+                                <table id="employeeTable" class="table table-bordered border-dark align-middle">
+                                    <thead id="employeeThead" class="align-middle">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Last name</th>
+                                            <th>Employment status</th>
+                                            <th>Status</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for(employee of employees) {%>
+                                            <tr>
+                                                <td></td>
+                                                <td><strong>
+                                                      <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%> <%= employee.username %><% }else {%> / <% } %>
+                                                    </strong>
+                                                </td>
+                                                <td><strong>
+                                                    <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%><%= employee.lastname %><% }else {%> / <% } %>
+                                                    </strong>
+                                                </td>
+                                                <td><strong>
+                                                        <%= employee.employmentStatus %>
+                                                    </strong>
+                                                </td>
+                                                <td id="status"><strong>
+                                                        <%=employee.status%>
+                                                    </strong>
+                                                </td>
+
+                                                <td>
+                                                        <a href="/employee/edit/<%= employee.id %>"><button
+                                                                class="btn btn-warning">Edit</button></a>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <script>
+                function admin() {
+                    window.alert("Only admin can DELETE or EDIT user.")
+                }
+                function editUser() {
+                    window.alert("Only admin or moderator can DELETE or EDIT employee data.")
+                }
+
+                let employee = document.getElementById('employeeTable')
+                let employeeRows = employee.rows.length - 1
+                let number = 0
+                for (let i = 1; i <= employeeRows; i++) {
+                    let status = document.getElementById('employeeTable').rows[i].cells[4].innerText;
+                    number += 1
+                    employee.rows[i].cells[0].innerHTML = number;
+                    if (status == 'inactive') {
+                        document.getElementById('employeeTable').rows[i].setAttribute('class', 'bg-danger')
+                    } else {
+                        document.getElementById('employeeTable').rows[i].setAttribute('class', 'bg-success')
+
+                    }
+
+                }
+            </script>
+
+
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+                integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+                integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+                crossorigin="anonymous"></script>
+
+</body>
+
+</html>
