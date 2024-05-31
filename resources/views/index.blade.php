@@ -12,6 +12,7 @@
 </head>
 <body>
     @include('navbar')
+    @include('flash')
 <section id="main">
     <section class="topSection">
         <h2>Providio, 2000 Maribor</h2>

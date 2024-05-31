@@ -7,100 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{asset('/app.css')}}">
-        <link rel="stylesheet" href="{{asset('/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+        <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <title>Selled Products</title>
 </head>
 
 <body>
-<!--
-    <nav id="navbar" class="navbar navbar-dark navbar-expand-lg bg-dark text-light sticky-top">
-        <div class="container-fluid bg-dark">
-            <a class="navbar-brand" href="/">New Bill</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-evenly" id="navbarNav">
-                <ul class="navbar-nav d-flex w-100">
-                    <li id="vsi" class="nav-item m-1">
-                        <button class="btn btn-primary p-1" id="btn-func" onclick="allBills()">All bills</button>
-                    </li>
-
-                    <li id="placali" class="nav-item m-1">
-                        <button class="btn btn-success p-1" id="btn-func" onclick="payedBills()">Payed</button>
-                    </li>
-                    <li id="nePlacali" class="nav-item m-1">
-                        <button class="btn btn-danger p-1" id="btn-func" onclick="notPayedBills()">Not Payed</button>
-                    </li>
-                    </li>
-                    <li class="nav-item m-1">
-                        <a href="/search"><button class="btn btn-outline-info p-1 text-light" id="btn-func">Search
-                                User</button></a>
-                    </li>
-                    <li class="nav-item m-1">
-                        <a href="/costs"><button class="btn btn-danger p-1" id="btn-func">Costs</button></a>
-                    </li>
-                    <li class="nav-item m-1">
-                        <a href="/vacation"><button class="btn btn-info p-1" id="btn-func">
-                                Vacation</button></a>
-                    </li>
-
-                    <li class="nav-item dropdown m-1 p-1">
-                        <a href="/users"><button type="button" class="btn btn-info p-1">Users</button></a>
-                        <button type="button" class="btn btn-info dropdown-toggle  dropdown-toggle-split p-1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item">
-                                <a href="/add"><button class="btn btn-success p-1" id="btn-func">Add
-                                        employee</button></a>
-                            </li>
-
-                            <li class="dropdown-item ">
-                                <a href="/register"><button class="btn btn-success p-1" id="btn-func">Add
-                                        user</button></a>
-                            </li>
-
-                        </ul>
-                    </li>
-                        <li id="iconLi" class="nav-item dropdown dropstart ms-auto me-right p-0 text-end">
-                            <div id="notificationIcon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="red"
-                                    class="bi bi-bell" viewBox="0 0 22 22">
-                                    <path
-                                        d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
-                                </svg>
-                            </div>
-                    </li>
-                        <li class="nav-item m-1">
-                            <a class="nav-link" href="/logout"><button class="btn btn-outline-info p-1"> Log
-                                    out</button></a>
-                        </li>
-                            <li class="nav-item ms-auto m-1">
-                                <a class="nav-link" href="/login"><button class="btn btn-outline-info ms-1 p-1"> Log
-                                        In</button></a>
-                            </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
--->
     @include('navbar')
-        
-    
+
     <button onclick="topFunction()" id="myBtn" title="Go to top">︽</button>
     <button onclick="bottomFunction()" id="bottom" title="Go to bottom">︾</button>
 
     <div class="caption" id="caption">
-        <%- include('../flashError') %>
+        @include('flash')
             <h1><strong class="fs-1 text-primary">All bills</strong></h1>
             <h2><strong class="fs-2 text-info">This month:
-                    <%= thisMonth.length %>
+                    50
                 </strong></h2>
             <h2><strong class="fs-2 text-primary">Number of all bills:
-                    <%= userData.length - 1 %>
+                    145
                 </strong></h2>
     </div>
 
@@ -108,14 +34,14 @@
 
     <div id="allUsers" class="text-center mb-0 ">
         <table id="all" class="table table-striped-columns table-hover mb-0 ">
-            <thead id="table-data" class="table-dark text-center align-middle border-bottom">
-                <tr>
+            <thead id="table-data" class="table table-dark text-center text-light align-middle border-bottom">
+                <tr class="text-light">
                     <th class="col">User</th>
                     <th class="col">Product</th>
                     <th class="col-1">Qty</th>
                     <th class="col-1">Price</th>
                     <th class="col-1">DDV</th>
-                    <th class="col">1<sup>st</sup> / Week</th>
+                    <th class="col">free</th>
                     <th class="col">Week</th>
                     <th class="col">Total</th>
                     <th class="col-1">Payed</th>
@@ -128,99 +54,11 @@
                 </tr>
             </thead>
             <tbody class="tableBody mt-3 align-middle">
-                <% if(userData.length) {%>
-
-                    <% for(let data of userData) { %>
-                        <% for(let product of data.products) {%>
                             <tr class="m-1 align-middle">
-
-                                <% if(!data.payDate) {%>
-                                    <% if(currentUser.username == 'jan' || currentUser.role != 'visitor') {%>
-                                    <td class="bg-danger">
-                                        <a href="/all/<%= data._id %>">
-                                            <strong class="text-info">
-                                                <%= data.buyer %>
-                                            </strong>
-                                        </a>
-                                    </td>
-                                    <% }else {%>
-                                        <td class="bg-warning"><a href="/all/<%= data._id %>"><strong>Not available for visitors</strong></a></td>
-                                        <% } %>
-                                    <% } else{%>
-                                        <% if(currentUser.username == 'jan' || currentUser.role != 'visitor') {%>
-                                        <td class="bg-success p-0">
-                                            <a href="/all/<%= data._id %>">
-                                                <strong class="text-dark">
-                                                    <%= data.buyer %>
-                                                </strong>
-                                            </a>
-                                        </td>
-                                        <% }else {%>
-                                            <td class="bg-warning"><a href="/all/<%= data._id %>"><strong>Not available for visitors</strong></a></td>
-                                            <% } %>
-                                        <% } %>
-                                            <td>
-                                                <%= product.name %>
-                                            </td>
-
-                                            <td>
-                                                <%= product.qty %>
-                                            </td>
-                                            <td>
-                                                <%= product.price %> &euro;
-                                            </td>
-                                            <td>
-                                                1.50 €
-                                            </td>
-                                            <td>
-                                                <% if(product.firstOfWeek=='true' ){ %>
-                                                    <img src="../payed.jpg" alt="Free">
-                                                    <% } else { %>
-                                                        <img src="../notPay.jpg" alt="Not Free">
-                                                        <% } %>
-                                            </td>
-                                            <td>
-                                                <%= data.kt %>
-                                            </td>
-                                            <td>
-                                                <%= product.total %> &euro;
-                                            </td>
-                                            <td>
-
-                                                <% if(data.pay=='true' ){ %>
-                                                    <img src="../payed.jpg" alt="Payed">
-                                                    <% } else { %>
-                                                        <img src="../notPay.jpg" alt="Not Payed">
-                                                        <% } %>
-                                            </td>
-                                            <td>
-                                                <%= data.numPerMonth %>
-                                            </td>
-                                            <td>
-                                                <%= data.month %>
-                                            </td>
-                                            <td>
-                                                <%= data.numPerYear %>
-                                            </td>
-                                            <td>
-                                                <%= data.year %>
-                                            </td>
-                                            <td>
-                                                <%= data.soldDate %>
-                                            </td>
-                                            <% if(currentUser.username == 'jan' || currentUser.role != 'visitor') {%>
-                                            <td>
-                                                <%= data.izdal %>
-                                            </td>
-                                            <% }else {%>
-                                        <td class="bg-warning"><strong>Not available for visitors</strong></td>
-                                        <% } %>
+                                <td><h1 class="mt-5">Empty.</h1></td>
                             </tr>
-                            <% } %>
-                                <% } %>
-                                    <% } else{%>
-                                        <h1 class="mt-5">User and products database is empty. Nothing to show.</h1>
-                                        <% } %>
+
+
             </tbody>
         </table>
 
@@ -228,18 +66,6 @@
 
     <!-- PAYED BILLS -->
 
-    <div class="caption" id="payedCaption">
-        <h1 class=""><strong class="fs-1 text-success">Payed bills</strong></h1>
-        
-        <h2 class="d-inline text-success"><% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%><strong class="fs-1 text-success" id="skupajPlacano"></strong><% }else {%>
-            Total: <strong class="text-success">Not available</strong>
-            <% } %></h2><br>
-        
-        <h3 class="d-inline"><strong class="fs-2 text-success">Number of payed bills:
-                <%= payedLength %>
-            </strong>
-        </h3>
-    </div>
 
     <div id="placano" class="text-center">
         <table id="payed" class="table table-dark table-hover caption-top mb-0">
@@ -248,62 +74,16 @@
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Total &euro;</th>
-                <th>1<sup>st</sup> / Week</th>
+                <th>Free</th>
                 <th>Week</th>
                 <th>Sold Date</th>
                 <th>Pay Date</th>
                 <th>Issued by</th>
             </thead>
             <tbody>
-                <% if(payData.length) {%>
-                    <% for(let user of payData) { %>
-                        <% for(product of user.products) {%>
                             <tr class="fs-4 align-middle">
-                                <% if(currentUser.role == 'visitor' && currentUser.username !='jan') {%>
-                                    <td class="bg-warning"><a href="/all/<%= userData._id%>"><strong>Not available for visitors</strong></a></td>
-                                    <% }else {%>
-                                <td><a href="/all/<%= userData._id%>">
-                                        <%= user.buyer %>
-                                    </a>
-                                </td>
-                                <% } %>
 
-                                <td>
-                                    <%= product.name %>
-                                </td>
-                                <td>
-                                    <%= product.qty %>
-                                </td>
-                                <td>
-                                    <%= product.total %> &euro;
-                                </td>
-                                <td>
-                                    <% if(product.firstOfWeek=='true' ){ %>
-                                        <img src="../payed.jpg" alt="">
-                                        <% } else { %>
-                                            <img src="../notPay.jpg" alt="">
-                                            <% } %>
-                                </td>
-                                <td>
-                                    <%= user.kt %>
-                                </td>
-                                <td>
-                                    <%= user.soldDate %>
-                                </td>
-                                <td>
-                                    <%= user.payDate %>
-                                </td>
-                                <% if(currentUser.role == 'visitor' && currentUser.username !='jan') {%>
-                                    <td class="bg-warning"><strong>Not available for visitors</strong></td>
-                                    <% }else {%>
-                                <td>
-                                    <%= user.izdal %>
-                                </td>
-                                <% } %>
                             </tr>
-                            <% } %>
-                                <% } %>
-                                    <% } %>
 
 
             </tbody>
@@ -312,25 +92,13 @@
 
     <!-- NOT PAYED BILLS -->
 
-    <div class="caption" id="notPayedcaption">
-        <h1><strong class="fs-1 text-danger border-4 border-bottom">Debtors:</strong></h1>
-        <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
-        <h2 class="d-inline"><strong class="fs-2 text-danger" id="dolg"></strong></h2>
-        <% }else{%>
-            <h2 class="d-inline text-danger"><strong class="fs-2 text-danger">Total to pay:  Not available for visitors</strong></h2>
-            <% } %>
-        <br>
-        <h3 class="d-inline"><strong class="fs-2 text-danger">Number of bills to pay: <%= notPayedLength %>!
 
-            </strong>
-        </h3>
-    </div>
 
 
     <div id="niPlacano" class="text-center mb-0">
         <table id="notpayed" class="table table-dark table-hover mb-0">
 
-            <thead class="align-middle" id="table-head">
+            <thead class="align-middle text-light" id="table-head">
                 <th>User</th>
                 <th>Product</th>
                 <th>Bill ID</th>
@@ -341,52 +109,8 @@
                 <th>Issued by</th>
             </thead>
             <tbody class="text-danger">
-                <% if(notPayData.length) {%>
-
-
-                    <% for(let users of notPayData) { %>
-                        <% for(product of users.products) {%>
                             <tr class="align-middle">
-                                <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
-                                <td class="fs-4">
-                                    <a href="/all/<%= users._id%>">
-                                        <%= users.buyer %>
-                                    </a>
-                                </td>
-                                <% }else {%>
-                                    <td class="bg-warning"><a href="/all/<%= users._id%>"><strong>Not available for visitors</strong></a></td>
-                                    <% } %>
-
-                                <td>
-                                    <%= product.name %>
-                                </td>
-                                <td>
-                                    <%= users.id %>
-                                </td>
-                                <td class="fs-4">
-                                    <%= product.qty %>
-                                </td>
-
-                                <td class="fs-4" value="<%= product.total %>">
-                                    <%= product.total %> &euro;
-                                </td>
-                                <td>
-                                    <%= users.kt %>
-                                </td>
-                                <td>
-                                    <%= users.soldDate %>
-                                </td>
-                                <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
-                                <td>
-                                    <%= users.izdal %>
-                                </td>
-                                <% }else {%>
-                                    <td class="bg-warning"><strong>Not available for visitors</strong></td>
-                                    <% } %>
                             </tr>
-                            <% } %>
-                                <% } %>
-                                    <% } %>
                                         <tr class="fs-1">
                                             <td>Total:</td>
                                             <td></td>
@@ -402,7 +126,12 @@
         </table>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
 
 
     <script>
@@ -514,12 +243,7 @@
         }
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-        crossorigin="anonymous"></script>
+    
 </body>
 
 

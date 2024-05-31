@@ -17,6 +17,9 @@ body {
     margin-right: auto;
     width: 55%;
 }
+#employeeThead th,#usersTable th{
+    color: black !important;
+}
 
 @media (max-width: 1023px) {
     .containerr {

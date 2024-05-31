@@ -15,38 +15,25 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
-Route::get('/all', function () {
-    return view('bills.selled');
-});
-Route::get('/costs', function () {
-    return view('bills.costs');
-});
-Route::get('/search', function () {
-    return view('users.search');
-});
-Route::get('/vacation', function () {
-    return view('holidays.holidays');
-});
-Route::get('/users', function () {
-    return view('users.allUsers');
-});
+Route::get('/', [Controller::class, 'ifLoged'])->name('home');
+Route::get('/all', [Controller::class,'ifLoged'])->name('all');
+Route::get('/costs', [Controller::class,'ifLoged'])->name('costs');
+Route::get('/search', [Controller::class,'ifLoged'])->name('search');
+Route::get('/vacation', [Controller::class,'ifLoged'])->name('vacation');
+Route::get('/users', [Controller::class,'ifLoged'])->name('users');
 
-Route::get('/add', function () {
-    return view('users.add');
-})->name('add');
+Route::get('/users/add', [Controller::class,'ifLoged'])->name('add');
 
-Route::get('/register', function () {
-    return view('users.register');
-})->name('register');
+Route::get('/users/register', [Controller::class,'ifLoged'])->name('register');
 
-Route::post('/createUser', [Controller::class, 'registerUser'])->name('createUser');
+Route::post('/createUser', [Controller::class, 'storeUser'])->name('users.createUser');
 
-Route::get('/login', function () {
+Route::delete('/users/{id}', [Controller::class, 'destroy'])->name('users.destroy');
+
+Route::get('/login', function(){
     return view('login.login');
-});
-Route::get('/logout', function () {
-    return view('index');
-});
+})->name('login');
+
+Route::post('/login', [Controller::class, 'loginUser'])->name('login.login');
+
+Route::post('/logout', [Controller::class, 'logout'])->name('logout');

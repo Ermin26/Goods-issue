@@ -15,19 +15,17 @@
 
 <body>
     @include('navbar') %>
+    @include('flash') %>
     <!--
     <%# include('../flashError.ejs')  %>
     -->
     <div class="container text-center mb-5">
-        <p>Ime: {{ old('name') }}</p>
-        <p>Email: {{ old('password') }}</p>
-        <p>Vloga: {{ old('role') }}</p>
 
             <div class="info mt-5 mb-5">
                 <h1 class="mb-3">Enter Data to register user</h1>
             </div>
             <div id="formField" class="col-8 ms-auto me-auto">
-                <form action="{{route('createUser')}}" method="post">
+                <form action="{{route('users.createUser')}}" method="post">
                     @csrf
                     <div class="mb-2 d-flex flex-column col-4 ms-auto me-auto">
                         <label for="username">Username:</label>

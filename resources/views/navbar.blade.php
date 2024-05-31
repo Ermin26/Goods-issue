@@ -8,6 +8,7 @@
         </button>
         <div class="collapse navbar-collapse justify-content-evenly" id="navbarNav">
             <ul class="navbar-nav d-flex w-100 me-auto">
+                @if(auth()->check())
                 <li class="nav-item m-1 p-0">
                     <a href="/all"><button class="btn btn-primary p-1" id="btn-func">Računi</button></a>
                 </li>
@@ -29,11 +30,11 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item">
-                            <a href="/add"><button class="btn btn-success p-1" id="btn-func">Dodaj delavca</button></a>
+                            <a href="/users/add"><button class="btn btn-success p-1" id="btn-func">Dodaj delavca</button></a>
                         </li>
 
                         <li class="dropdown-item">
-                            <a href="/register"><button class="btn btn-success p-1" id="btn-func">Dodaj uporabnika</button></a>
+                            <a href="/users/register"><button class="btn btn-success p-1" id="btn-func">Dodaj uporabnika</button></a>
                         </li>
 
                     </ul>
@@ -49,18 +50,28 @@
                             </div>
                     </li>
                     <li>
+                @else
                         <a href="/login" class="btn btn-outline-info m-1 p-2">Prijava</a>
                     </li>
+                @endif
+                @if(auth()->check())
                     <li>
-                        <a href="logout" class="btn btn-outline-info m-1 p-2">Odjava</a>
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-link" style="display: inline; cursor: pointer;">Logout</button>
+                        </form>
+                        
                     </li>
+                @endif
             </ul>
         </div>
     </div>
 </nav>
+@if(Auth::check())
 <div id="userInfo" class="row d-flex flex-row flex-nowrap">
-    <div class="name btn btn-sm btn-primary">User: <%= currentUser.username %></div>
-    <div class="role btn btn-sm btn-primary">Role: <%= currentUser.role %></div>
+    <div class="name btn btn-sm btn-primary">User: {{Auth::user()->name}}</div>
+    <div class="role btn btn-sm btn-primary">Role: {{Auth::user()->role}}</div>
 </div>
+@endif
 
 </header>

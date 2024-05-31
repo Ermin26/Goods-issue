@@ -166,6 +166,7 @@ ul input{
 
 .table th{
     text-align: center;
+    color: white;
 }
 /*
 .table th:not(:first-child){

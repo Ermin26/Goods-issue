@@ -14,8 +14,8 @@
 </head>
 
 <body>
-    @include('navbar') %>
-        <%# include('../flashError') %>
+    @include('navbar')
+        @include('flash')
             <div class="containerr">
                 <div id="row" class="row row-cols-2 ms-auto me-auto w-100">
 
@@ -25,7 +25,7 @@
                                 <h1>All Users</h1>
                             </div>
                             <table class="table table-info table-hover table-bordered border-dark align-middle">
-                                <thead>
+                                <thead id="usersTable">
                                     <tr>
                                         <th>Username</th>
                                         <th>Role</th>
@@ -34,25 +34,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for(user of users) {%>
+                                    @forEach($users as $user)
                                         <tr>
                                             <td>
-                                                <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%> <%= user.username %><% }else {%> / <% } %>
+                                                @if(Auth::check())
+                                                    @if(Auth::user()->role != 'visitor' || Auth::user()->role == 'jan')
+                                                    {{$user->name}}
+                                                    @else /
+                                                    @endif
+                                                @endif
                                             </td>
                                             <td>
-                                                <%= user.role %>
+                                                {{$user->role}}
                                             </td>
                                                 <td>
-                                                    <a href="/users/edit/<%= user.id %> "><button
+                                                    <a href="/users/edit/{{$user->id}} "><button
                                                             class="btn btn-warning">Edit</button></a>
                                                 </td>
                                                 <td>
-                                                    <form action="/users/<%= user._id%>/?_method=DELETE" method="post">
+                                                    <form action="/users/{{$user->id}}/?_method=DELETE" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
                                                         <button class="btn btn-danger">DELETE</button>
                                                     </form>
                                                 </td>
                                         </tr>
-                                        <% } %>
+                                        @endforEach
                                 </tbody>
                             </table>
                         </div>
@@ -76,32 +83,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% for(employee of employees) {%>
                                             <tr>
                                                 <td></td>
-                                                <td><strong>
-                                                      <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%> <%= employee.username %><% }else {%> / <% } %>
-                                                    </strong>
-                                                </td>
-                                                <td><strong>
-                                                    <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%><%= employee.lastname %><% }else {%> / <% } %>
-                                                    </strong>
-                                                </td>
-                                                <td><strong>
-                                                        <%= employee.employmentStatus %>
-                                                    </strong>
-                                                </td>
-                                                <td id="status"><strong>
-                                                        <%=employee.status%>
-                                                    </strong>
-                                                </td>
-
-                                                <td>
-                                                        <a href="/employee/edit/<%= employee.id %>"><button
-                                                                class="btn btn-warning">Edit</button></a>
-                                                </td>
+                                                <td>Ermin</td>
+                                                <td>Joldić</td>
+                                                <td>Zaposlen</td>
+                                                <td>Active</td>
+                                                <td><button class="btn btn-warning">Edit</button></td>
                                             </tr>
-                                            <% } %>
                                     </tbody>
                                 </table>
                             </div>

@@ -20,7 +20,7 @@
 }
 .name,.role{
     width: fit-content;
-    margin: 2px;
+    margin: 0 2px;
     font-weight: 700;
 }
 
