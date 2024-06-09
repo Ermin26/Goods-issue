@@ -30,7 +30,6 @@ class MongoDBController extends Controller{
         $documents = $collection->find([], ['limit' => 2]);
 
         if($documents){
-            
             foreach($documents as $document){
                 $payedBill = NULL;
                 if($document['pay'] == true){

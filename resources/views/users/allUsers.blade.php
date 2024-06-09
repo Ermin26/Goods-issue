@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/allpages.css')}}">
     <link rel="stylesheet" href="{{asset('css/allUsers.css')}}">
-    <title>All users</title>
+    <title>Vsi uporabniki</title>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
                     <div id="col" class="col1 col text-center">
                         <div class="users mt-3">
                             <div>
-                                <h1>All Users</h1>
+                                <h1>Uporabniki</h1>
                             </div>
                             <table class="table table-info table-hover table-bordered border-dark align-middle">
                                 <thead id="usersTable">
@@ -48,14 +48,25 @@
                                                 {{$user->role}}
                                             </td>
                                                 <td>
-                                                    <a href="/users/edit/{{$user->id}} "><button
-                                                            class="btn btn-warning">Edit</button></a>
+                                                    @if(Auth::check())
+                                                        @if(Auth::user()->role === 'admin')
+                                                            <a href="/users/edit/{{$user->id}}"><button class="btn btn-warning">Edit</button></a>
+                                                        @else
+                                                            <a href="/users" disabled><button class="btn btn-warning" disabled>Edit</button></a>
+                                                        @endif
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <form action="/users/{{$user->id}}/?_method=DELETE" method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button class="btn btn-danger">DELETE</button>
+                                                        @if(Auth::check())
+                                                            @if(Auth::user()->role === 'admin')
+                                                                <button class="btn btn-danger">DELETE</button>
+                                                            @else
+                                                                <button class="btn btn-danger" disabled>DELETE</button>
+                                                            @endif
+                                                        @endif
                                                     </form>
                                                 </td>
                                         </tr>
@@ -68,7 +79,7 @@
                     <div id="col" class="col text-center col2">
                         <div class="employees mt-3">
                             <div>
-                                <h1>All Employees</h1>
+                                <h1>Zaposleni</h1>
                             </div>
                             <div id="tableEmployee">
                                 <table id="employeeTable" class="table table-bordered border-dark align-middle">

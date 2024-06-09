@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CheckRoleController;
 use App\Http\Controllers\MongoDBController;
 use Illuminate\Support\Facades\DB;
 
@@ -32,18 +34,22 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/costs',[LoginController::class, 'ifLoged'])->name('costs');
     Route::get('/search',[LoginController::class, 'ifLoged'])->name('search');
     Route::get('/vacation',[LoginController::class, 'ifLoged'])->name('vacation');
-    
+
     Route::prefix('users')->group(function(){
-        Route::get('/',[LoginController::class, 'ifLoged'])->name('users');
+        Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
 
         Route::get('/add',[LoginController::class, 'ifLoged'])->name('users.add');
+        Route::get('/edit/{id}',[UsersController::class, 'findUser'])->name('users.editUser');
+        Route::post('/update/{id}',[UsersController::class, 'updateUser'])->name('users.update');
 
-        Route::get('/register',[MongoDBController::class, 'selectUsers'])->name('users.register');
+        Route::get('/register',function(){
+            return view('users.register');
+        })->name('users.register');
 
-        Route::delete('/{id}', [Controller::class, 'destroy'])->name('users.destroy');
+        Route::delete('/{id}', [UsersController::class, 'deleteUser'])->name('users.destroy');
     });
     
-    Route::post('/createUser', [Controller::class, 'storeUser'])->name('users.createUser');
+    Route::post('/createUser', [UsersController::class, 'storeUser'])->name('users.createUser');
 
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

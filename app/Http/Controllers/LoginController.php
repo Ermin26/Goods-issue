@@ -62,10 +62,6 @@ class LoginController extends Controller{
                 case 'vacation':
                     return view('holidays.holidays');
                     break;
-                case 'users':
-                    $users = User::all();
-                    return view('users.Allusers', ['users' => $users]);
-                    break;
                 case 'users.add':
                     return view('users.add');
                     break;
