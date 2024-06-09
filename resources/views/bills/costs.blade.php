@@ -17,9 +17,8 @@
 </head>
 
 <body>
-     @include('navbar') %>
-    <%# include('../flashError.ejs') %>
-        <!-- <div class="container text-center">-->
+     @include('navbar')
+    @include('flash')
         <div id="cols" class="row row-cols-2 w-100 ms-auto me-auto">
 
             <div id="col2" class="col-4 p-0 ms-auto me-auto">
@@ -33,23 +32,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                            <td class="bg-info"><% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
+                            <td class="bg-info">
                                 <strong id="payed"> </strong> &euro;</h4>
-                                <% }else {%>
-                                        <strong>/</strong>
-                                    <% } %>
                             </td>
-                            <td class="bg-danger"><% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
+                            <td class="bg-danger">
                         <strong id="spended"></strong> &euro;</h4>
-                        <% }else {%>
-                                <strong>/</strong>
-                            <% } %>
                         </td>
-                        <td class="bg-success"><% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
+                        <td class="bg-success">
                             <strong id="cash"></strong> &euro;</h2>
-                            <% }else {%>
-                                    <strong>/</strong>
-                                <% } %>
                         </td>
                     </tr>
                 </tbody>
@@ -60,13 +50,17 @@
                             <th>Price</th>
                         </thead>
                     </tr>
+                    <!--
                     <% for(price of payed) {%>
+                    -->
                         <tr>
                             <td>
-                                <%= price%>
+                                 price
                             </td>
                         </tr>
+                        <!--
                         <% } %>
+                        -->
                 </table>
                 <div class="addBills mt-5 mb-5 ms-auto me-auto text-center">
                     <button id="showFormBtn" class="btn btn-primary" onclick="showInputForm()">Add new bill</button>
@@ -99,10 +93,13 @@
             </div>
 
             <div id="col1" class="col-8 text-center p-0">
-
+                <!--
                 <% if(!allCosts.length) {%>
+                -->
                     <h1>Nothing to show yet. Add some bills.</h1>
+                    <!--
                     <% }else {%>
+                    -->
                         <div class="header mt-3 text-center">
                             <h1>Bills from using company money</h1>
                         </div>
@@ -121,7 +118,9 @@
                                         <th class="bg-danger">WARNING</th>
                                     </thead>
                                 </tr>
+                                <!--
                                 <% for(data of allCosts) {%>
+                                -->
                                     <tr>
                                         <td>
 
@@ -129,13 +128,11 @@
                                         <td>
                                             <%= data.date %>
                                         </td>
-                                        <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
+                                        
                                         <td>
                                             <%= data.totalPrice %>
                                         </td>
-                                        <% }else{%>
-                                            <td> €</td>
-                                            <% } %>
+
                                         <td>
                                             <%= data.buyedProducts %>
 
@@ -144,11 +141,9 @@
                                             <%= data.bookedDate %>
                                         </td>
                                         <td>
-                                            <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
+                                            
                                                 <%= data.bookedUser %>
-                                            <% }else{ %>
-                                                <p>Not available</p>
-                                            <% } %>
+                                            
                                         </td>
                                         <td>
                                             <form action="/costs/<%= data._id%>/?_method=DELETE" method="post">
@@ -156,22 +151,24 @@
                                             </form>
                                         </td>
                                     </tr>
+                                    <!--
                                     <% } %>
+                                    -->
                                         <tr>
                                             <td>Total spend:</td>
                                             <td></td>
-                                            <% if(currentUser.role != 'visitor' || currentUser.username == 'jan') {%>
                                             <td id="spend" class="bg-danger"></td>
-                                            <% }else {%>
-                                                <td>Not available</td>
-                                                <% } %>
+                                            
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
 
                             </table>
+                            <!--
                             <% } %>
+                            -->
                         </div>
             </div>
 

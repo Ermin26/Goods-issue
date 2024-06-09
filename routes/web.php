@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MongoDBController;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -15,25 +17,34 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', [Controller::class, 'ifLoged'])->name('home');
-Route::get('/all', [Controller::class,'ifLoged'])->name('all');
-Route::get('/costs', [Controller::class,'ifLoged'])->name('costs');
-Route::get('/search', [Controller::class,'ifLoged'])->name('search');
-Route::get('/vacation', [Controller::class,'ifLoged'])->name('vacation');
-Route::get('/users', [Controller::class,'ifLoged'])->name('users');
-
-Route::get('/users/add', [Controller::class,'ifLoged'])->name('add');
-
-Route::get('/users/register', [Controller::class,'ifLoged'])->name('register');
-
-Route::post('/createUser', [Controller::class, 'storeUser'])->name('users.createUser');
-
-Route::delete('/users/{id}', [Controller::class, 'destroy'])->name('users.destroy');
-
 Route::get('/login', function(){
     return view('login.login');
 })->name('login');
 
-Route::post('/login', [Controller::class, 'loginUser'])->name('login.login');
+Route::post('/login', [LoginController::class, 'loginUser'])->name('login.login');
 
-Route::post('/logout', [Controller::class, 'logout'])->name('logout');
+Route::middleware(['auth'])->group(function(){
+    Route::get('/', function(){
+        return view('index');
+    })->name('home');
+
+    Route::get('/all',[LoginController::class, 'ifLoged'])->name('all');
+    Route::get('/costs',[LoginController::class, 'ifLoged'])->name('costs');
+    Route::get('/search',[LoginController::class, 'ifLoged'])->name('search');
+    Route::get('/vacation',[LoginController::class, 'ifLoged'])->name('vacation');
+    
+    Route::prefix('users')->group(function(){
+        Route::get('/',[LoginController::class, 'ifLoged'])->name('users');
+
+        Route::get('/add',[LoginController::class, 'ifLoged'])->name('users.add');
+
+        Route::get('/register',[MongoDBController::class, 'selectUsers'])->name('users.register');
+
+        Route::delete('/{id}', [Controller::class, 'destroy'])->name('users.destroy');
+    });
+    
+    Route::post('/createUser', [Controller::class, 'storeUser'])->name('users.createUser');
+
+
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});

@@ -14,7 +14,7 @@
 </head>
 
 <body>
-     @include('navbar') %>
+     @include('navbar')
 
         <div class="row row-cols-2" id="row">
             <div class="col-3 p-0 border-end border-bottom border-3 border-dark" id="search">
@@ -38,7 +38,9 @@
                         </div>
                     </form>
                 </div>
-                <% if(usersData.length) {%>
+                <!--
+                <%# if(usersData.length) {%>
+                -->
                     <div class="mt-4">
                         <div class="btns mt-4 p-1 d-flex  justify-content-evenly">
                             <button class="btn btn-primary" onclick="allBills()">All</button>
@@ -46,8 +48,10 @@
                             <button class="btn btn-success" onclick="window.print()">Print</button>
                         </div>
                     </div>
-                    <% } %>
-                        <% if(buyedProducts.length) {%>
+                    <!--
+                    <%# } %>
+                        <%# if(buyedProducts.length) {%>
+                        -->
                             <div id="qtyBuyedProducts" class="mt-3 mb-5">
 
                                 <caption>
@@ -61,40 +65,55 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <% for (productBuyed of buyedProducts) {%>
+                                            <td></td>
+                                            <td></td>                                            <!--
+                                            <%# for (productBuyed of buyedProducts) {%>
                                                 <td>
-                                                    <%= productBuyed.productName%>
+                                                    <%# productBuyed.productName%>
                                                 </td>
                                                 <td>
-                                                    <%= productBuyed.productsBuyed %>
+                                                    <%# productBuyed.productsBuyed %>
                                                 </td>
-                                                <% } %>
+                                                <%# } %>
+                                            -->
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <% } %>
+                            <!--
+                            <%# } %>
+                            -->
             </div>
 
             <div class="col-9" id="result">
                 <h1 class="mb-2 text-center" id="h1Results">Results</h1>
                 <div id="allBills">
                     <div class="head text-center">
-                        <% if(usersData.length) {%>
-                            <% if(searched) {%>
+                        <!--
+                        <%# if(usersData.length) {%>
+                            <%# if(searched) {%>
+                            -->
                                 <h1 id="searched"><strong>
                                         All bills for user <br> <strong class="text-primary">
-                                            <%= searched %>
+                                            <!--
+                                            <%# searched %>
+                                            -->
                                         </strong>.
                                     </strong></h1>
-                                <% } %>
-                                    <% } %>
+                                    <!--
+                                <%# } %>
+                                    <%# } %>
+                                    -->
                     </div>
-                    <% if(!usersData.length){ %>
+                    <!--
+                    <%# if(!usersData.length){ %>
+                    -->
                         <h2 class="text-center mt-3">Nothing to show here.</h2>
-                        <%- include('../flashError') %>
-                            <% }else{ %>
-                                <% for (data of usersData) {%>
+                        @include('flash')
+                        <!--
+                            <%## }else{ %>
+                                <%## for (data of usersData) {%>
+                                -->
                                     <div id="data">
                                         <table id="table" class="table table-dark table-hover mt-3 text-center">
                                             <thead id="table-data">
@@ -109,69 +128,86 @@
                                                 <th class="col">Sold by</th>
                                             </thead>
                                             <tbody>
-                                                <% for (names of data) {%>
-                                                    <% for(product of names.products) {%>
+                                                <!--
+                                                <%# for (names of data) {%>
+                                                    <%# for(product of names.products) {%>
                                                         <tr>
                                                             <td>
-                                                                <%= product.name %>
-                                                            </td>
-                                                            </td>
-                                                            <td>
-                                                                <%= product.qty %>
-                                                            </td>
+                                                                <%# product.name %>
                                                             </td>
                                                             <td>
-                                                                <%= product.total %>
+                                                                <%# product.qty %>
                                                             </td>
                                                             <td>
-                                                                <%= names.month %>
+                                                                <%# product.total %>
                                                             </td>
                                                             <td>
-                                                                <%= names.kt %>
+                                                                <%# names.month %>
+                                                            </td>
+                                                            <td>
+                                                                <%# names.kt %>
                                                             </td>
                                                             <td>
 
-                                                                <% if(product.firstOfWeek=='true' ){ %>
+                                                                <%# if(product.firstOfWeek=='true' ){ %>
                                                                     <img src="../payed.jpg" alt="Free">
-                                                                    <% } else { %>
+                                                                    <%# } else { %>
                                                                         <img src="../notPay.jpg" alt="Not Free">
-                                                                        <% } %>
+                                                                        <%# } %>
                                                             </td>
 
                                                             <td>
 
-                                                                <% if(names.pay=='true' ){ %>
+                                                                <%# if(names.pay=='true' ){ %>
                                                                     <img src="../payed.jpg" alt="Payed">
-                                                                    <% } else { %>
+                                                                    <%# } else { %>
                                                                         <img src="../notPay.jpg" alt="Not Payed">
-                                                                        <% } %>
+                                                                        <%# } %>
                                                             </td>
                                                             <td>
-                                                                <%= names.soldDate %>
+                                                                <%# names.soldDate %>
                                                             </td>
                                                             <td>
-                                                                <%= names.izdal %>
+                                                                <%# names.izdal %>
                                                             </td>
+                                                        -->
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         </tr>
-                                                        <% }%>
-                                                            <% }%>
+                                                        <!--
+                                                        <%# }%>
+                                                            <%# }%>
+                                                        -->
                                             </tbody>
                                         </table>
                                     </div>
-
+                                <!--
                                     <% } %>
+                                -->
                 </div>
-                <% } %>
-                    <!-- UNPAYED BILLS-->
+                <!--
+                <%# } %>
+                     UNPAYED BILLS-->
                     <div id="unPayedBills" class="text-center">
                         <div class="mt-4 mb-3">
                             <h1 id="unPayedH1" class="text-danger">Unpayed bills from user <br>
                                 <strong class="text-primary">
-                                    <%= searched %>
+                                    <!--
+                                    <%# searched %>ž
+                                    -->
                                 </strong>
                             </h1>
                         </div>
-                        <% for(data of usersData) {%>
+                        <!--
+                        <%# for(data of usersData) {%>
+                        -->
                             <table id="notPayedTable" class="table table-dark table-hover mt-3 text-center">
                                 <thead id="table-data">
                                     <th class="col">Product</th>
@@ -185,39 +221,50 @@
                                     <th class="col">Sold by</th>
                                 </thead>
                                 <tbody>
-                                    <% for(user of data) {%>
-                                        <% if(user.pay=="false" ) {%>
-                                            <% for(products of user.products) {%>
+                                    <!--
+                                    <%# for(user of data) {%>
+                                        <%# if(user.pay=="false" ) {%>
+                                            <%# for(products of user.products) {%>
+                                            -->
                                                 <tr>
+                                                    <!--
                                                     <td>
-                                                        <%= products.name %>
+                                                        <%# products.name %>
                                                     </td>
                                                     <td>
-                                                        <%= products.qty %>
+                                                        <%# products.qty %>
                                                     </td>
                                                     <td>
-                                                        <%= products.total %>
+                                                        <%# products.total %>
                                                     </td>
                                                     <td>
-                                                        <%= user.month %>
+                                                        <%# user.month %>
                                                     </td>
                                                     <td>
-                                                        <%= user.kt %>
+                                                        <%# user.kt %>
                                                     </td>
+                                                    -->
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td>
                                                         <img src="../notPay.jpg" alt="Not Payed">
                                                     </td>
-                                                    <td id="editLink"><a href="/all/<%= user.id %>">Edit</a></td>
+                                                    <td id="editLink"><a href="/all/<%# user.id %>">Edit</a></td>
                                                     <td>
-                                                        <%= user.soldDate %>
+                                                        <%# user.soldDate %>
                                                     </td>
                                                     <td>
-                                                        <%= user.izdal %>
+                                                        <%# user.izdal %>
                                                     </td>
                                                 </tr>
-                                                <% } %>
-                                                    <% } %>
-                                                        <% } %>
+                                                <!--
+                                                <%# } %>
+                                                    <%# } %>
+                                                        <%# } %>
+                                                -->
                                                             <tr class="bg-danger">
                                                                 <td>Skupaj</td>
                                                                 <td id="qtys"></td>
@@ -230,7 +277,9 @@
                                                             </tr>
                                 </tbody>
                             </table>
-                            <% } %>
+                            <!--
+                            <%# } %>
+                            -->
                     </div>
 
 

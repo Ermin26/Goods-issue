@@ -64,7 +64,7 @@
     <section class="tableSection">
         <table class="table table-borderless table-responsive">
             <thead>
-                <tr>
+                <tr id="homeTable">
                     <th>Izdelek</th>
                     <th>Količina</th>
                     <th>Cena</th>

@@ -14,11 +14,8 @@
 </head>
 
 <body>
-    @include('navbar') %>
-    @include('flash') %>
-    <!--
-    <%# include('../flashError.ejs')  %>
-    -->
+    @include('navbar')
+    @include('flash')
     <div class="container text-center mb-5">
 
             <div class="info mt-5 mb-5">
@@ -50,6 +47,10 @@
                 </form>
                 <a href="/users"><button class="btn btn-dark mt-3">Go Back</button></a>
 
+            </div>
+
+            <div class="d-flex flex-row flex-wrap text-center mt-5">
+                
             </div>
         </div>
 

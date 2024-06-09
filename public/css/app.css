@@ -155,7 +155,6 @@ ul input{
 }
 
 
-
 .table{
     margin: 10px 0;
     margin-left: auto;
@@ -168,13 +167,17 @@ ul input{
     text-align: center;
     color: white;
 }
+
+#homeTable th{
+    color: black;
+}
 /*
 .table th:not(:first-child){
     width: 120px;
 }
 */
 .table th:first-child{
-    width: 420px;
+    width: 320px;
 }
 #payment{
     width: 60px;

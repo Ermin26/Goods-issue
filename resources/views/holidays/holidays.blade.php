@@ -15,7 +15,7 @@
 
 <body>
     @include('navbar') %>
-        <%# include('../flashError') %>
+        @include('flash') %>
             <div id="section" class="row row-cols-3 m-0 p-0 mt-2">
                 <div id="left" class="col-3 text-center ms-auto me-auto shadow">
                     <div id="usersQtyHolidays" class="text-center ms-auto me-auto">

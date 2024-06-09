@@ -14,9 +14,9 @@
 </head>
 
 <body>
-    @include('navbar') %>
+    @include('navbar')
         <div class="container text-center">
-            <%# include('../flashError') %>
+            @include('flash')
                 <div class="text-center mt-3 mb-5">
                     <h1>Add new Employee</h1>
                 </div>

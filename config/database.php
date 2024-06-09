@@ -54,8 +54,14 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-
-
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'dsn'      => env('MONGODB_HOST', 'mongodb://127.0.0.1:27017'),
+            'database' => env('MONGODB_DATABASE', 'ProvidioMb'),
+            'options'  => [
+                'database' => env('MONGODB_AUTHENTICATION_DATABASE', 'admin') // Kjer se autentificirate
+            ]
+        ],
     ],
 
     /*

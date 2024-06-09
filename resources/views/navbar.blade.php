@@ -49,8 +49,8 @@
                                 </svg>
                             </div>
                     </li>
-                    <li>
-                @else
+                    @else
+                    <li class="ms-auto">
                         <a href="/login" class="btn btn-outline-info m-1 p-2">Prijava</a>
                     </li>
                 @endif
@@ -58,7 +58,7 @@
                     <li>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" class="btn btn-link" style="display: inline; cursor: pointer;">Logout</button>
+                            <button type="submit" class="btn btn-outline-info" style="display: inline; cursor: pointer;">Logout</button>
                         </form>
                         
                     </li>
