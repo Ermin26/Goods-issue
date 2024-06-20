@@ -1,5 +1,8 @@
-html {
-    overflow-x: hidden;
+
+
+body{
+    overflow-y: auto;
+    min-height: 100vh;
 }
 
 .navbar-nav{
@@ -35,15 +38,46 @@ a {
 #allUsers,
 #placano,
 #niPlacano {
-    display: inline-flex;
-
-
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    width: 100%;
+    margin-bottom: 5vh;
 }
 
+#pagination{
+    max-width: 100%;
+}
+ul.pagination {
+    display: flex;
+    max-width: 100%;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+ul.pagination li {
+    margin: 0 5px;
+    padding: 2px 6px;
+}
+
+ul.pagination li a{
+    color: #000;
+    margin: 0 5px;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+ul.pagination li.active {
+    background-color: #007bff;
+    color: #fff;
+}
 #table-data,
 #table-head {
     position: sticky;
-    top: 104px;
 }
 #myBtn {
     display: none;
@@ -63,7 +97,7 @@ a {
 }
 
 #bottom {
-    display: none;
+    display: flex;
     position: fixed;
     top: 265px;
     right: 5px;
@@ -103,39 +137,42 @@ a {
     #table-data,
     #table-head {
         position: sticky;
-        top: 104px;
     }
 
     #myBtn {
         display: none;
         position: fixed;
         margin-bottom: 2px;
-        top: 200px;
+        top: 100px;
         right: 5px;
         z-index: 99;
-        font-size: 36px;
+        font-size: 28px;
+        height: 42px;
+        align-items: center;
         border: 1px solid rgb(71, 222, 249);
         outline: none;
         background-color: rgba(10, 13, 45, 0.986);
         color: rgb(71, 222, 249);
         cursor: pointer;
-        padding: 5px;
+        padding: 2px 4px;
         border-radius: 4px;
     }
 
     #bottom {
-        display: none;
+        display: flex;
         position: fixed;
-        top: 265px;
+        top: 145px;
         right: 5px;
         z-index: 99;
-        font-size: 36px;
+        font-size: 28px;
+        height: 42px;
+        align-items: center;
         border: 1px solid rgb(71, 222, 249);
         outline: none;
         background-color: rgba(10, 13, 45, 0.986);
         color: rgb(71, 222, 249);
         cursor: pointer;
-        padding: 5px;
+        padding: 2px 4px;
         border-radius: 4px;
     }
 
@@ -164,15 +201,12 @@ a {
     #table-data,
     #table-head {
         position: sticky;
-        top: 0;
 
     }
 }
 
 @media (max-width: 992px){
-    .navbar-nav{
-        align-items: start;
-    }
+    
     #notificationIcon:hover~#notifications, #notifications:hover{
         text-wrap: wrap;
     }

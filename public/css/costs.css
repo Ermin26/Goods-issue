@@ -12,6 +12,10 @@ a {
 }
 #bills{
     margin-bottom: 15vh;
+    color: white;
+}
+#tableOfCosts td{
+    color: white !important;
 }
 @media (max-width: 3000px) {
     #btn-func {

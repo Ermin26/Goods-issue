@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\BillsController;
+use App\Http\Controllers\CostsController;
 use App\Http\Controllers\CheckRoleController;
 use App\Http\Controllers\MongoDBController;
 use Illuminate\Support\Facades\DB;
@@ -30,25 +32,27 @@ Route::middleware(['auth'])->group(function(){
         return view('index');
     })->name('home');
 
-    Route::get('/all',[LoginController::class, 'ifLoged'])->name('all');
-    Route::get('/costs',[LoginController::class, 'ifLoged'])->name('costs');
+    Route::get('/all',[BillsController::class, 'allBills'])->name('all');
+    Route::get('/costs',[CostsController::class, 'allCosts'])->name('costs');
+    Route::post('/addCosts',[CostsController::class, 'addCosts'])->name('addCosts');
+    Route::delete('/costs/{id}',[CostsController::class, 'deleteBill'])->name('costs.deleteBill');
     Route::get('/search',[LoginController::class, 'ifLoged'])->name('search');
     Route::get('/vacation',[LoginController::class, 'ifLoged'])->name('vacation');
 
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
-
-        Route::get('/add',[LoginController::class, 'ifLoged'])->name('users.add');
+        Route::get('/add',[UsersController::class, 'checkEmails'])->name('users.add');
         Route::get('/edit/{id}',[UsersController::class, 'findUser'])->name('users.editUser');
+        Route::get('/employee/{id}',[UsersController::class, 'findEmployee'])->name('users.editEmployee');
         Route::post('/update/{id}',[UsersController::class, 'updateUser'])->name('users.update');
-
-        Route::get('/register',function(){
-            return view('users.register');
-        })->name('users.register');
+        Route::post('/employeeupdate/{id}',[UsersController::class, 'updateEmployee'])->name('users.updateEmployee');
+        Route::post('/addEmployee',[UsersController::class, 'addEmployee'])->name('users.addEmployee');
+        Route::get('/register',[UsersController::class, 'checkUsers'])->name('users.register');
 
         Route::delete('/{id}', [UsersController::class, 'deleteUser'])->name('users.destroy');
+        Route::delete('/employee/delete/{id}', [UsersController::class, 'deleteEmployee'])->name('users.deleteEmployee');
     });
-    
+    Route::post('/newBill', [BillsController::class, 'newBill'])->name('create.newBill');
     Route::post('/createUser', [UsersController::class, 'storeUser'])->name('users.createUser');
 
 

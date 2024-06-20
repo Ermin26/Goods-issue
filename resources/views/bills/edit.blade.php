@@ -10,20 +10,20 @@
     <link rel="stylesheet" href="{{asset('css/edit.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
-    <title>edit</title>
+    <title>Uredi</title>
 </head>
 
 <body style="background-color: rgb(4, 1, 30);">
 
-    @include('navbar') %>
+    @include('navbar')
     <div class="flash">
-        <%#include('../flashError') %>
+        @include('flash')
     </div>
 
         <div class="text-center mt-3">
-            <h1 class="text-info">Edit data of user:</h1>
+            <h1 class="text-info">Uredi račun:</h1>
             <h2 class=" fs-2 text-primary">
-              <% if(currentUser.role != 'visitor' || currentUser == 'jan') {%><%= user.buyer %> <% }else {%> / <% } %>
+              @if(Auth::user()->role != 'visitor')  {{user.buyer}} @else / @endif
             </h2>
         </div>
         <div id="container" class="container justify-content-center">

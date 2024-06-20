@@ -22,7 +22,6 @@
                 <h1 class="mb-3">Edit data for user {{$user->name}}
                 </h1>
             </div>
-            role: (Auth::user)
             <div class="col-8 text-center ms-auto me-auto">
                 <form action="{{route('users.update', $user->id)}}" method="post">
                     @csrf

@@ -40,7 +40,7 @@ class MongoDBController extends Controller{
                 $soldDateTimestamp = strtotime($document['soldDate']);
                 $sold = date('Y-m-d H:i:s', $soldDateTimestamp);
                 $payDateTimestamp = strtotime($document['payDate']);
-                $payedDate = date('Y-m-d H:i:s', $payDateTimestamp); 
+                $payedDate = date('Y-m-d H:i:s', $payDateTimestamp);
                 $bill = Bills::create([
                     'published' => $document['izdal'],
                     'buyer' => $document['buyer'],

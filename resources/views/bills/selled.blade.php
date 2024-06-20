@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <link rel="stylesheet" href="{{asset('css/all.css')}}">
-    <title>Selled Products</title>
+    <title>Računi</title>
 </head>
 
 <body>
@@ -21,71 +21,126 @@
 
     <div class="caption" id="caption">
         @include('flash')
-            <h1><strong class="fs-1 text-primary">All bills</strong></h1>
-            <h2><strong class="fs-2 text-info">This month:
-                    50
+            <h1><strong class="fs-1 text-primary">Vsi računi</strong></h1>
+            <h2><strong class="fs-2 text-info">Mesec <?php echo date("F") ?> :
+                    {{$thisMonth}}
                 </strong></h2>
-            <h2><strong class="fs-2 text-primary">Number of all bills:
-                    145
+            <h2><strong class="fs-2 text-primary">Število vseh računov:
+                    {{$totalBills}}
                 </strong></h2>
     </div>
 
     <!-- ALL BILLS -->
-
-    <div id="allUsers" class="text-center mb-0 ">
+    <div id="allUsers" class="text-center">
         <table id="all" class="table table-striped-columns table-hover mb-0 ">
-            <thead id="table-data" class="table table-dark text-center text-light align-middle border-bottom">
+            <thead id="table-data" class="table-dark text-center align-middle border-bottom">
                 <tr class="text-light">
-                    <th class="col">User</th>
-                    <th class="col">Product</th>
-                    <th class="col-1">Qty</th>
-                    <th class="col-1">Price</th>
+                    <th class="col">Kupec</th>
+                    <th class="col">Produkt</th>
+                    <th class="col-1">Količina</th>
+                    <th class="col-1">Cena</th>
                     <th class="col-1">DDV</th>
-                    <th class="col">free</th>
-                    <th class="col">Week</th>
-                    <th class="col">Total</th>
-                    <th class="col-1">Payed</th>
-                    <th class="col-1">Num / Month</th>
-                    <th class="col-1">Month</th>
-                    <th class="col-1">Num / Year</th>
-                    <th class="col">Year</th>
-                    <th class="col">Sold Date</th>
-                    <th class="col">Issued by</th>
+                    <th class="col">Free</th>
+                    <th class="col">Teden</th>
+                    <th class="col">Neto</th>
+                    <th class="col-1">Plačano</th>
+                    <th class="col-1">Št / mesec</th>
+                    <th class="col-1">Mesec</th>
+                    <th class="col-1">Redna št</th>
+                    <th class="col">Leto</th>
+                    <th class="col">Izdano</th>
+                    <th class="col">Izdal</th>
                 </tr>
             </thead>
             <tbody class="tableBody mt-3 align-middle">
-                            <tr class="m-1 align-middle">
-                                <td><h1 class="mt-5">Empty.</h1></td>
-                            </tr>
+                @foreach ($bills as $bill)
+                    @foreach ($products as $product)
+                        @if($bill->id == $product->bills_id)
+                        <tr class="m-1 align-middle">
+                            @if ($bill->payed == 1)
+                            <td class="bg-success">{{$bill->buyer}}</td>
+                            @else
+                            <td class="bg-danger">{{$bill->buyer}}</td>
+                            @endif
+                            <td>{{$product->name}}</td>
+                            <td>{{$product->qty}}</td>
+                            <!--
+                                <td>{number_format($product->price,2)}}</td>
+                            -->
+                            <td>{{$product->price,}}</td>
+                            <td>1.50</td>
+                            @if ($product->firstOfWeek == 1)
+                                    <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                                @else
+                                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                                @endif
+                            <td>{{$bill->kt}}</td>
+                            <td>{{$product->total}}</td>
+                            @if ($bill->payed == 1)
+                               <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                            @else
 
-
+                            <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                            @endif
+                            <td>{{$bill->num_per_month}}</td>
+                            <td>{{$bill->month}}</td>
+                            <td>{{$bill->num_per_year}}</td>
+                            <td>{{$bill->year}}</td>
+                            <td>{{$bill->sold_date}}</td>
+                            <td>{{$bill->published}}</td>
+                        </tr>
+                        @endif
+                    @endforeach
+                @endforeach
             </tbody>
         </table>
-
     </div>
-
+    <div id="pagination">
+        {{ $bills->links('custom') }}
+    </div>
     <!-- PAYED BILLS -->
 
 
-    <div id="placano" class="text-center">
+    <div id="placano" class="text-center" style="display: none">
         <table id="payed" class="table table-dark table-hover caption-top mb-0">
             <thead class="align-middle" id="table-head">
-                <th>User</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Total &euro;</th>
+                <th>Kupec</th>
+                <th>Produkt</th>
+                <th>Količina</th>
+                <th>Neto &euro;</th>
                 <th>Free</th>
-                <th>Week</th>
-                <th>Sold Date</th>
-                <th>Pay Date</th>
-                <th>Issued by</th>
+                <th>Teden</th>
+                <th>Izdano</th>
+                <th>Plačano</th>
+                <th>Izdal</th>
             </thead>
             <tbody>
-                            <tr class="fs-4 align-middle">
-
-                            </tr>
-
-
+                @foreach ($bills as $bill)
+                    @foreach ($products as $product)
+                        @if($bill->payed == 1)
+                            @if($bill->id == $product->bills_id)
+                                <tr class="fs-4 align-middle">
+                                    <td>{{$bill->buyer}}</td>
+                                    <td>{{$product->name}}</td>
+                                    <td>{{$product->qty}}</td>
+                                    <!--
+                                <td>{number_format($product->price,2)}}</td>
+                            -->
+                            <td>{{$product->price,}}</td>
+                                    @if ($product->firstOfWeek == 1)
+                                    <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                                @else
+                                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                                @endif
+                                    <td>{{$bill->kt}}</td>
+                                    <td>{{$bill->sold_date}}</td>
+                                    <td>{{$bill->pay_date}}</td>
+                                    <td>{{$bill->published}}</td>
+                                </tr>
+                            @endif
+                        @endif
+                    @endforeach
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -95,33 +150,56 @@
 
 
 
-    <div id="niPlacano" class="text-center mb-0">
+    <div id="niPlacano" class="text-center mb-0"style="display: none">
         <table id="notpayed" class="table table-dark table-hover mb-0">
 
             <thead class="align-middle text-light" id="table-head">
-                <th>User</th>
-                <th>Product</th>
-                <th>Bill ID</th>
-                <th>Quantity</th>
-                <th>Total &euro;</th>
-                <th>Week</th>
-                <th>Sold Date</th>
-                <th>Issued by</th>
+                <th>Kupec</th>
+                <th>Produkt</th>
+                <th>Količina</th>
+                <th>Neto &euro;</th>
+                <th>Free</th>
+                <th>Teden</th>
+                <th>Izdano</th>
+                <th>Izdal</th>
             </thead>
             <tbody class="text-danger">
-                            <tr class="align-middle">
+                @foreach ($bills as $bill)
+                @foreach ($products as $product)
+                @dd($bill->payed)
+                    @if($bill->payed == 0)
+                        @if($bill->id == $product->bills_id)
+                            <tr class="fs-4 align-middle">
+                                <td>{{$bill->buyer}}</td>
+                                <td>{{$product->name}}</td>
+                                <td>{{$product->qty}}</td>
+                                <!--
+                                <td>{number_format($product->price,2)}}</td>
+                            -->
+                            <td>{{$product->price,}}</td>
+                                @if ($product->firstOfWeek == 1)
+                                    <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                                @else
+                                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                                @endif
+                                <td>{{$bill->kt}}</td>
+                                <td>{{$bill->sold_date}}</td>
+                                <td>{{$bill->published}}</td>
                             </tr>
-                                        <tr class="fs-1">
-                                            <td>Total:</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td id="total"></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-
+                        @endif
+                    @endif
+                @endforeach
+            @endforeach
+                <tr class="fs-1">
+                    <td>Total:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td id="total"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -135,6 +213,7 @@
 
 
     <script>
+        /*
         let active = document.getElementById('vsi')
         active.classList.add('border-bottom', 'border-3', 'rounded-bottom', 'border-primary')
         document.getElementById('placano').style.display = 'none';
@@ -211,7 +290,7 @@
             document.getElementById('allUsers').style.marginRight = 'auto';
         }
 
-
+*/
         let mybutton = document.getElementById("myBtn");
         let bottom = document.getElementById("bottom");
 
@@ -221,10 +300,12 @@
         function scrollFunction() {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                 mybutton.style.display = "block";
-
+                console.log("1");
+                
             } else {
                 mybutton.style.display = "none";
                 bottom.style.display = "block";
+                console.log("1");
             }
             if (document.body.scrollBottom == 0 || document.documentElement.scrollBottom == 0) {
                 bottom.style.display = "none";

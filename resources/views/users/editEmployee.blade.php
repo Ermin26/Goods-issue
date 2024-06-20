@@ -10,46 +10,51 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
     <title>
-        <%= employee.username %> Edit
+        {{$employee->name}} - Edit
     </title>
 </head>
 
 <body>
 
-    @include('navbar') %>
+    @include('navbar')
 
         <div class="container text-center">
-            <%- include('../flashError') %>
+            @include('flash')
                 <div class="text-center mt-3 mb-2">
-                    <h1>Edit Employee <strong class="text-primary">
-                            <%= employee.username %>
-                                <%= employee.lastname %>
+                    <h1> <strong class="text-primary">
+                            {{$employee->name}}
+                                {{$employee->last_name}}
                         </strong>
                     </h1>
                 </div>
 
-                <form action="/editEmploye/<%= employee._id %>?_method=PUT" method="POST">
+                <form action="{{route('users.updateEmployee', $employee->id)}}" method="POST">
+                    @csrf
                     <div class="mb-2">
-                        <label for="username">Username</label><br>
-                        <input type="text" class="text-center" name="employers[username]" id="username"
-                            value="<% if(currentUser.role !== 'visitor' || currentUser.username == 'jan') {%><%=employee.username%><% }else {%> / <% } %>">
+                        <label for="username">Ime</label><br>
+                        <input type="text" class="text-center" name="name" id="username"
+                            value="@if(Auth::user()->role !== 'visitor'){{$employee->name}}@else/@endif">
                     </div>
 
                     <div class="mb-2">
-                    <label for="lastname">Lastname</label><br>
-                    <input type="text" name="employers[lastname]" id="lastname" class="text-center"
-                        value="<% if(currentUser.role !== 'visitor' || currentUser.username == 'jan') {%><%=employee.lastname%><% }else {%> / <% } %>">
+                    <label for="lastname">Priimek</label><br>
+                    <input type="text" name="last_name" id="lastname" class="text-center"
+                        value="@if(Auth::user()->role !== 'visitor'){{$employee->last_name}}@else/@endif">
                     </div>
                     <div class="mb-2">
-                        <label for="email">email</label><br>
-                        <input type="email" name="employers[email]" id="email"value="<% if(currentUser.role !== 'visitor' || currentUser.username == 'jan') {%> <%= employee.email %> <% }else {%> / <% } %>">
+                        <label for="email">E-naslov</label><br>
+                        <input type="email" class="text-center" name="email" id="email"value="@if(Auth::user()->role !== 'visitor'){{$employee->email}}@else/@endif">
                     </div>
                     <div class="mb-2">
-                        <label for="emplStatus">Employment status:</label><br>
-                        <select class="form-select form-select-sm w-25 ms-auto me-auto" id="emplStatus"
-                            aria-label=".form-select-sm example" name="employers[employmentStatus]">
+                        <label for="password">Geslo</label><br>
+                        <input type="password" name="password" id="password" value="{{$employee->password}}">
+                    </div>
+                    <div class="mb-2">
+                        <label for="emplStatus">Status zaposlenog:</label><br>
+                        <select class="form-select form-select-sm w-25 ms-auto me-auto text-center" id="emplStatus"
+                            aria-label=".form-select-sm example" name="working_status">
                             <option selected>
-                                <%= employee.employmentStatus %>
+                                @if(Auth::user()->role !== 'visitor'){{$employee->working_status}}@else / @endif
                             </option>
                             <option value="zaposlen/a">Zaposlen/a</option>
                             <option value="študent">Študent</option>
@@ -60,9 +65,9 @@
                     <div class="mb-2">
                         <label for="status">Status</label><br>
                         <select class="form-select form-select-sm w-25 text-center ms-auto me-auto" id="status"
-                            aria-label=".form-select-sm example" name="employers[status]">
+                            aria-label=".form-select-sm example" name="status">
                             <option selected>
-                                <%= employee.status %>
+                                @if(Auth::user()->role !== 'visitor')@if($employee->status == 1) Aktiven @else Neaktiven @endif @else/@endif
                             </option>
                             <option value="active">Aktiven</option>
                             <option value="inactive">Neaktiven</option>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="sl">
 
 <head>
     <meta charset="UTF-8">
@@ -91,17 +91,33 @@
                                             <th>Employment status</th>
                                             <th>Status</th>
                                             <th>Edit</th>
+                                            <th>DELETE</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td>Ermin</td>
-                                                <td>Joldić</td>
-                                                <td>Zaposlen</td>
-                                                <td>Active</td>
-                                                <td><button class="btn btn-warning">Edit</button></td>
-                                            </tr>
+                                        @if($employees)
+                                            @foreach ($employees as $employee)
+                                                <tr>
+                                                    <td></td>
+                                                    <td>{{$employee->name}}</td>
+                                                    <td>{{$employee->last_name}}</td>
+                                                    <td>{{$employee->working_status}}</td>
+                                                    <td>{{$employee->status === 1 ? 'Aktiven' : 'Neaktiven'}} </td>
+                                                    <td><a href="users/employee/{{$employee->id}}" class="btn btn-warning">Edit</a></td>
+                                                    <td><form action="users/employee/delete/{{$employee->id}}/?_method=DELETE" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        @if(Auth::check())
+                                                            @if(Auth::user()->role === 'admin')
+                                                                <button class="btn btn-danger">DELETE</button>
+                                                            @else
+                                                                <button class="btn btn-danger" disabled>DELETE</button>
+                                                            @endif
+                                                        @endif
+                                                    </form></td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -112,12 +128,6 @@
                 </div>
             </div>
             <script>
-                function admin() {
-                    window.alert("Only admin can DELETE or EDIT user.")
-                }
-                function editUser() {
-                    window.alert("Only admin or moderator can DELETE or EDIT employee data.")
-                }
 
                 let employee = document.getElementById('employeeTable')
                 let employeeRows = employee.rows.length - 1
@@ -126,8 +136,9 @@
                     let status = document.getElementById('employeeTable').rows[i].cells[4].innerText;
                     number += 1
                     employee.rows[i].cells[0].innerHTML = number;
-                    if (status == 'inactive') {
-                        document.getElementById('employeeTable').rows[i].setAttribute('class', 'bg-danger')
+                    if (status == 'Neaktiven') {
+                        //document.getElementById('employeeTable').rows[i].setAttribute('class', 'bg-danger')
+                        document.getElementById('employeeTable').rows[i].style.backgroundColor = 'gray';
                     } else {
                         document.getElementById('employeeTable').rows[i].setAttribute('class', 'bg-success')
 

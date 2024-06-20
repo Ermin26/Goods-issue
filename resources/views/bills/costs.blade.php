@@ -10,9 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{asset('css/costs.css')}}">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+        <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/costs.css')}}">
     <title>Costs</title>
 </head>
 
@@ -25,8 +25,8 @@
                 <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">
                     <thead>
                     <tr>
-                        <th>Earned</th>
-                        <th>Spended</th>
+                        <th>Prihodi</th>
+                        <th>Rashodi</th>
                         <th>Neto</th>
                     </tr>
                 </thead>
@@ -50,24 +50,22 @@
                             <th>Price</th>
                         </thead>
                     </tr>
-                    <!--
-                    <% for(price of payed) {%>
-                    -->
+                    <!-- GET ALL PRICES FROM BILLS TABLE!! -->
+                    @foreach ($payedBills as $payed)
                         <tr>
                             <td>
-                                 price
+                                {{$payed->total}}
                             </td>
                         </tr>
-                        <!--
-                        <% } %>
-                        -->
+                    @endforeach
                 </table>
                 <div class="addBills mt-5 mb-5 ms-auto me-auto text-center">
                     <button id="showFormBtn" class="btn btn-primary" onclick="showInputForm()">Add new bill</button>
                 </div>
                 <div id="hideMe">
                     <div id="addBillForm" class="col p-3 d-flex shadow text-center justify-content-center">
-                        <form action="/addCosts" method="post" class="w-75 p-4 shadow">
+                        <form action="{{route('addCosts')}}" method="post" class="w-75 p-4 shadow">
+                            @csrf
                             <div class="mb-2 text-center">
                                 <label for="date" class="form-label">Bill Date:</label><br>
                                 <input type="date" id="date" class="form-control text-center" name="date"
@@ -93,16 +91,17 @@
             </div>
 
             <div id="col1" class="col-8 text-center p-0">
-                <!--
-                <% if(!allCosts.length) {%>
-                -->
+
+                @if(!count($bills) > 0)
+
                     <h1>Nothing to show yet. Add some bills.</h1>
-                    <!--
-                    <% }else {%>
-                    -->
+
+                @else
+
                         <div class="header mt-3 text-center">
                             <h1>Bills from using company money</h1>
                         </div>
+
 
                         <div id="bills">
 
@@ -110,55 +109,49 @@
                                 <tr>
                                     <thead id="table-data" class="align-middle">
                                         <th>#</th>
-                                        <th>Bill date</th>
-                                        <th>Total price &euro;</th>
-                                        <th>Buyed</th>
-                                        <th>Booked date</th>
-                                        <th>Booked by user</th>
+                                        <th>Datum računa</th>
+                                        <th>Cena &euro;</th>
+                                        <th>Produkti</th>
+                                        <th>Vpisano</th>
+                                        <th>User</th>
                                         <th class="bg-danger">WARNING</th>
                                     </thead>
                                 </tr>
-                                <!--
-                                <% for(data of allCosts) {%>
-                                -->
+                                @foreach($bills as $bill)
                                     <tr>
+                                        <td></td>
                                         <td>
-
-                                        </td>
-                                        <td>
-                                            <%= data.date %>
-                                        </td>
-                                        
-                                        <td>
-                                            <%= data.totalPrice %>
+                                        {{$bill->date}}
                                         </td>
 
                                         <td>
-                                            <%= data.buyedProducts %>
+                                        {{$bill->price}}
+                                        </td>
+
+                                        <td>
+                                        {{$bill->products}}
 
                                         </td>
                                         <td>
-                                            <%= data.bookedDate %>
+                                        {{$bill->booked_date}}
                                         </td>
                                         <td>
-                                            
-                                                <%= data.bookedUser %>
-                                            
+
+                                        {{$bill->users_name}}
+
                                         </td>
                                         <td>
-                                            <form action="/costs/<%= data._id%>/?_method=DELETE" method="post">
+                                            <form action="/costs/{{$bill->id}}/?_method=DELETE" method="post">
+                                                @csrf
                                                 <button class="btn btn-danger btn-sm">DELETE</button>
                                             </form>
                                         </td>
                                     </tr>
-                                    <!--
-                                    <% } %>
-                                    -->
+                                @endforeach
                                         <tr>
                                             <td>Total spend:</td>
                                             <td></td>
                                             <td id="spend" class="bg-danger"></td>
-                                            
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -166,10 +159,8 @@
                                         </tr>
 
                             </table>
-                            <!--
-                            <% } %>
-                            -->
                         </div>
+                @endif
             </div>
 
         </div>

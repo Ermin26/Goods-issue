@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     protected $table = 'employee';
-    protected $fillable = ['name', 'lastName', 'email', 'password', 'status', 'workingStatus'];
+    protected $fillable = ['name', 'last_name', 'email', 'password', 'status', 'working_status'];
 }

@@ -1,7 +1,7 @@
 <header>
 <nav id="navbar" class="navbar navbar-dark navbar-expand-md bg-dark sticky-top text-light">
     <div class="container-fluid bg-dark">
-        <a class="navbar-brand border-bottom border-3 rounded-bottom border-light" href="/">Novi Račun</a>
+        <a class="navbar-brand" href="/">Novi Račun</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
