@@ -34,11 +34,13 @@ class BillsController extends Controller{
     }
 
     public function ImportBills(){
+        Bills::truncate();
+        Products::truncate();
         $mongoClient = new MongoClient(env('MONGODB_HOST'));
         $database = $mongoClient->selectDatabase('test');
         $collection = $database->selectCollection('users');
 
-        $documents = $collection->find([],['skip'=>20]);
+        $documents = $collection->find([],[]);
 
         $bills = iterator_to_array($documents);
         #dd($bills);
@@ -68,7 +70,7 @@ class BillsController extends Controller{
         }
         try{
             foreach ($bills as $bill){
-                
+
                 $trimSold = preg_replace('/\s+/', '',$bill->soldDate);
                 $trimPay = preg_replace('/\s+/', '',$bill->payDate);
                 $solded = str_replace('.', '/', $trimSold);
@@ -105,12 +107,14 @@ class BillsController extends Controller{
         }catch(ValidationException $e){
             return redirect()->back()->with('error','Error inserting data: ', $e->errors());
         }
+        return redirect(('home'))->with('success', "All data deleted successfully");
     }
 
     public function allBills() {
         $totalBils = Bills::count();
         $month = ltrim(date('m'), '0');
-        $thisMonth = Bills::where('month',$month)->count();
+        $year = date('Y');
+        $thisMonth = Bills::where('month',$month,)->where( 'year', $year)->count();
         $bills = Bills::orderBy('year', 'DESC')
               ->orderBy('num_per_year', 'DESC')
               ->paginate(10);
@@ -118,6 +122,6 @@ class BillsController extends Controller{
         if(count($bills)>0){
             return view('bills.selled', ['bills' => $bills, 'products' => $products, 'totalBills' => $totalBils,'thisMonth' => $thisMonth]);
         }
-        return redirect()->back()->with('error','Error inserting data: ');
+        return redirect()->back()->with('error','Baza podatkov je prazna. ');
     }
 }
