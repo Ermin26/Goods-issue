@@ -46,7 +46,7 @@ a {
     margin-bottom: 5vh;
 }
 
-#pagination{
+.pagination-wrapper{
     max-width: 100%;
 }
 ul.pagination {

@@ -1,0 +1,42 @@
+[2024-06-23 15:17:34] laravel.EMERGENCY: Unable to create configured logger. Using emergency logger. {"exception":"[object] (InvalidArgumentException(code: 0): Log [] is not defined. at /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php:200)
+[stacktrace]
+#0 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php(125): Illuminate\\Log\\LogManager->resolve(NULL, NULL)
+#1 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php(112): Illuminate\\Log\\LogManager->get(NULL)
+#2 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php(590): Illuminate\\Log\\LogManager->driver()
+#3 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(247): Illuminate\\Log\\LogManager->error('syntax error, u...', Array)
+#4 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(415): Illuminate\\Foundation\\Exceptions\\Handler->report(Object(ParseError))
+#5 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(113): Illuminate\\Foundation\\Http\\Kernel->reportException(Object(ParseError))
+#6 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#7 {main}
+"} 
+[2024-06-23 15:17:34] laravel.ERROR: syntax error, unexpected token "<", expecting end of file {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<\", expecting end of file at /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/config/app.php:236)
+[stacktrace]
+#0 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php(39): Illuminate\\Foundation\\Bootstrap\\LoadConfiguration->loadConfigurationFiles(Object(Illuminate\\Foundation\\Application), Object(Illuminate\\Config\\Repository))
+#1 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(237): Illuminate\\Foundation\\Bootstrap\\LoadConfiguration->bootstrap(Object(Illuminate\\Foundation\\Application))
+#2 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(153): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#3 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(137): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#4 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(111): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#5 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#6 {main}
+"} 
+[2024-06-23 15:17:34] laravel.EMERGENCY: Unable to create configured logger. Using emergency logger. {"exception":"[object] (InvalidArgumentException(code: 0): Log [] is not defined. at /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php:200)
+[stacktrace]
+#0 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php(125): Illuminate\\Log\\LogManager->resolve(NULL, NULL)
+#1 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php(112): Illuminate\\Log\\LogManager->get(NULL)
+#2 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Log/LogManager.php(590): Illuminate\\Log\\LogManager->driver()
+#3 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(247): Illuminate\\Log\\LogManager->error('syntax error, u...', Array)
+#4 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(415): Illuminate\\Foundation\\Exceptions\\Handler->report(Object(ParseError))
+#5 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(113): Illuminate\\Foundation\\Http\\Kernel->reportException(Object(ParseError))
+#6 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#7 {main}
+"} 
+[2024-06-23 15:17:34] laravel.ERROR: syntax error, unexpected token "<", expecting end of file {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<\", expecting end of file at /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/config/app.php:236)
+[stacktrace]
+#0 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php(39): Illuminate\\Foundation\\Bootstrap\\LoadConfiguration->loadConfigurationFiles(Object(Illuminate\\Foundation\\Application), Object(Illuminate\\Config\\Repository))
+#1 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(237): Illuminate\\Foundation\\Bootstrap\\LoadConfiguration->bootstrap(Object(Illuminate\\Foundation\\Application))
+#2 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(153): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#3 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(137): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#4 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(111): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#5 /home/vol1000_3/ezyro.com/ezyro_36772383/htdocs/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#6 {main}
+"} 
