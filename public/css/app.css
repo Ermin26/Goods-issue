@@ -27,12 +27,10 @@ header{
 
 #main {
     width: 100%;
-    min-height: 100vh;
     margin: 0;
     padding: 0 20px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 10vh;
     overflow-y: visible;
 }
 .topSection h2{
@@ -268,6 +266,7 @@ ul input{
 }
 /*
 
+
 @media (max-width: 3000px) {
     
     #izdal {
@@ -481,23 +480,42 @@ ul input{
 
 }
 
+*/
+
+@page{
+    size: auto;
+}
 
 @media print {
     * {
         margin: 0;
         padding: 0;
         color: black;
+        overflow: visible;
+        box-shadow: none !important;
+        background: transparent !important;
     }
-
+    html, body {
+        height: auto !important;
+        overflow: visible !important;
+    }
+    #main {
+        position: static !important;
+        top: 0;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        margin-bottom: 0;
+    }
+    #topSection{
+        position: fixed !important;
+        top: 0;
+    }
     #izdal {
         margin-top: 4px;
     }
 
-    #navbar {
-        display: none;
-    }
-
-    input[type] {
+    input {
         border: 0;
     }
 
@@ -505,31 +523,11 @@ ul input{
     #zaključi,
     #placaj,
     #hideOnPrint,
-    #hiderow, #rowDelete, #successAlert, #errorAlert{
-        display: none;
-    }
-    #userInfo,.name,.role{
+    #hiderow,.alert,#navbar,#userInfo,.name,.role, #rowDelete, #successAlert, #errorAlert, .btnSection, .printBtn{
         display:none !important;
     }
-
-    .container {
-        overflow: hidden;
-    }
-
-
-    #payDate,
-    #soldDate {
-        width: 100px;
-    }
-
-    #numPerYear,
-    #year,
-    #numPerMonth,
-    #month,
-    #kt {
-        width: 60px;
+    #navbar {
+        background:transparent;
     }
 
 }
-
-*/

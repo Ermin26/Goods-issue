@@ -95,11 +95,7 @@
     background-color: rgb(161, 161, 161);
     box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
 }
-@media print{
-    #userInfo,.name,.role{
-        display:none !important;
-    }
-}
+
 
 @media (max-width: 992px){
     

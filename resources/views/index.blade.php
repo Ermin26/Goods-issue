@@ -31,11 +31,11 @@
             <article class="numbers">
                 <div class="mb">
                     <label id="numPerYear">Številka/Leto:</label>
-                    <input type="text" class="form-control" id="numPerYear" name="numPerYear" value="117">/ <span><?php echo date('Y')?></span>
+                    <input type="text" class="form-control" id="numPerYear" name="numPerYear" value="{{$numYear}}">/<span><?php echo date('Y')?></span>
                 </div>
                 <div class="mb">
                     <label id="numPerMonth">Številka/Mesec:</label>
-                    <input type="text" class="form-control" id="numPerMonth" name="numPerMonth" value="23">/ <span><?php echo date('m')?></span>
+                    <input type="text" class="form-control" id="numPerMonth" name="numPerMonth" value="{{$numMonth}}">/<span><?php echo ltrim(date('m'), '0')?></span>
                 </div>
                 <div class="mb">
                     <label id="kt">Koledarski teden:</label>
@@ -107,7 +107,7 @@
         </ul>
     </section>
     <div class="row">
-        <button class="btn btn-success printBtn" type="submit" value="submit">Print</button>
+        <button class="btn btn-success printBtn" type="submit" value="submit" onclick="window.print()">Print</button>
     </div>
     </form>
 </section>

@@ -57,10 +57,14 @@
                     @foreach ($products as $product)
                         @if($bill->id == $product->bills_id)
                         <tr class="m-1 align-middle">
-                            @if ($bill->payed == 1)
-                            <td class="bg-success">{{$bill->buyer}}</td>
+                            @if(Auth::user()->role !== 'visitor')
+                                @if ($bill->payed == 1)
+                                <td class="bg-success">{{$bill->buyer}}</td>
+                                @else
+                                <td class="bg-danger">{{$bill->buyer}}</td>
+                                @endif
                             @else
-                            <td class="bg-danger">{{$bill->buyer}}</td>
+                            <td class="bg-warning">Not for visitors</td>
                             @endif
                             <td>{{$product->name}}</td>
                             <td>{{$product->qty}}</td>
@@ -87,7 +91,11 @@
                             <td>{{$bill->num_per_year}}</td>
                             <td>{{$bill->year}}</td>
                             <td>{{$bill->sold_date}}</td>
+                            @if(Auth::user()->role !== 'visitor')
                             <td>{{$bill->published}}</td>
+                            @else
+                            <td class="bg-warning">Not for visitors</td>
+                            @endif
                         </tr>
                         @endif
                     @endforeach
@@ -99,7 +107,6 @@
         {{ $bills->links('custom') }}
     </div>
     <!-- PAYED BILLS -->
-
 
     <div id="placano" class="text-center" style="display: none">
         <table id="payed" class="table table-dark table-hover caption-top mb-0">
@@ -120,7 +127,12 @@
                         @if($bill->payed == 1)
                             @if($bill->id == $product->bills_id)
                                 <tr class="fs-4 align-middle">
+                                    @if(Auth::user()->role !== 'visitor')
+                                    
                                     <td>{{$bill->buyer}}</td>
+                                    @else
+                                        <td>/</td>
+                                    @endif
                                     <td>{{$product->name}}</td>
                                     <td>{{$product->qty}}</td>
                                     <!--
@@ -135,7 +147,11 @@
                                     <td>{{$bill->kt}}</td>
                                     <td>{{$bill->sold_date}}</td>
                                     <td>{{$bill->pay_date}}</td>
+                                    @if(Auth::user()->role !== 'visitor')
                                     <td>{{$bill->published}}</td>
+                                    @else
+                                    <td>/</td>
+                                    @endif
                                 </tr>
                             @endif
                         @endif

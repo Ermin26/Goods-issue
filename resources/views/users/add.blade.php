@@ -37,7 +37,7 @@
                         <div class="mb-2">
                             <label for="email">E-naslov</label><br>
                             <input type="email" name="email" id="email"><br>
-                            <span id="email-exists" style="display:none; color:red;">Email že obstaja!</span>
+                            <span id="email-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Email že obstaja!</span>
                         </div>
                         <div class="mb-2">
                             <label for="password">Geslo</label><br>
@@ -63,7 +63,11 @@
                                 <option value="inactive">Neaktiven</option>
                             </select>
                         </div>
+                        @if(Auth::user()->role !== 'visitor')
                             <button class="btn btn-success mt-2">Dodaj</button>
+                        @else
+                            <button class="btn btn-success mt-2" disabled="true">Dodaj</button>
+                        @endif
                     </form>
                 </div>
                 <a href="/users"><button class="btn btn-dark mt-2">Nazaj</button></a>

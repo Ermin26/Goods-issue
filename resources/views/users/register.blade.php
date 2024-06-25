@@ -17,15 +17,6 @@
 <body>
     @include('navbar')
     @include('flash')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <div class="container text-center mb-5">
 
             <div class="info mt-5 mb-5">
@@ -37,7 +28,7 @@
                     <div class="mb-2 d-flex flex-column col-4 ms-auto me-auto">
                         <label for="username">Ime:</label>
                         <input type="text" name="name" id="username">
-                        <span id="user-exists" style="display:none; color:red;">Uporabnik že obstaja!</span>
+                        <span id="user-exists" style="display:none; color:red; background-color:rgb(24, 23, 23)">Uporabnik že obstaja!</span>
                     </div>
                     <div class="mb-2 d-flex flex-column col-4 ms-auto me-auto">
 
@@ -54,7 +45,11 @@
                             <option value="visitor">Visitor</option>
                         </select>
                     </div>
-                    <button type="submit" id="submit" class="btn btn-success mt-2">Dodaj</button>
+                    @if(Auth::user()->role !== 'visitor')
+                        <button type="submit" id="submit" class="btn btn-success mt-2">Dodaj</button>
+                    @else
+                        <button type="submit" id="submit" class="btn btn-success mt-2" disabled="true">Dodaj</button>
+                    @endif
                 </form>
                 <a href="/users"><button class="btn btn-dark mt-3">Nazaj</button></a>
 

@@ -61,10 +61,10 @@ class UsersController extends Controller{
             if($user){
                 return view('users.editUser', ['user' => $user]);
             }else{
-                return redirect()->route('users.users')->width('error', "Uporabnik ne obstaja!");
+                return redirect()->route('users.users')->with('error', "Uporabnik ne obstaja!");
                 }
         }else{
-            return redirect()->back()->width('error', "Nimate dovoljena za posodobitev podatkov uporabnika!");
+            return redirect()->back()->with('error', "Nimate dovoljena za posodobitev podatkov uporabnika!");
         }
     }
 
@@ -132,10 +132,10 @@ class UsersController extends Controller{
             if($employee){
                 return view('users.editEmployee', ['employee' => $employee]);
             }else{
-                return redirect()->route('users.users')->width('error', "Delavec ne obstaja!");
+                return redirect()->route('users.users')->with('error', "Delavec ne obstaja!");
                 }
         }else{
-            return redirect()->back()->width('error', "Nimate dovoljena za posodobitev podatkov uporabnika!");
+            return redirect()->back()->with('error', "Nimate dovoljena za posodobitev podatkov uporabnika!");
         }
     }
 

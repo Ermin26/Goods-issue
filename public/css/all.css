@@ -51,7 +51,9 @@ a {
 }
 ul.pagination {
     display: flex;
-    max-width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
     justify-content: center;
     list-style: none;
     padding: 0;
@@ -97,7 +99,7 @@ ul.pagination li.active {
 }
 
 #bottom {
-    display: flex;
+    display: none;
     position: fixed;
     top: 265px;
     right: 5px;
@@ -159,7 +161,7 @@ ul.pagination li.active {
     }
 
     #bottom {
-        display: flex;
+        display: none;
         position: fixed;
         top: 145px;
         right: 5px;

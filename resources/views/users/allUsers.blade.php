@@ -27,10 +27,10 @@
                             <table class="table table-info table-hover table-bordered border-dark align-middle">
                                 <thead id="usersTable">
                                     <tr>
-                                        <th>Username</th>
+                                        <th>Ime</th>
                                         <th>Role</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th>Uredi</th>
+                                        <th>Izbriši</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,9 +50,9 @@
                                                 <td>
                                                     @if(Auth::check())
                                                         @if(Auth::user()->role === 'admin')
-                                                            <a href="/users/edit/{{$user->id}}"><button class="btn btn-warning">Edit</button></a>
+                                                            <a href="/users/edit/{{$user->id}}"><button class="btn btn-warning">Uredi</button></a>
                                                         @else
-                                                            <a href="/users" disabled><button class="btn btn-warning" disabled>Edit</button></a>
+                                                            <a href="/users" disabled><button class="btn btn-warning" disabled>Uredi</button></a>
                                                         @endif
                                                     @endif
                                                 </td>
@@ -62,9 +62,9 @@
                                                         @method('DELETE')
                                                         @if(Auth::check())
                                                             @if(Auth::user()->role === 'admin')
-                                                                <button class="btn btn-danger">DELETE</button>
+                                                                <button class="btn btn-danger">Izbriši</button>
                                                             @else
-                                                                <button class="btn btn-danger" disabled>DELETE</button>
+                                                                <button class="btn btn-danger" disabled>Izbriši</button>
                                                             @endif
                                                         @endif
                                                     </form>
@@ -86,12 +86,12 @@
                                     <thead id="employeeThead" class="align-middle">
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
-                                            <th>Last name</th>
-                                            <th>Employment status</th>
+                                            <th>Ime</th>
+                                            <th>Priimek</th>
+                                            <th>Zaposlitev</th>
                                             <th>Status</th>
-                                            <th>Edit</th>
-                                            <th>DELETE</th>
+                                            <th>Uredi</th>
+                                            <th>Izbriši</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,15 +103,21 @@
                                                     <td>{{$employee->last_name}}</td>
                                                     <td>{{$employee->working_status}}</td>
                                                     <td>{{$employee->status === 1 ? 'Aktiven' : 'Neaktiven'}} </td>
-                                                    <td><a href="users/employee/{{$employee->id}}" class="btn btn-warning">Edit</a></td>
+                                                    <td>
+                                                        @if(Auth::user()->role === 'admin')
+                                                            <a href="users/employee/{{$employee->id}}" class="btn btn-warning">Uredi</a>
+                                                        @else
+                                                            <a href="#"><button class="btn btn-warning" disabled>Uredi</button></a>
+                                                        @endif
+                                                    </td>
                                                     <td><form action="users/employee/delete/{{$employee->id}}/?_method=DELETE" method="post">
                                                         @csrf
                                                         @method('DELETE')
                                                         @if(Auth::check())
                                                             @if(Auth::user()->role === 'admin')
-                                                                <button class="btn btn-danger">DELETE</button>
+                                                                <button class="btn btn-danger">Izbriši</button>
                                                             @else
-                                                                <button class="btn btn-danger" disabled>DELETE</button>
+                                                                <button class="btn btn-danger" disabled>Izbriši</button>
                                                             @endif
                                                         @endif
                                                     </form></td>

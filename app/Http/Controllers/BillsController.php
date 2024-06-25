@@ -15,21 +15,37 @@ use App\Models\Products;
 
 class BillsController extends Controller{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function newBill(Request $request){
-        if(Auth::user()->role != 'visitor'){
-        $request->validate([
-            'published'=> 'required|string',
-            'buyer'=> 'required|string',
-            'sold_date'=>  'required|string',
-            'kt'=> 'required|integer',
-            'year'=>  'required|integer',
-            'month'=> 'required|integer',
-            'num_per_year'=> 'required|integer',
-            'num_per_month'=> 'required|integer',
-            'payed'=> 'required|string',
-        ]);
+    
+    public function getNumbersPerMonthAndPerYear(){
+        $month = ltrim(date('m'), '0');
+        $year = date("Y");
+        $numYear = Bills::where('year', $year)->orderBy('num_per_year', 'DESC')->pluck('num_per_year')->first();
+        $numMonth = Bills::where('year', $year)->where('month', $month)->orderBy('num_per_month', 'DESC')->pluck('num_per_month')->first();
+       
+        return view('index',['numYear'=>$numYear + 1,'numMonth'=>$numMonth + 1]);
+    }
 
-        echo $request->all();
+    public function newBill(Request $request){
+        if(Auth::user()->role !== 'visitor'){
+            try{
+                $request->validate([
+                    'published'=> 'required|string',
+                    'buyer'=> 'required|string',
+                    'sold_date'=>  'required|string',
+                    'kt'=> 'required|integer',
+                    'year'=>  'required|integer',
+                    'month'=> 'required|integer',
+                    'num_per_year'=> 'required|integer',
+                    'num_per_month'=> 'required|integer',
+                    'payed'=> 'required|string',
+                ]);
+                return redirect()->route('home')->with('success', "Uspešno dodan novi račun.");
+                }catch(ValidationException $e){
+                    $errors = $e->validator->errors()->all();
+            return redirect()->back()->with('error', implode(', ', $errors));
+                };
+        }else{
+            return redirect()->back()->with('error',"Uporabniki ki imajo role 'visitor', ne morejo izvajati CRUD operacij!");
         }
     }
 

@@ -25,8 +25,8 @@
                 <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">
                     <thead>
                     <tr>
-                        <th>Prihodi</th>
-                        <th>Rashodi</th>
+                        <th>Prihodki</th>
+                        <th>Odhodki</th>
                         <th>Neto</th>
                     </tr>
                 </thead>
@@ -60,31 +60,34 @@
                     @endforeach
                 </table>
                 <div class="addBills mt-5 mb-5 ms-auto me-auto text-center">
-                    <button id="showFormBtn" class="btn btn-primary" onclick="showInputForm()">Add new bill</button>
+                    <button id="showFormBtn" class="btn btn-primary" onclick="showInputForm()">Dodaj račun</button>
                 </div>
                 <div id="hideMe">
                     <div id="addBillForm" class="col p-3 d-flex shadow text-center justify-content-center">
                         <form action="{{route('addCosts')}}" method="post" class="w-75 p-4 shadow">
                             @csrf
                             <div class="mb-2 text-center">
-                                <label for="date" class="form-label">Bill Date:</label><br>
+                                <label for="date" class="form-label">Datum nakupa:</label><br>
                                 <input type="date" id="date" class="form-control text-center" name="date"
                                     placeholder="Enter Bill date" required>
                             </div>
 
                             <div class="mb-2 col">
-                                <label for="buyedProducts" class="form-label">Buyed products:</label>
+                                <label for="buyedProducts" class="form-label">Produkti:</label>
                                 <textarea type="text" id="buyedProducts" class="form-control text-center"
-                                    name="buyedProducts" placeholder="Enter buyed products" required></textarea>
+                                    name="buyedProducts" placeholder="Produkti" required></textarea>
                             </div>
 
                             <div class="mb-2">
-                                <label for="totalPrice" class="form-label">Price:</label>
+                                <label for="totalPrice" class="form-label">Cena:</label>
                                 <input type="text" id="totalPrice" class="form-control text-center" name="totalPrice"
-                                    placeholder="Enter total price &euro;" required>
+                                    placeholder="Total &euro;" required>
                             </div>
-
-                            <button class="btn btn-success mt-4 mb-4">Submit</button>
+                            @if(Auth::user()->role !== 'visitor')
+                                <button class="btn btn-success mt-4 mb-4">Submit</button>
+                            @else
+                                <button class="btn btn-success mt-4 mb-4" disabled="true">Submit</button>
+                            @endif
                         </form>
                     </div>
                 </div>
@@ -99,12 +102,11 @@
                 @else
 
                         <div class="header mt-3 text-center">
-                            <h1>Bills from using company money</h1>
+                            <h1>Računi porabe denarja podjetja</h1>
                         </div>
 
 
                         <div id="bills">
-
                             <table id="tableOfCosts" class="table table-dark table-hover align-middle">
                                 <tr>
                                     <thead id="table-data" class="align-middle">
@@ -113,7 +115,7 @@
                                         <th>Cena &euro;</th>
                                         <th>Produkti</th>
                                         <th>Vpisano</th>
-                                        <th>User</th>
+                                        <th>Uporabnik</th>
                                         <th class="bg-danger">WARNING</th>
                                     </thead>
                                 </tr>
@@ -136,14 +138,20 @@
                                         {{$bill->booked_date}}
                                         </td>
                                         <td>
-
+                                        @if(Auth::user()->role !== 'visitor')
                                         {{$bill->users_name}}
-
+                                        @else
+                                        /
+                                        @endif
                                         </td>
                                         <td>
                                             <form action="/costs/{{$bill->id}}/?_method=DELETE" method="post">
                                                 @csrf
-                                                <button class="btn btn-danger btn-sm">DELETE</button>
+                                                @if(Auth::user()->role !== 'visitor')
+                                                    <button class="btn btn-danger btn-sm">DELETE</button>
+                                                @else
+                                                    <button class="btn btn-danger btn-sm" disabled="true">DELETE</button>
+                                                @endif
                                             </form>
                                         </td>
                                     </tr>
