@@ -126,18 +126,34 @@ class BillsController extends Controller{
         return redirect(('home'))->with('success', "All data deleted successfully");
     }
 
-    public function allBills() {
-        $totalBils = Bills::count();
+    public function allBills(Request $request) {
+        $perPage = 10;
+        $totalBills = Bills::count();
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        $start = ($page - 1) * $perPage;
+        $end = $start + $perPage;
+
+        $totalPages = ceil($totalBills / $perPage);
+
         $month = ltrim(date('m'), '0');
         $year = date('Y');
-        $thisMonth = Bills::where('month',$month,)->where( 'year', $year)->count();
+        $thisMonth = Bills::where('month', $month)
+                        ->where('year', $year)
+                        ->count();
+
         $bills = Bills::orderBy('year', 'DESC')
-              ->orderBy('num_per_year', 'DESC')
-              ->paginate(10);
+                    ->orderBy('num_per_year', 'DESC')
+                    ->paginate($perPage, ['*'], 'page', $page)
+                    ->withQueryString();
         $products = Products::all();
-        if(count($bills)>0){
-            return view('bills.selled', ['bills' => $bills, 'products' => $products, 'totalBills' => $totalBils,'thisMonth' => $thisMonth]);
+        $itemsForPage = array_slice($bills, $start, $perPage);
+        if (count($bills) > 0) {
+            $bills->appends(request()->query());
+            return view('bills.selled', compact('bills', 'products', 'totalBills', 'thisMonth'));
         }
-        return redirect()->back()->with('error','Baza podatkov je prazna. ');
+    
+        // Sicer preusmeri nazaj z napako
+        return redirect()->back()->with('error', 'Baza podatkov je prazna.');
     }
 }
