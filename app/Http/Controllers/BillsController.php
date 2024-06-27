@@ -42,7 +42,7 @@ class BillsController extends Controller{
                 return redirect()->route('home')->with('success', "Uspešno dodan novi račun.");
                 }catch(ValidationException $e){
                     $errors = $e->validator->errors()->all();
-            return redirect()->back()->with('error', implode(', ', $errors));
+                    return redirect()->back()->with('error', implode(', ', $errors));
                 };
         }else{
             return redirect()->back()->with('error',"Uporabniki ki imajo role 'visitor', ne morejo izvajati CRUD operacij!");
@@ -125,35 +125,51 @@ class BillsController extends Controller{
         }
         return redirect(('home'))->with('success', "All data deleted successfully");
     }
-
+/*
     public function allBills(Request $request) {
-        $perPage = 10;
+
         $totalBills = Bills::count();
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-
-        $start = ($page - 1) * $perPage;
-        $end = $start + $perPage;
-
-        $totalPages = ceil($totalBills / $perPage);
-
         $month = ltrim(date('m'), '0');
         $year = date('Y');
         $thisMonth = Bills::where('month', $month)
                         ->where('year', $year)
                         ->count();
 
-        $bills = Bills::orderBy('year', 'DESC')
+        $billss = Bills::orderBy('year', 'DESC')
                     ->orderBy('num_per_year', 'DESC')
-                    ->paginate($perPage, ['*'], 'page', $page)
+                    ->paginate(10)
                     ->withQueryString();
+        $bills= Bills::paginate(4);
         $products = Products::all();
-        $itemsForPage = array_slice($bills, $start, $perPage);
+        #$itemsForPage = array_slice($bills, $start, $perPage);
         if (count($bills) > 0) {
-            $bills->appends(request()->query());
             return view('bills.selled', compact('bills', 'products', 'totalBills', 'thisMonth'));
         }
     
         // Sicer preusmeri nazaj z napako
         return redirect()->back()->with('error', 'Baza podatkov je prazna.');
+    }
+*/
+    public function testAll(){
+        $month = ltrim(date('m'), '0');
+        $year = date('Y');
+        $totalBills = Bills::count();
+        $thisMonth = Bills::where('month', $month)
+                        ->where('year', $year)
+                        ->count();
+        $bills= Bills::orderBy('year', 'DESC')
+        ->orderBy('num_per_year', 'DESC')
+        ->paginate(10); //Eloquent ORM
+        $products = Products::all();
+        return view('bills.selled', compact('bills', 'products', 'thisMonth', 'totalBills'));
+    }
+
+    public function findBill($id){
+        $bill = Bills::findOrFail($id);
+        if($bill){
+            return view('bills.edit', compact('bill'));
+        };
+
+        return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");
     }
 }

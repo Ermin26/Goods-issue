@@ -30,7 +30,12 @@ Route::post('/login', [LoginController::class, 'loginUser'])->name('login.login'
 Route::middleware(['auth'])->group(function(){
     Route::get('/', [BillsController::class, 'getNumbersPerMonthAndPerYear'])->name('home');
 
-    Route::get('/all',[BillsController::class, 'allBills'])->name('all');
+    Route::prefix('all')->group(function(){
+        Route::get('/',[BillsController::class, 'testAll'])->name('all');
+        Route::get('/view/{id}',[BillsController::class, 'findBill'])->name('viewBill');
+
+    });
+
     Route::get('/costs',[CostsController::class, 'allCosts'])->name('costs');
     Route::post('/addCosts',[CostsController::class, 'addCosts'])->name('addCosts');
     Route::delete('/costs/{id}',[CostsController::class, 'deleteBill'])->name('costs.deleteBill');

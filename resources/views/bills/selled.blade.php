@@ -30,195 +30,81 @@
                 </strong></h2>
     </div>
 
-    <!-- ALL BILLS -->
     <div id="allUsers" class="text-center">
         <table id="all" class="table table-striped-columns table-hover mb-0 ">
-            <thead id="table-data" class="table-dark text-center align-middle border-bottom">
-                <tr class="text-light">
-                    <th class="col">Kupec</th>
-                    <th class="col">Produkt</th>
-                    <th class="col-1">Količina</th>
-                    <th class="col-1">Cena</th>
-                    <th class="col-1">DDV</th>
-                    <th class="col">Free</th>
-                    <th class="col">Teden</th>
-                    <th class="col">Neto</th>
-                    <th class="col-1">Plačano</th>
-                    <th class="col-1">Št / mesec</th>
-                    <th class="col-1">Mesec</th>
-                    <th class="col-1">Redna št</th>
-                    <th class="col">Leto</th>
-                    <th class="col">Izdano</th>
-                    <th class="col">Izdal</th>
-                </tr>
-            </thead>
-            <tbody class="tableBody mt-3 align-middle">
-                @foreach ($bills as $bill)
-                    @foreach ($products as $product)
-                        @if($bill->id == $product->bills_id)
-                        <tr class="m-1 align-middle">
-                            @if(Auth::user()->role !== 'visitor')
-                                @if ($bill->payed == 1)
-                                <td class="bg-success">{{$bill->buyer}}</td>
-                                @else
-                                <td class="bg-danger">{{$bill->buyer}}</td>
-                                @endif
-                            @else
-                            <td class="bg-warning">Not for visitors</td>
-                            @endif
-                            <td>{{$product->name}}</td>
-                            <td>{{$product->qty}}</td>
-                            <!--
-                                <td>{number_format($product->price,2)}}</td>
-                            -->
-                            <td>{{$product->price,}}</td>
-                            <td>1.50</td>
-                            @if ($product->firstOfWeek == 1)
-                                    <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
-                                @else
-                                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
-                                @endif
-                            <td>{{$bill->kt}}</td>
-                            <td>{{$product->total}}</td>
-                            @if ($bill->payed == 1)
-                               <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
-                            @else
-
-                            <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
-                            @endif
-                            <td>{{$bill->num_per_month}}</td>
-                            <td>{{$bill->month}}</td>
-                            <td>{{$bill->num_per_year}}</td>
-                            <td>{{$bill->year}}</td>
-                            <td>{{$bill->sold_date}}</td>
-                            @if(Auth::user()->role !== 'visitor')
-                            <td>{{$bill->published}}</td>
-                            @else
-                            <td class="bg-warning">Not for visitors</td>
-                            @endif
-                        </tr>
+          <thead id="table-data" class="table-dark text-center align-middle border-bottom">
+              <tr class="text-light">
+                  <th class="col">Kupec</th>
+                  <th class="col">Produkt</th>
+                  <th class="col-1">Količina</th>
+                  <th class="col-1">Cena</th>
+                  <th class="col-1">DDV</th>
+                  <th class="col">Free</th>
+                  <th class="col">Teden</th>
+                  <th class="col">Neto</th>
+                  <th class="col-1">Plačano</th>
+                  <th class="col-1">Št / mesec</th>
+                  <th class="col-1">Mesec</th>
+                  <th class="col-1">Redna št</th>
+                  <th class="col">Leto</th>
+                  <th class="col">Izdano</th>
+                  <th class="col">Izdal</th>
+              </tr>
+          </thead>
+              <tbody>
+                @foreach($bills as $bill)
+                @foreach ($products as $product)
+                @if($bill->id == $product->bills_id)
+                <tr class="m-1 align-middle">
+                    @if(Auth::user()->role !== 'visitor')
+                        @if ($bill->payed == 1)
+                        <td class="bg-success"><a href="all/view/{{$bill->id}}">{{$bill->buyer}}</a></td>
+                        @else
+                        <td class="bg-danger"><a href="all/view/{{$bill->id}}">{{$bill->buyer}}</a></td>
                         @endif
-                    @endforeach
+                    @else
+                    <td class="bg-warning">Not for visitors</td>
+                    @endif
+                    <td>{{$product->name}}</td>
+                    <td>{{$product->qty}}</td>
+                    <!--
+                        <td>{number_format($product->price,2)}}</td>
+                    -->
+                    <td>{{$product->price,}}</td>
+                    <td>1.50</td>
+                    @if ($product->firstOfWeek == 1)
+                            <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                        @else
+                            <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                        @endif
+                    <td>{{$bill->kt}}</td>
+                    <td>{{$product->total}}</td>
+                    @if ($bill->payed == 1)
+                       <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                    @else
+
+                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                    @endif
+                    <td>{{$bill->num_per_month}}</td>
+                    <td>{{$bill->month}}</td>
+                    <td>{{$bill->num_per_year}}</td>
+                    <td>{{$bill->year}}</td>
+                    <td>{{$bill->sold_date}}</td>
+                    @if(Auth::user()->role !== 'visitor')
+                    <td>{{$bill->published}}</td>
+                    @else
+                    <td class="bg-warning">Not for visitors</td>
+                    @endif
+                </tr>
+                @endif
+            @endforeach
                 @endforeach
-            </tbody>
-        </table>
-    </div>
-    <div id="pagination">
+              </tbody>
+            </table>
+          </div>
         {{ $bills->links('custom') }}
     </div>
-    <!-- PAYED BILLS -->
 
-    <div id="placano" class="text-center" style="display: none">
-        <table id="payed" class="table table-dark table-hover caption-top mb-0">
-            <thead class="align-middle" id="table-head">
-                <th>Kupec</th>
-                <th>Produkt</th>
-                <th>Količina</th>
-                <th>Neto &euro;</th>
-                <th>Free</th>
-                <th>Teden</th>
-                <th>Izdano</th>
-                <th>Plačano</th>
-                <th>Izdal</th>
-            </thead>
-            <tbody>
-                @foreach ($bills as $bill)
-                    @foreach ($products as $product)
-                        @if($bill->payed == 1)
-                            @if($bill->id == $product->bills_id)
-                                <tr class="fs-4 align-middle">
-                                    @if(Auth::user()->role !== 'visitor')
-                                    
-                                    <td>{{$bill->buyer}}</td>
-                                    @else
-                                        <td>/</td>
-                                    @endif
-                                    <td>{{$product->name}}</td>
-                                    <td>{{$product->qty}}</td>
-                                    <!--
-                                <td>{number_format($product->price,2)}}</td>
-                            -->
-                            <td>{{$product->price,}}</td>
-                                    @if ($product->firstOfWeek == 1)
-                                    <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
-                                @else
-                                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
-                                @endif
-                                    <td>{{$bill->kt}}</td>
-                                    <td>{{$bill->sold_date}}</td>
-                                    <td>{{$bill->pay_date}}</td>
-                                    @if(Auth::user()->role !== 'visitor')
-                                    <td>{{$bill->published}}</td>
-                                    @else
-                                    <td>/</td>
-                                    @endif
-                                </tr>
-                            @endif
-                        @endif
-                    @endforeach
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- NOT PAYED BILLS -->
-
-
-
-
-    <div id="niPlacano" class="text-center mb-0"style="display: none">
-        <table id="notpayed" class="table table-dark table-hover mb-0">
-
-            <thead class="align-middle text-light" id="table-head">
-                <th>Kupec</th>
-                <th>Produkt</th>
-                <th>Količina</th>
-                <th>Neto &euro;</th>
-                <th>Free</th>
-                <th>Teden</th>
-                <th>Izdano</th>
-                <th>Izdal</th>
-            </thead>
-            <tbody class="text-danger">
-                @foreach ($bills as $bill)
-                @foreach ($products as $product)
-                @dd($bill->payed)
-                    @if($bill->payed == 0)
-                        @if($bill->id == $product->bills_id)
-                            <tr class="fs-4 align-middle">
-                                <td>{{$bill->buyer}}</td>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->qty}}</td>
-                                <!--
-                                <td>{number_format($product->price,2)}}</td>
-                            -->
-                            <td>{{$product->price,}}</td>
-                                @if ($product->firstOfWeek == 1)
-                                    <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
-                                @else
-                                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
-                                @endif
-                                <td>{{$bill->kt}}</td>
-                                <td>{{$bill->sold_date}}</td>
-                                <td>{{$bill->published}}</td>
-                            </tr>
-                        @endif
-                    @endif
-                @endforeach
-            @endforeach
-                <tr class="fs-1">
-                    <td>Total:</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td id="total"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
     integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
@@ -314,16 +200,20 @@
         bottom.style.display = "block";
         window.onscroll = function () { scrollFunction() };
         function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            if (document.body.scrollTop > 140 || document.documentElement.scrollTop > 140) {
                 mybutton.style.display = "block";
                 console.log("1");
                 
             } else {
                 mybutton.style.display = "none";
                 bottom.style.display = "block";
-                console.log("1");
+                console.log("2");
             }
-            if (document.body.scrollBottom == 0 || document.documentElement.scrollBottom == 0) {
+            if ((window.innerHeight + window.scrollY) != document.body.offsetHeight) {
+                bottom.style.display = "block";
+                console.log("yooo yooo yoo")
+            }
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 bottom.style.display = "none";
                 console.log("yooo yooo yoo")
             }
@@ -340,8 +230,5 @@
         }
 
     </script>
-    
 </body>
-
-
 </html>
