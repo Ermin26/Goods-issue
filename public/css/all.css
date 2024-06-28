@@ -9,9 +9,12 @@ body{
     align-items: center;
 }
 
-a {
+a{
     text-decoration: none;
-}#userInfo{
+    color: inherit;
+}
+
+#userInfo{
     position: sticky;
     justify-content: end;
     margin-right: 10px;

@@ -23,14 +23,14 @@
         <div class="text-center mt-3">
             <h1 class="text-info">Uredi račun:</h1>
             <h2 class=" fs-2 text-primary">
-              @if(Auth::user()->role != 'visitor')  {{user.buyer}} @else / @endif
+              @if(Auth::user()->role != 'visitor')  {{$bill->buyer}} @else / @endif
             </h2>
         </div>
         <div id="container" class="container justify-content-center">
 
             <div id="tableData" class="buyed-products text-center">
                 <h3 class="ms-5 mt-5 mb-2">Buyed products</h3>
-                <form action="/all/<%= user._id %>/products?_method=PUT" method="POST">
+                <form action="/all/{{$bill->id}}/products?_method=PUT" method="POST">
                     <table class="table table-dark table-hover text-center">
                         <thead>
                             <th>Product</th>
@@ -42,142 +42,142 @@
                         </thead>
 
                         <tbody>
-                            <%# for(let product of user.products) { %>
-                                <% for(let i = 0; i < user.products.length; i++) {%>
+                            @foreach ($products as $product )
                                 <tr>
                                     <td>
                                         <input type="text" id="productId" name="productId"
-                                            value="<%= user.products[i].id %>" hidden>
+                                            value="<%= products->id %>" hidden>
                                         <input type="text" id="productName" name="productName"
-                                            class="w-75 text-center bg-dark" value="<%= user.products[i].name %>">
+                                            class="w-75 text-center bg-dark" value="{{$product->name}}">
                                     </td>
                                     <td>
                                         <input type="text" id="productQty" name="productQty"
-                                            class="w-25 text-center bg-dark" value="<%= user.products[i].qty %>">
+                                            class="w-25 text-center bg-dark" value="{{$product->qty}}">
 
                                     </td>
                                     <td>
                                         <input type="text" id="productPrice" name="productPrice"
-                                            class="w-50 text-center bg-dark" value="<%= user.products[i].price %>">
+                                            class="w-50 text-center bg-dark" value="{{$product->price}}">
                                         &euro;
                                     </td>
                                     <td>
                                         <input type="text" id="productTotal" name="productTotal"
-                                            class="w-50 text-center bg-dark" value="<%= user.products[i].total %>">
+                                            class="w-50 text-center bg-dark" value="{{$product->total}}">
                                         &euro;
                                     </td>
                                     <td>
-                                        <% if(user.products[i].firstOfWeek=='true' ){ %>
-                                            <img src="/payed.jpg" alt="Not Payed">
-                                            <% } else { %>
-                                                <img src="/notPay.jpg" alt="Not Payed">
-                                                <% } %>
+                                        @if ($product->firstOfWeek =='true' )
+                                            <img src="{{asset('img/payed.jpg')}}" alt="Payed">
+                                        @else
+                                            <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
+                                        @endif
                                     </td>
                                     <td>
-                                        <% if(user.pay=='true' ){ %>
-                                            <img src="/payed.jpg" alt="Not Payed">
-                                            <% } else { %>
-                                                <img src="/notPay.jpg" alt="Not Payed">
-                                                <% } %>
+                                        @if($bill->payed =='1' )
+                                            <img src="{{asset('img/payed.jpg')}}" alt="Payed">
+                                        @else
+                                            <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
+                                        @endif
                                     </td>
 
                                 </tr>
-                                <% } %>
+                                
+                                @endforeach
                         </tbody>
                     </table>
-                    <button class="btn btn-warning">Submit</button>
+                    @if(Auth::user()->role == 'visitor')
+                    <button class="btn btn-warning" disabled>Potrdi</button>
+                    @else
+                    <button class="btn btn-warning">Potrdi</button>
+                    @endif
                 </form>
             </div>
 
 
 
-            <div class="row d-flex justify-content-center text-center mt-5 mb-5">
-                <div class="col-8" id="col">
+            <div class="row bg-success d-flex justify-content-center text-center mt-5 mb-5">
+                <div class="row bg-gray" id="col">
                     <div class="card justify-content-center text-center">
-                        <form action="/all/<%= user._id %>?_method=PUT" method="POST">
+                        <form action="/all/{{$bill->id}}?_method=PUT" method="POST">
                             <div class="card-header text-center">
-                                <img src="https://flamingoshop.si/images/5f3d715197018.jpeg" class="card-img-top"
-                                    alt="..." style="width: 15rem; height: 10rem">
+                                <!-- Hear put img -->
                             </div>
                             <div class="card-body justify-content-center" id="card-body">
-
                                 <ul
-                                    class="list-group list-group-flush col flex-row flex-wrap justify-content-center align-content-center">
+                                    class="list-group list-group-flush flex-row row-cols-2 flex-wrap justify-content-center align-content-center">
 
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item col">
                                         <label for="pay">Payed:</label><br>
-                                        <% if(user.pay=='true' ){ %>
+                                        @if($bill->payed == '1' )
                                             <input type="checkbox" id="pay" name="user[pay]" class="form-check-input"
                                                 value="" checked onclick="update()">
                                             <input type="checkbox" id="pay2" name="user[pay]" class="form-check-input"
                                                 value="false">
-                                            <% } else { %>
+                                            @else
                                                 <input type="checkbox" id="pay" name="user[pay]"
                                                     class="form-check-input" value="" onclick="update()">
                                                 <input type="checkbox" id="pay2" name="user[pay]"
                                                     class="form-check-input" value="false">
-
-                                                <% } %>
+                                            @endif
                                     </li>
 
-                                    <li id="list" class="list-group-item col-6"><label for="kt">Koledarski
+                                    <li id="list" class="list-group-item col"><label for="kt">Koledarski
                                             teden:</label> <br>
                                         <input type="text" id="kt" class="fs-5 text-dark col-6" name="user[kt]"
-                                            value="<%= user.kt %> " required>
+                                            value="{{$bill->kt}}" required>
                                     </li>
 
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item">
                                         <label for="perMonth">Num / Month:</label> <br>
                                         <input type="text" id="perMonth" class="fs-5 text-dark col-6"
-                                            name="user[numPerMonth]" value="<%= user.numPerMonth %>">
+                                            name="user[numPerMonth]" value="{{$bill->num_per_month}}">
                                     </li>
 
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item">
                                         <label for="month">Month:</label> <br>
                                         <input type="text" id="month" class="fs-5 text-dark bg-light col-6"
-                                            value="<%= user.month %>" name="user[month]">
+                                            value="{{$bill->month}}" name="user[month]">
                                     </li>
 
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item">
                                         <label for="perYear">Num / Year:</label> <br>
                                         <input type="text" id="perYears" class="fs-5 text-dark col-6"
-                                            value="<%= user.numPerYear %>" name="user[numPerYear]">
+                                            value="{{$bill->num_per_year}}" name="user[numPerYear]">
                                     </li>
 
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item">
                                         <label for="year">Year:</label> <br>
                                         <input type="text" id="year" class="fs-5 text-dark col-6"
-                                            value="<%= user.year %>" name="user[year]">
+                                            value="{{$bill->year}}" name="user[year]">
                                     </li>
 
 
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item">
                                         <label for="soldDate">Sold Date:</label> <br>
                                         <input type="text" id="soldDate" class="fs-5 text-dark col-6"
-                                            value="<%= user.soldDate %>" name="user[soldDate]">
+                                            value="{{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}" name="user[soldDate]">
                                     </li>
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item">
                                         <label for="payDate">Pay Date:</label> <br>
                                         <input type="text" id="payDate" class="fs-5 text-dark col-6"
-                                            value="<%= user.payDate %>" name="user[payDate]">
+                                            value="{{\Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y')}}" name="user[payDate]">
                                     </li>
 
 
-                                    <li id="list" class="list-group-item col-6">
+                                    <li id="list" class="list-group-item">
                                         <label for="izdal">Izdal:</label> <br>
-                                        <input type="text" id="izdal" class="fs-5 text-dark col-6"
-                                            value="<% if(currentUser.role != 'visitor' || currentUser == 'jan') {%><%= user.izdal %><% }else {%> / <% } %>" name="user[izdal]">
+                                        <input type="text" id="izdal" class="fs-5 text-dark"
+                                            value="{{Auth::user()->role != 'visitor' ? $bill->published : "/"}}" name="user[izdal]">
                                     </li>
 
                                 </ul>
                             </div>
 
                             <div class="card-footer d-flex mt-2 mb-2 justify-content-evenly">
-                                <button class="btn btn-outline-primary" onclick="update()">Submit</button>
+                                <button class="btn btn-outline-warning" onclick="update()" {{Auth::user()->role == 'visitor' ? "disabled" : " "}}>Potrdi</button>
 
-                                <a href="/all/<%= user._id %> " class="card-link d-inline btn btn-warning"><strong
-                                        class="text-dark">Go
-                                        Back</strong></a>
+                                <a href="/all/view/{{$bill->id}} " class="card-link d-inline btn btn-success"><strong
+                                        class="text-light">Nazaj</strong></a>
                             </div>
                         </form>
                     </div>

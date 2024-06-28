@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('all')->group(function(){
         Route::get('/',[BillsController::class, 'testAll'])->name('all');
         Route::get('/view/{id}',[BillsController::class, 'findBill'])->name('viewBill');
+        Route::get('/edit/{id}',[BillsController::class, 'editBill'])->name('editBill');
 
     });
 

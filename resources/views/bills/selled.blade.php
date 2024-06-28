@@ -63,7 +63,7 @@
                         <td class="bg-danger"><a href="all/view/{{$bill->id}}">{{$bill->buyer}}</a></td>
                         @endif
                     @else
-                    <td class="bg-warning">Not for visitors</td>
+                    <td class="bg-warning"><a href="all/view/{{$bill->id}}">Not for visitors</a></td>
                     @endif
                     <td>{{$product->name}}</td>
                     <td>{{$product->qty}}</td>
@@ -89,7 +89,7 @@
                     <td>{{$bill->month}}</td>
                     <td>{{$bill->num_per_year}}</td>
                     <td>{{$bill->year}}</td>
-                    <td>{{$bill->sold_date}}</td>
+                    <td>{{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}</td>
                     @if(Auth::user()->role !== 'visitor')
                     <td>{{$bill->published}}</td>
                     @else

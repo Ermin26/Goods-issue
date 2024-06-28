@@ -166,8 +166,20 @@ class BillsController extends Controller{
 
     public function findBill($id){
         $bill = Bills::findOrFail($id);
+        $products = Products::where('bills_id', $id)->get();
+        
         if($bill){
-            return view('bills.edit', compact('bill'));
+            return view('bills.viewBill', compact('bill','products'));
+        };
+
+        return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");
+    }
+    public function editBill($id){
+        $bill = Bills::findOrFail($id);
+        $products = Products::where('bills_id', $id)->get();
+        
+        if($bill){
+            return view('bills.edit', compact('bill','products'));
         };
 
         return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");

@@ -9,26 +9,27 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/user.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/allPges.css')}}">
+    <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
     <title>
-        <%= userData.buyer %>
+        {{$bill->buyer}}
     </title>
 </head>
 
 <body>
 
-    <%- include('../layouts/boilerplate.ejs') %>
-
-        <div id="hideOnPrint" class="text-center">
-            <%- include('../flashError') %>
+    @include('navbar')
+    
+    <div id="hideOnPrint" class="text-center">
+            @include('flash')
                 <h1 class="mt-3 text-center">
-                    <% if(currentUser.username == 'jan' || currentUser.role != 'visitor') {%>
-                        <%= userData.buyer %>
-                        Bill ID: <%= userData._id %>
-                        <% }else if(currentUser.role == 'visitor' && currentUser != 'jan'){ %>
+                    @if(Auth::user()->role != 'visitor')
+                        {{$bill->buyer}}
+                        Bill ID: {{$bill->id}}
+                    @else
                             Name: <br>
                             <strong>Not available for visitors</strong>
-                            <% } %> <br>
+                            <br>
+                    @endif
                 </h1>
         </div>
         <div class="mt-3" id="containerr">
@@ -51,74 +52,74 @@
                 </thead>
                 <tbody class="text-center">
 
-                    <% for(product of userData.products) {%>
+                    @foreach($products as $product)
                         <tr>
                             <td class="fs-4 text-info">
-                                <% if(currentUser.username == 'jan' || currentUser.role != 'visitor') {%>
-                                <%= userData.buyer %>
-                                <% }else{ %>
+                                @if(Auth::user()->role != 'visitor')
+                                    {{$bill->buyer}}
+                                @else
                                     <p>Not available for visitors</p>
-                                    <% } %>
+                                @endif
                             </td>
 
                             <td>
-                                <%= product.name %>
+                                {{$product->name}}
                             </td>
                             <td>
-                                <%= product.qty %>
+                                {{$product->qty}}
                             </td>
 
                             <td>
 
-                                <% if(product.firstOfWeek=='true' ){ %>
-                                    <img src="../payed.jpg" alt="Free">
-                                    <% } else { %>
-                                        <img src="../notPay.jpg" alt="Not Free">
-                                        <% } %>
+                                @if($product->firstOfWeek =='1')
+                                    <img src="{{asset('img/payed.jpg')}}" alt="Free">
+                                @else
+                                    <img src="{{asset('img/notPay.jpg')}}" alt="Not Free">
+                                @endif
                             </td>
                             <td>
-                                <%= product.total %> &euro;
+                                {{$product->total}} &euro;
                             </td>
                             <td>
-                                <% if(userData.pay=='true' ){ %>
-                                    <img src="../payed.jpg" alt="Payed">
-                                    <% } else { %>
-                                        <img src="../notPay.jpg" alt="Not Payed">
+                                @if($bill->payed =='1' )
+                                    <img src="{{asset('img/payed.jpg')}}" alt="Payed">
+                                @else
+                                    <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
 
-                                        <% } %>
+                                @endif
                             </td>
                             <td>
-                                <%= userData.kt %>
+                                {{$bill->kt}}
                             </td>
                             <td>
-                                <%= userData.soldDate %>
+                                {{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}
                             </td>
                             <td>
-                                <% if(userData.payDate){ %>
-                                    <%= userData.payDate %>
-                                        <% } else{%>
-                                            Not payed
-                                            <% } %>
+                                @if($bill->pay_date)
+                                    {{\Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y')}}
+
+                                @endif
                             </td>
                             <td>
-                                <%= userData.izdal %>
+                                {{Auth::user()->role == 'visitor' ? "/" : "$bill->published"}}
                             </td>
-                                    <td><a href="/all/<%= userData._id%>/edit"><button class="btn btn-warning btn-sm">
+                                    <td>
+                                        <a href="/all/edit/{{$bill->id}}"><button class="btn btn-warning btn-sm">
                                                 EDIT
                                             </button>
                                         </a>
+
                                     </td>
 
                                     <td>
-                                        <form action="/all/<%= userData._id%>/?_method=DELETE" method="post">
-                                            <button class="btn btn-danger btn-sm">DELETE</button>
+                                        <form action="/all/bill/{{$bill->id}}/?_method=DELETE" method="post">
+                                            <button class="btn btn-danger btn-sm" {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>DELETE</button>
                                         </form>
                                     </td>
                                     <td><button class="btn btn-success btn-sm" id="gideOnPrint"
-                                            onclick=window.print()>Print</button></td>
+                                            onclick=window.print() {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>Print</button></td>
                         </tr>
-                        <% } %>
-
+                    @endforeach
                 </tbody>
             </table>
 
@@ -148,19 +149,19 @@
                 <div id="dates-left" class="col mt-2 text-left">
                     <label for="numPerYear">Številka/Leto:</label>
                     <input type="text" class="border border-white text-left" name="numPerYear" id="numPerYear"
-                        value="<%= userData.numPerYear %>">
+                        value="{{$bill->num_per_year}}">
                     <input type="text" class="border border-white text-left" name="year" id="year"
-                        value="<%= userData.year %> ">
+                        value="{{$bill->year}}">
 
                     <br>
                     <label class="" for="numPerMonth">Številka/Mesec:
                     </label>
                     <input type="text" class="border border-white" name="numPerMonth" id="numPerMonth"
-                        value="<%= userData.numPerMonth %>">
-                    <input type="text" class="border border-white" name="month" id="month" value="<%= userData.month%>">
+                        value="{{$bill->num_per_month}}">
+                    <input type="text" class="border border-white" name="month" id="month" value="{{$bill->month}}">
                     <br>
                     <label for="kt">Koledarski Teden:</label>
-                    <input type="text" class="border border-white" name="kt" id="kt" value="<%= userData.kt %> ">
+                    <input type="text" class="border border-white" name="kt" id="kt" value="{{$bill->kt}}">
                 </div>
 
                 <div class="col mt-2" id="info">
@@ -169,20 +170,22 @@
                             <p id="kraj" class="d-inline">Kraj: Maribor</p>
                         </li>
                         <li class="d-inline">
-                            <% if(userData.payDate) {%>
-                                <label for="payDate">Datum Plačila:</label>
+                            <label for="payDate">Datum Plačila:</label>
+                            @if($bill->pay_date)
                                 <input type="text" class="border border-white" id="payDate" name="payDate"
-                                    value="<%= userData.payDate %> ">
-                                <% }else {%>
-                                    <label for="payDate">Datum Plačila:</label>
-                                    <input type="text" class="border border-white" id="payDate" name="payDate"
-                                        value="Not payed">
-                                    <% } %>
+                                    value="{{\Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y')}}">
+                            @else
+                            <!--
+                                <label for="payDate">Datum Plačila:</label>
+                            -->
+                                <input type="text" class="border border-white" id="payDate" name="payDate"
+                                        value=" ">
+                            @endif
                         </li>
                         <li class="d-inline">
                             <label for="soldDate">Datum Izdaje:</label>
                             <input type="text" class="d-inline border border-white ms-1" id="soldDate" name="soldDate"
-                                value="<%= userData.soldDate %> ">
+                                value="{{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}">
 
                         </li>
 
@@ -204,39 +207,30 @@
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <% for(selled of userData.products) {%>
+                        @foreach($products as $product)
                             <tr class="mt-5 border border-start-0 border-end-0 border-dark" id="cash">
                                 <td>
-                                    <%= selled.name %>
+                                    {{$product->name}}
                                 </td>
                                 <td>
-                                    <%= selled.qty %>
+                                    {{$product->qty}}
                                 </td>
                                 <td>
-                                    <%= selled.price %>
+                                    {{$product->price}}
                                 </td>
                                 <td>1.50</td>
                                 <td>
-                                    <% for(product of selled.firstOfWeek) {%>
-                                        <% if(product=='true' ){ %>
-                                            <img src="../payed.jpg" alt="Free">
-                                            <% } else { %>
-                                                <img src="../notPay.jpg" alt="Not Free">
-                                                <% } %>
+                                    @if($product->firstOfWeek =='1' )
+                                        <img src="{{asset('img/payed.jpg')}}" alt="Free">
+                                    @else
+                                        <img src="{{asset('img/notPay.jpg')}}" alt="Not Free">
+                                    @endif
                                 </td>
                                 <td>
-                                    <% if(product.firstOfWeek=="true" ){%>
-                                        0.00
-                                        <% } else {%>
-                                            <%= selled.total %>
-                                                <% } %>
-
-
+                                    {{$product->total}}
                                 </td>
-                                <% } %>
-
                             </tr>
-                            <% } %>
+                            @endforeach
                                 <tr>
                                     <td>Plačano</td>
                                     <td></td>
@@ -247,12 +241,11 @@
 
                                     </td>
                                     <td>
-                                        <% if(userData.pay=='true' ){ %>
-                                            <img src="../payed.jpg" alt="Payed">
-                                            <% } else { %>
-                                                <img src="../notPay.jpg" alt="Not Payed">
-
-                                                <% } %>
+                                        @if($bill->payed =='1' )
+                                            <img src="{{asset('img/payed.jpg')}}" alt="Payed">
+                                        @else
+                                            <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
+                                        @endif
                                     </td>
                                 </tr>
                     </tbody>
@@ -265,7 +258,7 @@
                     <li id="nekaj">
                         <label for="ime">Ime prejemnika:</label>
                         <input class="border border-white" id="ime" name="buyer" placeholder="Ime prejemnika"
-                            value=" <%= userData.buyer %>  ">
+                            value="{{$bill->buyer}}">
                     </li>
                     <br>
                     <li>
