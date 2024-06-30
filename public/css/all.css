@@ -46,11 +46,12 @@ a{
     overflow-x: auto;
     scrollbar-width: thin;
     width: 100%;
-    margin-bottom: 5vh;
 }
 
 .pagination-wrapper{
     max-width: 100%;
+    margin: 6px;
+    padding: 6px;
 }
 ul.pagination {
     display: flex;

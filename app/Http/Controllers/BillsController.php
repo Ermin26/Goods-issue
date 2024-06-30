@@ -125,32 +125,8 @@ class BillsController extends Controller{
         }
         return redirect(('home'))->with('success', "All data deleted successfully");
     }
-/*
-    public function allBills(Request $request) {
 
-        $totalBills = Bills::count();
-        $month = ltrim(date('m'), '0');
-        $year = date('Y');
-        $thisMonth = Bills::where('month', $month)
-                        ->where('year', $year)
-                        ->count();
-
-        $billss = Bills::orderBy('year', 'DESC')
-                    ->orderBy('num_per_year', 'DESC')
-                    ->paginate(10)
-                    ->withQueryString();
-        $bills= Bills::paginate(4);
-        $products = Products::all();
-        #$itemsForPage = array_slice($bills, $start, $perPage);
-        if (count($bills) > 0) {
-            return view('bills.selled', compact('bills', 'products', 'totalBills', 'thisMonth'));
-        }
-    
-        // Sicer preusmeri nazaj z napako
-        return redirect()->back()->with('error', 'Baza podatkov je prazna.');
-    }
-*/
-    public function testAll(){
+    public function testAll(Request $request){
         $month = ltrim(date('m'), '0');
         $year = date('Y');
         $totalBills = Bills::count();
@@ -160,6 +136,7 @@ class BillsController extends Controller{
         $bills= Bills::orderBy('year', 'DESC')
         ->orderBy('num_per_year', 'DESC')
         ->paginate(10); //Eloquent ORM
+
         $products = Products::all();
         return view('bills.selled', compact('bills', 'products', 'thisMonth', 'totalBills'));
     }

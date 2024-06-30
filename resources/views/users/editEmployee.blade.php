@@ -28,7 +28,7 @@
                     </h1>
                 </div>
 
-                <form action="{{route('users.updateEmployee', $employee->id)}}" method="POST">
+                <form class="border border-2 p-4" action="{{route('users.updateEmployee', $employee->id)}}" method="POST">
                     @csrf
                     <div class="mb-2">
                         <label for="username">Ime</label><br>
@@ -74,9 +74,9 @@
                         </select>
                     </div>
 
-                    <button class="btn btn-success mt-2">Submit</button>
+                    <button class="btn btn-success mt-2">Potrdi</button>
                 </form>
-                <a href="/users"><button class="btn btn-dark mt-2">Go Back</button></a>
+                <a href="/users"><button class="btn btn-dark mt-2">Nazaj</button></a>
         </div>
 
 

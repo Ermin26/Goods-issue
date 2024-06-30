@@ -40,8 +40,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/costs',[CostsController::class, 'allCosts'])->name('costs');
     Route::post('/addCosts',[CostsController::class, 'addCosts'])->name('addCosts');
     Route::delete('/costs/{id}',[CostsController::class, 'deleteBill'])->name('costs.deleteBill');
-    Route::get('/search',[LoginController::class, 'ifLoged'])->name('search');
-    Route::get('/vacation',[LoginController::class, 'ifLoged'])->name('vacation');
+    Route::get('/search',function(){
+        return view('info');
+    })->name('search');
+    Route::get('/vacation',function(){
+        return view('info');
+    })->name('vacation');
 
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');

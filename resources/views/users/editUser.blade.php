@@ -19,14 +19,14 @@
     @include('flash')
         <div class="container text-center mb-5">
             <div class="info mt-5 mb-5">
-                <h1 class="mb-3">Edit data for user {{$user->name}}
+                <h1 class="mb-3">Uredi podatke za {{$user->name}}
                 </h1>
             </div>
             <div class="col-8 text-center ms-auto me-auto">
-                <form action="{{route('users.update', $user->id)}}" method="post">
+                <form class="border border-2 p-4" action="{{route('users.update', $user->id)}}" method="post">
                     @csrf
                     <div class="mb-2 bg-warning col-4 d-flex flex-column text-center ms-auto me-auto">
-                        <label for="name">Username:</label>
+                        <label for="name">Uporabniško ime:</label>
                         <input type="text" name="name" id="name" value="{{$user->name}}">
                     </div>
 
@@ -44,13 +44,13 @@
                     </div>
                     @if(Auth::check())
                         @if(Auth::user()->role === 'admin')
-                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Potrdi</button>
                         @else
-                            <button type="submit" class="btn btn-primary btn-sm" disabled>Submit</button>
+                            <button type="submit" class="btn btn-primary btn-sm" disabled>Potrdi</button>
                         @endif
                     @endif
                 </form>
-                <a href="/users"><button class="btn btn-dark btn-sm mt-2">Go Back</button></a>
+                <a href="/users"><button class="btn btn-dark btn-sm mt-2">Nazaj</button></a>
 
             </div>
         </div>

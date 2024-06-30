@@ -22,27 +22,27 @@
         <div id="cols" class="row row-cols-2 w-100 ms-auto me-auto">
 
             <div id="col2" class="col-4 p-0 ms-auto me-auto">
-                <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">
+                <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">                                                                            
                     <thead>
-                    <tr>
-                        <th>Prihodki</th>
-                        <th>Odhodki</th>
-                        <th>Neto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+                        <tr>
+                            <th>Prihodki</th>
+                            <th>Odhodki</th>
+                            <th>Neto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
                             <td class="bg-info">
                                 <strong id="payed"> </strong> &euro;</h4>
                             </td>
                             <td class="bg-danger">
-                        <strong id="spended"></strong> &euro;</h4>
-                        </td>
-                        <td class="bg-success">
-                            <strong id="cash"></strong> &euro;</h2>
-                        </td>
-                    </tr>
-                </tbody>
+                                <strong id="spended"></strong> &euro;</h4>
+                            </td>
+                            <td class="bg-success">
+                                <strong id="cash"></strong> &euro;</h2>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
                 <table id="hide">
                     <tr>
@@ -84,7 +84,7 @@
                                     placeholder="Total &euro;" required>
                             </div>
                             @if(Auth::user()->role !== 'visitor')
-                                <button class="btn btn-success mt-4 mb-4">Submit</button>
+                                <button class="btn btn-success mt-4 mb-4">Dodaj</button>
                             @else
                                 <button class="btn btn-success mt-4 mb-4" disabled="true">Submit</button>
                             @endif

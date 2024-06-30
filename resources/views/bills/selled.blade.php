@@ -29,7 +29,13 @@
                     {{$totalBills}}
                 </strong></h2>
     </div>
-
+    <div class="selectBills" style="display: none">
+        <select name="billStatus" id="billsStatus" onchange="showBills()">
+            <option value="all" selected>Vsi računi</option>
+            <option value="payed">Plačani računi</option>
+            <option value="not_payed">Neplačani računi</option>
+        </select>
+    </div>
     <div id="allUsers" class="text-center">
         <table id="all" class="table table-striped-columns table-hover mb-0 ">
           <thead id="table-data" class="table-dark text-center align-middle border-bottom">
@@ -53,8 +59,6 @@
           </thead>
               <tbody>
                 @foreach($bills as $bill)
-                @foreach ($products as $product)
-                @if($bill->id == $product->bills_id)
                 <tr class="m-1 align-middle">
                     @if(Auth::user()->role !== 'visitor')
                         @if ($bill->payed == 1)
@@ -65,25 +69,52 @@
                     @else
                     <td class="bg-warning"><a href="all/view/{{$bill->id}}">Not for visitors</a></td>
                     @endif
-                    <td>{{$product->name}}</td>
-                    <td>{{$product->qty}}</td>
-                    <!--
-                        <td>{number_format($product->price,2)}}</td>
-                    -->
-                    <td>{{$product->price,}}</td>
-                    <td>1.50</td>
-                    @if ($product->firstOfWeek == 1)
-                            <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
-                        @else
-                            <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                    <td>
+                @foreach ($products as $product)
+                    @if($bill->id == $product->bills_id)
+                        {{$product->name}}<br>
+                    @endif
+                @endforeach
+            </td>
+            <td>
+                @foreach ($products as $product)
+                @if($bill->id == $product->bills_id)
+                        {{$product->qty}}<br>
                         @endif
-                    <td>{{$bill->kt}}</td>
-                    <td>{{$product->total}}</td>
-                    @if ($bill->payed == 1)
-                       <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
-                    @else
+                        @endforeach
+                    </td>
+                <td>
+                    @foreach ($products as $product)
+                    @if($bill->id == $product->bills_id)
+                        {{$product->price}}<br>
 
-                    <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                        @endif
+                        @endforeach
+                    </td>
+                    <td>1.50</td>
+                <td>
+                    @foreach ($products as $product)
+                        @if($bill->id == $product->bills_id)
+                            @if ($product->firstOfWeek == 1)
+                                <img src="{{asset('img/payed.jpg')}}" alt="Payed"> <br>
+                            @else
+                                <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
+                            @endif
+                        @endif
+                    @endforeach
+                </td>
+                <td>{{$bill->kt}}</td>
+                <td>
+                    @foreach ($products as $product)
+                        @if($bill->id == $product->bills_id)
+                            {{$product->total}} <br>
+                        @endif
+                    @endforeach
+                </td>
+                    @if ($bill->payed == 1)
+                        <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                    @else
+                        <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
                     @endif
                     <td>{{$bill->num_per_month}}</td>
                     <td>{{$bill->month}}</td>
@@ -96,13 +127,129 @@
                     <td class="bg-warning">Not for visitors</td>
                     @endif
                 </tr>
-                @endif
-            @endforeach
                 @endforeach
               </tbody>
-            </table>
-          </div>
+        </table>
+    </div>
+    {{ $bills->links('custom') }}
+
+    <div id="payed" class="text-center" style="display: none">
+        <table id="all" class="table table-striped-columns table-hover mb-0 ">
+          <thead id="table-data" class="table-dark text-center align-middle border-bottom">
+              <tr class="text-light">
+                  <th class="col">Kupec</th>
+                  <th class="col">Produkt</th>
+                  <th class="col-1">Količina</th>
+                  <th class="col-1">Cena</th>
+                  <th class="col-1">DDV</th>
+                  <th class="col">Free</th>
+                  <th class="col">Teden</th>
+                  <th class="col">Neto</th>
+                  <th class="col-1">Št / mesec</th>
+                  <th class="col-1">Mesec</th>
+                  <th class="col-1">Redna št</th>
+                  <th class="col">Leto</th>
+                  <th class="col">Izdano</th>
+                  <th class="col">Izdal</th>
+              </tr>
+          </thead>
+              <tbody>
+                @foreach($bills as $bill)
+                @foreach ($products as $product)
+                @if($bill->id == $product->bills_id && $bill->payed == 1)
+                <tr class="m-1 align-middle">
+                    @if(Auth::user()->role !== 'visitor')
+                        <td class="bg-success"><a href="all/view/{{$bill->id}}">{{$bill->buyer}}</a></td>
+                    @else
+                    <td class="bg-warning"><a href="all/view/{{$bill->id}}">Not for visitors</a></td>
+                    @endif
+                    <td>{{$product->name}}</td>
+                    <td>{{$product->qty}}</td>
+                    <td>{{$product->price}}</td>
+                    <td>1.50</td>
+                    @if ($product->firstOfWeek == 1)
+                            <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                        @else
+                            <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                        @endif
+                    <td>{{$bill->kt}}</td>
+                    <td>{{$product->total}}</td>
+                    <td>{{$bill->num_per_month}}</td>
+                    <td>{{$bill->month}}</td>
+                    <td>{{$bill->num_per_year}}</td>
+                    <td>{{$bill->year}}</td>
+                    <td>{{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}</td>
+                    @if(Auth::user()->role !== 'visitor')
+                    <td>{{$bill->published}}</td>
+                    @else
+                    <td class="bg-warning">Not for visitors</td>
+                    @endif
+                </tr>
+                @endif
+                @endforeach
+                @endforeach
+              </tbody>
+        </table>
         {{ $bills->links('custom') }}
+    </div>
+
+    <div id="not_payed" class="text-center" style="display: none">
+        <table id="all" class="table table-striped-columns table-hover mb-0 ">
+          <thead id="table-data" class="table-dark text-center align-middle border-bottom">
+              <tr class="text-light">
+                  <th class="col">Kupec</th>
+                  <th class="col">Produkt</th>
+                  <th class="col-1">Količina</th>
+                  <th class="col-1">Cena</th>
+                  <th class="col-1">DDV</th>
+                  <th class="col">Free</th>
+                  <th class="col">Teden</th>
+                  <th class="col">Neto</th>
+                  <th class="col-1">Št / mesec</th>
+                  <th class="col-1">Mesec</th>
+                  <th class="col-1">Redna št</th>
+                  <th class="col">Leto</th>
+                  <th class="col">Izdano</th>
+                  <th class="col">Izdal</th>
+              </tr>
+          </thead>
+              <tbody>
+                @foreach($bills as $bill)
+                @foreach ($products as $product)
+                @if($bill->id == $product->bills_id && $bill->payed == '0')
+                <tr class="m-1 align-middle">
+                    @if(Auth::user()->role !== 'visitor')
+                        <td class="bg-danger"><a href="all/view/{{$bill->id}}">{{$bill->buyer}}</a></td>
+                    @else
+                    <td class="bg-warning"><a href="all/view/{{$bill->id}}">Not for visitors</a></td>
+                    @endif
+                    <td>{{$product->name}}</td>
+                    <td>{{$product->qty}}</td>
+                    <td>{{$product->price}}</td>
+                    <td>1.50</td>
+                    @if ($product->firstOfWeek == 1)
+                            <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
+                        @else
+                            <td><img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"></td>
+                        @endif
+                    <td>{{$bill->kt}}</td>
+                    <td>{{$product->total}}</td>
+                    <td>{{$bill->num_per_month}}</td>
+                    <td>{{$bill->month}}</td>
+                    <td>{{$bill->num_per_year}}</td>
+                    <td>{{$bill->year}}</td>
+                    <td>{{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}</td>
+                    @if(Auth::user()->role !== 'visitor')
+                    <td>{{$bill->published}}</td>
+                    @else
+                    <td class="bg-warning">Not for visitors</td>
+                    @endif
+                </tr>
+                @endif
+                @endforeach
+                @endforeach
+              </tbody>
+        </table>
     </div>
 
 
@@ -115,17 +262,32 @@
 
 
     <script>
-        /*
-        let active = document.getElementById('vsi')
-        active.classList.add('border-bottom', 'border-3', 'rounded-bottom', 'border-primary')
-        document.getElementById('placano').style.display = 'none';
-        document.getElementById('niPlacano').style.display = 'none';
-        document.getElementById('payedCaption').style.display = 'none';
-        document.getElementById('notPayedcaption').style.display = 'none';
-        document.getElementById('allUsers').style.display = 'block';
-        document.getElementById('allUsers').style.marginLeft = 'auto';
-        document.getElementById('allUsers').style.marginRight = 'auto';
 
+
+
+        function showBills(){
+            let selected = document.getElementById("billsStatus").value;
+            let all = document.getElementById("allUsers");
+            let payed = document.getElementById("payed");
+            let not_payed = document.getElementById("not_payed");
+            if(selected === "all"){
+                all.style.display="block";
+                not_payed.style.display='none';
+                payed.style.display='none';
+                
+            }else if(selected === "payed"){
+                all.style.display='none';
+                not_payed.style.display='none';
+                payed.style.display='block';
+                
+            }else{
+                all.style.display="none";
+                payed.style.display='none';
+                not_payed.style.display='block';
+            }
+        }
+
+/*
         function payedBills() {
 
             document.getElementById('allUsers').style.display = 'none';
@@ -177,21 +339,6 @@
 
 
         }
-        function allBills() {
-            let active = document.getElementById('vsi')
-            active.classList.add('border-bottom', 'border-3', 'rounded-bottom', 'border-primary')
-            document.getElementById('placali').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-success')
-            document.getElementById('nePlacali').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-danger')
-            document.getElementById('placano').style.display = 'none';
-            document.getElementById('niPlacano').style.display = 'none';
-            document.getElementById('notPayedcaption').style.display = 'none';
-            document.getElementById('payedCaption').style.display = 'none';
-            document.getElementById('allUsers').style.display = 'block';
-            document.getElementById('caption').style.display = 'block';
-            document.getElementById('allUsers').style.marginLeft = 'auto';
-            document.getElementById('allUsers').style.marginRight = 'auto';
-        }
-
 */
         let mybutton = document.getElementById("myBtn");
         let bottom = document.getElementById("bottom");
@@ -202,20 +349,16 @@
         function scrollFunction() {
             if (document.body.scrollTop > 140 || document.documentElement.scrollTop > 140) {
                 mybutton.style.display = "block";
-                console.log("1");
                 
             } else {
                 mybutton.style.display = "none";
                 bottom.style.display = "block";
-                console.log("2");
             }
             if ((window.innerHeight + window.scrollY) != document.body.offsetHeight) {
                 bottom.style.display = "block";
-                console.log("yooo yooo yoo")
             }
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 bottom.style.display = "none";
-                console.log("yooo yooo yoo")
             }
         }
 

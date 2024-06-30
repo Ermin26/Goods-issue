@@ -14,13 +14,13 @@
                 </li>
 
                 <li class="nav-item m-1">
-                    <a href="#"><button class="btn btn-outline-info p-1 text-light" id="btn-func">Išči delavca</button></a>
+                    <a href="/search"><button class="btn btn-outline-info p-1 text-light" id="btn-func">Išči delavca</button></a>
                 </li>
                 <li class="nav-item m-1">
                     <a href="/costs"><button class="btn btn-danger p-1" id="btn-func">Stroški</button></a>
                 </li>
                 <li class="nav-item m-1">
-                    <a href="#"><button class="btn btn-info p-1" id="btn-func">Dopust</button></a>
+                    <a href="/vacation"><button class="btn btn-info p-1" id="btn-func">Dopust</button></a>
                 </li>
                 <li class="nav-item dropdown m-1">
                     <a href="/users"><button type="button" class="btn btn-info p-1">Uporabniki</button></a>
