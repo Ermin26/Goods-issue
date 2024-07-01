@@ -10,192 +10,93 @@
     <link rel="stylesheet" href="{{asset('css/search.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
-    <title>Selled Products</title>
+    <title>Išči delavca</title>
 </head>
 
 <body>
      @include('navbar')
 
-        <div class="row row-cols-2" id="row">
-            <div class="col-3 p-0 border-end border-bottom border-3 border-dark" id="search">
+        <div class="row" id="row">
+            <div class="p-0 border-end border-bottom border-3 border-dark" id="search">
                 <div class="ms-3 text-center">
-                    <h1 class="mt-1">Search employee</h1>
-                    <form class="text-center" action="/search" method="post">
+                    <h1 class="mt-1">Išči delavca</h1>
+                    <form class="text-center" id="searchUser">
                         <div class="form-group mt-3 w-50 ms-auto me-auto">
-                            <label for="user">Employee</label>
-                            <input type="text" class="form-control w-100 border-2 border-dark" name="username" id="user"
+                            <label for="user">Delavec</label>
+                            <input type="text" class="form-control w-100 border-2 border-dark" name="username" id="username"
                                 placeholder="required" required>
                         </div>
 
                         <div class="form-group mt-3 w-50 ms-auto me-auto">
-                            <label for="product">Product</label>
+                            <label for="product">Produkt</label>
                             <input type="text" class="form-control w-100 border-2 border-dark" name="product"
                                 id="product" placeholder="Not required">
                         </div>
 
                         <div class="footer mb-4">
-                            <button class="btn btn-sm btn-primary mt-3 ms-2">Submit</button>
+                            <button class="btn btn-sm btn-primary mt-3 ms-2">Išči</button>
                         </div>
                     </form>
                 </div>
-                <!--
-                <%# if(usersData.length) {%>
-                -->
-                    <div class="mt-4">
+
+                    <div class="mt-4" id="btns" style="display: none">
                         <div class="btns mt-4 p-1 d-flex  justify-content-evenly">
                             <button class="btn btn-primary" onclick="allBills()">All</button>
                             <button class="btn btn-danger" onclick="notPayed()">Not Payed</button>
                             <button class="btn btn-success" onclick="window.print()">Print</button>
                         </div>
                     </div>
-                    <!--
-                    <%# } %>
-                        <%# if(buyedProducts.length) {%>
-                        -->
-                            <div id="qtyBuyedProducts" class="mt-3 mb-5">
+
+                            <div id="qtyBuyedProducts" class="mt-3 mb-5" style="display: none">
 
                                 <caption>
-                                    <h2 class="text-center">Product buyed</h2>
+                                    <h2 class="text-center">Product kupljen</h2>
                                 </caption>
 
-                                <table id="tableProducts" class="table table-info table-hover text-center">
+                                <table id="tableProducts" class="table table-info table-hover text-center text-dark">
                                     <thead>
                                         <th>Product</th>
-                                        <th>Buyed</th>
+                                        <th>Datum</th>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>                                            <!--
-                                            <%# for (productBuyed of buyedProducts) {%>
-                                                <td>
-                                                    <%# productBuyed.productName%>
-                                                </td>
-                                                <td>
-                                                    <%# productBuyed.productsBuyed %>
-                                                </td>
-                                                <%# } %>
-                                            -->
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
-                            <!--
-                            <%# } %>
-                            -->
             </div>
-
-            <div class="col-9" id="result">
-                <h1 class="mb-2 text-center" id="h1Results">Results</h1>
-                <div id="allBills">
+            @include('flash')
+            <div id="result">
+                <h2 class="text-center mt-3">Nothing to show here.</h2>
+            </div>
+                <div id="allBills" style="display: none">
                     <div class="head text-center">
-                        <!--
-                        <%# if(usersData.length) {%>
-                            <%# if(searched) {%>
-                            -->
-                                <h1 id="searched"><strong>
-                                        All bills for user <br> <strong class="text-primary">
-                                            <!--
-                                            <%# searched %>
-                                            -->
-                                        </strong>.
-                                    </strong></h1>
-                                    <!--
-                                <%# } %>
-                                    <%# } %>
-                                    -->
+                        <h1 id="searched">
+                            <strong>Vsi računi uporabnika</strong> <br>
+                            <strong id="userName" class="text-primary"></strong>.
+                        </h1>
                     </div>
-                    <!--
-                    <%# if(!usersData.length){ %>
-                    -->
-                        <h2 class="text-center mt-3">Nothing to show here.</h2>
-                        @include('flash')
-                        <!--
-                            <%## }else{ %>
-                                <%## for (data of usersData) {%>
-                                -->
-                                    <div id="data">
-                                        <table id="table" class="table table-dark table-hover mt-3 text-center">
-                                            <thead id="table-data">
-                                                <th class="col">Product</th>
-                                                <th class="col">Qty</th>
-                                                <th class="col">Total</th>
-                                                <th class="col">Month</th>
-                                                <th class="col">Week</th>
-                                                <th class="col">Free</th>
-                                                <th class="col">Payed</th>
-                                                <th class="col">Sold date</th>
-                                                <th class="col">Sold by</th>
-                                            </thead>
-                                            <tbody>
-                                                <!--
-                                                <%# for (names of data) {%>
-                                                    <%# for(product of names.products) {%>
-                                                        <tr>
-                                                            <td>
-                                                                <%# product.name %>
-                                                            </td>
-                                                            <td>
-                                                                <%# product.qty %>
-                                                            </td>
-                                                            <td>
-                                                                <%# product.total %>
-                                                            </td>
-                                                            <td>
-                                                                <%# names.month %>
-                                                            </td>
-                                                            <td>
-                                                                <%# names.kt %>
-                                                            </td>
-                                                            <td>
-
-                                                                <%# if(product.firstOfWeek=='true' ){ %>
-                                                                    <img src="../payed.jpg" alt="Free">
-                                                                    <%# } else { %>
-                                                                        <img src="../notPay.jpg" alt="Not Free">
-                                                                        <%# } %>
-                                                            </td>
-
-                                                            <td>
-
-                                                                <%# if(names.pay=='true' ){ %>
-                                                                    <img src="../payed.jpg" alt="Payed">
-                                                                    <%# } else { %>
-                                                                        <img src="../notPay.jpg" alt="Not Payed">
-                                                                        <%# } %>
-                                                            </td>
-                                                            <td>
-                                                                <%# names.soldDate %>
-                                                            </td>
-                                                            <td>
-                                                                <%# names.izdal %>
-                                                            </td>
-                                                        -->
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        </tr>
-                                                        <!--
-                                                        <%# }%>
-                                                            <%# }%>
-                                                        -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                <!--
-                                    <% } %>
-                                -->
+                    <div id="data">
+                        <table id="table" class="table table-dark table-hover mt-3 text-center">
+                            <thead id="table-data">
+                                <th class="col">Product</th>
+                                <th class="col">Qty</th>
+                                <th class="col">Total</th>
+                                <th class="col">Month</th>
+                                <th class="col">Week</th>
+                                <th class="col">Free</th>
+                                <th class="col">Payed</th>
+                                <th class="col">Sold date</th>
+                                <th class="col">Sold by</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!--
                 <%# } %>
                      UNPAYED BILLS-->
-                    <div id="unPayedBills" class="text-center">
+                    <div id="unPayedBills" class="text-center" style="display: none">
                         <div class="mt-4 mb-3">
                             <h1 id="unPayedH1" class="text-danger">Unpayed bills from user <br>
                                 <strong class="text-primary">
@@ -287,6 +188,81 @@
 
         </div>
         <script>
+
+            let allBillsResults = document.getElementById('allBills');
+            let unPayedBills = document.getElementById('unPayedBills');
+            let allBillsTable = document.querySelector('#table tbody');
+            let notPayedTable = document.querySelector('#notPayedTable tbody');
+
+        document.getElementById('searchUser').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            let username = document.getElementById('username').value;
+            let product = document.getElementById('product').value;
+
+            fetchData('{{ route('searchUser') }}', { username: username, product: product });});
+
+            function fetchData(url, params) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(params)
+                })
+                .then(response => response.json())
+                .then(data => {
+                document.getElementById('btns').style.display = 'block';
+                if(data.products.length > 0) {
+                    document.getElementById('qtyBuyedProducts').style.display = 'block';
+                    let tbody = document.querySelector('#tableProducts tbody');
+                    tbody.innerHTML = '';
+                    data.products.forEach(product => {
+                        let row = tbody.insertRow();
+                        let soldDate;
+                        data.bills.forEach(bills => {
+                            if(bills.id === product.bills_id){
+                                soldDate = bills.sold_date;
+                            }
+                        })
+                        row.insertCell(0).textContent = product.name;
+                        row.insertCell(1).textContent = soldDate;
+                    });
+                    allBillsTable.innerHTML ="";
+                    notPayedTable.innerHTML ="";
+                    data.bills.forEach(bills => {
+                        let row = allBillsTable.insertRow();
+                        data.allProducts.forEach(product => {
+                            if(bills.id === product.bills_id){
+                                let imageUrl = product.firstOfWeek === 1 ? '{{ asset('img/payed.jpg') }}' : '{{ asset('img/notPay.jpg') }}';
+                                let img = document.createElement('img');
+                                img.src = imageUrl;
+                                row.insertCell(0).textContent = product.name;
+                                row.insertCell(1).textContent = product.qty;
+                                row.insertCell(2).textContent = product.price;
+                                row.insertCell(3).textContent = bills.month;
+                                row.insertCell(4).textContent = bills.kt;
+                                row.insertCell(5);
+                                row.cells[5].appendChild(img);
+                                row.insertCell(6).textContent = bills.payed;
+                                row.insertCell(7).textContent = bills.sold_date;
+                                row.insertCell(8).textContent = bills.published;
+                            }
+                        })
+                        
+                        
+                    });
+                        allBillsResults.style.display="block";
+                        document.getElementById('username').textContent= data.bills[0].buyer;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+            
+
+
+
             document.getElementById("unPayedBills").style.display = "none";
             document.getElementById("allBills").style.display = "block";
             function notPayed() {

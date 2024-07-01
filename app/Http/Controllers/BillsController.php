@@ -116,6 +116,7 @@ class BillsController extends Controller{
                         'firstOfWeek'=> $document['firstOfWeek'][0] === 'true' ? 1 : 0,
                         'total' => $document['total'][0],
                         'bills_id' => $importBill->id,
+                        'bills_buyer' => $importBill->buyer,
                     ]);
                 }
             }
@@ -160,5 +161,34 @@ class BillsController extends Controller{
         };
 
         return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");
+    }
+
+    public function searchUser(Request $request){
+        if(Auth::user()->role !== 'visitor'){
+            try{
+                $request->validate([
+                    'username'=>'required|string'
+                ]);
+                $username = $request->input('username');
+                $product = $request->input('product');
+                $bills = '';
+                if($username && $product !== null){
+    
+                    $bills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->get();
+                    $products = Products::where('bills_buyer', 'LIKE', "%{$username}%")->where('products.name', 'LIKE', "%{$product}%")->get();
+                }else{
+                    $bills = Bills::where('buyer','LIKE', "%{$username}%")->get();
+                    $products = null;
+                }
+                $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
+                return response()->json([
+                    'bills' => $bills,
+                    'products' => $products,
+                    'allProducts' => $allProducts
+                ]);
+            }catch(ValidationException $e){
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+        }
     }
 }
