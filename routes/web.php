@@ -27,6 +27,7 @@ Route::get('/login', function(){
 
 Route::post('/login', [LoginController::class, 'loginUser'])->name('login.login');
 
+
 Route::middleware(['auth'])->group(function(){
     Route::get('/', [BillsController::class, 'getNumbersPerMonthAndPerYear'])->name('home');
 

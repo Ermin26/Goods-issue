@@ -14,7 +14,12 @@ class CreateCostsTable extends Migration
     public function up()
     {
 
-        Schema::table('costs', function (Blueprint $table) {
+        Schema::create('costs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->date('date');
+            $table->string('products');
+            $table->date('booked_date');
+            $table->string('users_name');
             $table->timestamps();
         });
     }

@@ -50,8 +50,8 @@ class BillsController extends Controller{
     }
 
     public function ImportBills(){
-        Bills::truncate();
-        Products::truncate();
+        #Bills::truncate();
+        #Products::truncate();
         $mongoClient = new MongoClient(env('MONGODB_HOST'));
         $database = $mongoClient->selectDatabase('test');
         $collection = $database->selectCollection('users');
@@ -112,7 +112,7 @@ class BillsController extends Controller{
                     Products::create([
                         'name' => $document['name'][0],
                         'qty' => $document['qty'][0],
-                        'price' => $document['price'][0],
+                        'price' => preg_replace('/[^\d.]/' ,'',$document['price'][0]),
                         'firstOfWeek'=> $document['firstOfWeek'][0] === 'true' ? 1 : 0,
                         'total' => $document['total'][0],
                         'bills_id' => $importBill->id,
