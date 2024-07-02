@@ -167,28 +167,47 @@ class BillsController extends Controller{
         if(Auth::user()->role !== 'visitor'){
             try{
                 $request->validate([
-                    'username'=>'required|string'
+                    'username' => 'nullable|string',
+                    'product' => 'nullable|string',
                 ]);
                 $username = $request->input('username');
                 $product = $request->input('product');
-                $bills = '';
-                if($username && $product !== null){
-    
+                $bills=null;
+                $products=null;
+                $allProducts = null;
+                $productsSummary = null;
+                if($username && $product){
                     $bills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->get();
                     $products = Products::where('bills_buyer', 'LIKE', "%{$username}%")->where('products.name', 'LIKE', "%{$product}%")->get();
-                }else{
+                    $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
+                }else if($username && !$product){
                     $bills = Bills::where('buyer','LIKE', "%{$username}%")->get();
+                    $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
                     $products = null;
+                }else if(!$username && $product){
+                        $products = Products::selectRaw('name, COUNT(*) as buyed_times')
+                            ->groupBy('name')
+                            ->where('products.name', 'LIKE', "%{$product}%")
+                            ->get();
+                }else{
+                    $productsSummary = Products::selectRaw('name, COUNT(*) as buyed_times')
+                        ->groupBy('name')
+                        ->orderBy('buyed_times', 'DESC')
+                        ->get();
                 }
-                $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
                 return response()->json([
                     'bills' => $bills,
                     'products' => $products,
-                    'allProducts' => $allProducts
+                    'allProducts' => $allProducts,
+                    'productsSummary' => $productsSummary
                 ]);
-            }catch(ValidationException $e){
-                return redirect()->back()->with('error', $e->getMessage());
+            } catch (ValidationException $e) {
+                return response()->json(['error' => $e->getMessage()], 422);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
             }
+        }else{
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
     }
 }

@@ -13,7 +13,20 @@
 #search {
     height: max-content;
 }
-
+.searchInfo{
+    background-color: rgb(179, 176, 176);
+    padding: 2px 8px;
+    margin-top: 10px;
+}
+#unPayedBills,#allBills{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+}
+#notPayedTable{
+    max-width: 100;
+}
 
 @media (max-width:800px) {
     #row {
@@ -44,7 +57,7 @@
         width: 100%;
     }
 
-    #data {
+    #data,.data {
         margin: 0;
         padding: 0;
         display: inline-flex;
