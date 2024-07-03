@@ -35,7 +35,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/',[BillsController::class, 'testAll'])->name('all');
         Route::get('/view/{id}',[BillsController::class, 'findBill'])->name('viewBill');
         Route::get('/edit/{id}',[BillsController::class, 'editBill'])->name('editBill');
-
+        Route::delete('/delete/{id}', [BillsController::class, 'deleteUserBill'])->name('deleteUserBill');
+        
     });
 
     Route::get('/costs',[CostsController::class, 'allCosts'])->name('costs');
@@ -50,10 +51,11 @@ Route::middleware(['auth'])->group(function(){
     });
 
 
-    Route::get('/vacation',function(){
-        return view('info');
-    })->name('vacation');
-
+    Route::prefix('vacation')->group(function(){
+        Route::get('/',function(){
+            return view('info');
+        })->name('vacation');
+    });
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
         Route::get('/add',[UsersController::class, 'checkEmails'])->name('users.add');

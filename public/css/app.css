@@ -91,7 +91,7 @@ section{
 
 .mb .form-control{
     padding: 0;
-    width: 30px;
+    width: 40px;
     border: 1px solid white;
     margin-left: 4px;
     text-align: start;
@@ -100,17 +100,15 @@ section{
     box-shadow: none;
 }
 
-input[name="numPerYear"]{
+input[name="num_per_year"]{
     margin-left: 30px;
 }
-input[name="numPerMonth"]{
+input[name="num_per_month"]{
     margin-left: 16px;
+    max-width: 30px;
+    width:fit-content !important;
 }
 
-.numbers span{
-    border: 1px solid white;
-    margin-left:2px ;
-}
 
 .dates{
     display: flex;

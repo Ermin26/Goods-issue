@@ -7,11 +7,13 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use MongoDB\Client as MongoClient;
 use App\Models\Bills;
 use App\Models\Products;
 
+use function Symfony\Component\String\b;
 
 class BillsController extends Controller{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -37,8 +39,47 @@ class BillsController extends Controller{
                     'month'=> 'required|integer',
                     'num_per_year'=> 'required|integer',
                     'num_per_month'=> 'required|integer',
-                    'payed'=> 'required|string',
+                    'pay'=> 'required',
+                    'product'=> 'required',
+                    'qty'=>'required',
+                    'price'=>'required',
+                    'firstOfWeek'=> 'required',
+                    'total'=> 'required'
                 ]);
+                $sold = strtotime($request->input('sold_date'));
+                $solded = date('Y.m.d', $sold);
+                $payDate = $request->input('payDate') === null ? null : strtotime($request->input('payDate'));
+                $payedDate = $payDate !== null ? date('Y.m.d',$payDate) : null;
+                $newBill = Bills::create([
+                    'published' => $request->input('published'),
+                    'buyer' => $request->input('buyer'),
+                    'sold_date' => $solded,
+                    'kt' => $request->input('kt'),
+                    'year' => $request->input('year'),
+                    'month' => $request->input('month'),
+                    'num_per_year'=> $request->input('num_per_year'),
+                    'num_per_month'=> $request->input('num_per_month'),
+                    'pay_date'=> $payedDate,
+                    'payed'=> $request->input('pay') === 'true' ? 1 : 0,
+                ]);
+
+                $products= $request->input('product');
+                $qty= $request->input('qty');
+                $price= $request->input('price');
+                $total= $request->input('total');
+                $firstOfWeek= $request->input('firstOfWeek');
+
+                foreach($products as $index => $product){
+                    Products::create([
+                        'name'=> $product,
+                        'qty'=> $qty[$index],
+                        'price'=>$price[$index],
+                        'total'=>$total,
+                        'firstOfWeek'=>$firstOfWeek[$index] === 'true' ? 1 : 0,
+                        'bills_id'=>$newBill->id,
+                        'bills_buyer' => $newBill->buyer
+                    ]);
+                };
                 return redirect()->route('home')->with('success', "Uspešno dodan novi račun.");
                 }catch(ValidationException $e){
                     $errors = $e->validator->errors()->all();
@@ -124,10 +165,18 @@ class BillsController extends Controller{
         }catch(ValidationException $e){
             return redirect()->back()->with('error','Error inserting data: ', $e->errors());
         }
-        return redirect(('home'))->with('success', "All data deleted successfully");
+    }
+
+    private function deleteJulyBills(){
+        $bills = Bills::where('month', 7)->where('year', 2024)->get();
+        foreach($bills as $bill){
+            Products::where('bills_id', $bill->id)->delete();
+            $bill->delete();
+        }
     }
 
     public function testAll(Request $request){
+        $this->deleteJulyBills();
         $month = ltrim(date('m'), '0');
         $year = date('Y');
         $totalBills = Bills::count();
@@ -163,6 +212,26 @@ class BillsController extends Controller{
         return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");
     }
 
+    public function deleteUserBill($id){
+        if(Auth::user()->name !== 'Ermin'){
+            return redirect()->back()->with('error', 'Prepovedano! Nimate pooblastila, da izbrišete račun!');
+        }
+        else{
+            try{
+                $products = Products::where('bills_id', $id);
+                foreach($products as $product){
+                    $product->delete();
+                }
+                Bills::destroy($id);
+                return redirect('all')->with('success', "Uspešno izbrisan račun.");
+            }
+            catch(ValidationException $e){
+                return redirect()->back()->with('error', $e->errors());
+            }
+        }
+    }
+
+    
     public function searchUser(Request $request){
         if(Auth::user()->role !== 'visitor'){
             try{

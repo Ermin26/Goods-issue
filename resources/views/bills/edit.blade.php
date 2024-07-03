@@ -66,7 +66,7 @@
                                         &euro;
                                     </td>
                                     <td>
-                                        @if ($product->firstOfWeek =='true' )
+                                        @if ($product->firstOfWeek === 1 )
                                             <img src="{{asset('img/payed.jpg')}}" alt="Payed">
                                         @else
                                             <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
@@ -98,7 +98,7 @@
             <div class="row bg-success d-flex justify-content-center text-center mt-5 mb-5">
                 <div class="row bg-gray" id="col">
                     <div class="card justify-content-center text-center">
-                        <form action="/all/{{$bill->id}}?_method=PUT" method="POST">
+                        <form action="/all/{{$bill->id}}/bill?_method=PUT" method="POST">
                             <div class="card-header text-center">
                                 <!-- Hear put img -->
                             </div>

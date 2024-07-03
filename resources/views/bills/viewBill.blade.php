@@ -36,18 +36,18 @@
 
             <table id="user" class="table table-dark table-hover mt-3">
                 <thead class="table-data fs-4 text-center">
-                    <th>User</th>
-                    <th>Product</th>
-                    <th>Qty</th>
-                    <th>1<sup>st</sup> / Week</th>
+                    <th>Kupec</th>
+                    <th>Produkt</th>
+                    <th>Količina</th>
+                    <th>Brezplačen</th>
                     <th>Total &euro;</th>
-                    <th>Payed</th>
-                    <th>Week</th>
-                    <th>Sold Date</th>
-                    <th>Pay Date</th>
+                    <th>Plačano</th>
+                    <th>Teden</th>
+                    <th>Prodano</th>
+                    <th>Plačeno</th>
                     <th>Izdal</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Uredi</th>
+                    <th>Izbriši</th>
                     <th>Re-Print</th>
                 </thead>
                 <tbody class="text-center">
@@ -112,11 +112,13 @@
                                     </td>
 
                                     <td>
-                                        <form action="/all/bill/{{$bill->id}}/?_method=DELETE" method="post">
+                                        <form action="/all/delete/{{$bill->id}}/?_method=DELETE" method="post">
+                                            @csrf
+                                            @method('DELETE')
                                             <button class="btn btn-danger btn-sm" {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>DELETE</button>
                                         </form>
                                     </td>
-                                    <td><button class="btn btn-success btn-sm" id="gideOnPrint"
+                                    <td><button class="btn btn-success btn-sm" id="hideOnPrint"
                                             onclick=window.print() {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>Print</button></td>
                         </tr>
                     @endforeach
@@ -125,7 +127,7 @@
 
         </div>
 
-        <div class="hide">
+    <div class="hide">
 
             <div class="naslov text-center mt-1 mb-3 border-bottom border-2 border-dark">
                 <h3>PROVIDIO, 2000 Maribor</h4>
@@ -270,7 +272,7 @@
             </div>
 
 
-        </div>
+    </div>
 
 
 

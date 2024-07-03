@@ -14,101 +14,102 @@
     @include('navbar')
     @include('flash')
 <section id="main">
-    <section class="topSection">
-        <h2>Providio, 2000 Maribor</h2>
-        <hr>
-        <form action="{{route('create.newBill')}}" method="POST">
+    <form action="{{route('create.newBill')}}" method="POST">
         @csrf
-        <article class="izdal">
-            <p>Izdal:</p>
-            <div class="mb-2">
-                <label for="izdal">Delavec: </label>
-                <input type="text" id="izdal" name="piblished" value="Ermin Joldić">
-            </div>
-            <p>Podpis: ____________________________________</p>
-        </article>
-        <section id="numbersSection" class="row row-cols-2">
-            <article class="numbers">
-                <div class="mb">
-                    <label id="numPerYear">Številka/Leto:</label>
-                    <input type="text" class="form-control" id="numPerYear" name="numPerYear" value="{{$numYear}}">/<span><?php echo date('Y')?></span>
-                </div>
-                <div class="mb">
-                    <label id="numPerMonth">Številka/Mesec:</label>
-                    <input type="text" class="form-control" id="numPerMonth" name="numPerMonth" value="{{$numMonth}}">/<span><?php echo ltrim(date('m'), '0')?></span>
-                </div>
-                <div class="mb">
-                    <label id="kt">Koledarski teden:</label>
-                    <input type="text" class="form-control" id="kt" name="kt" value="<?php echo date('W')?>">
-                </div>
-            </article>
-            <article class="dates">
-                <ul>
-                    <li>Kraj: Maribor</li>
-                    <li><label for="soldDate">Izdano:</label>
-                        <input type="text" id="soldDate" name="soldDate" value="<?php echo date('d.m.Y')?>" contenteditable="true">
-                    </li>
-                    <li><label for="payedDate">Plačano:</label>
-                        <input type="text" id="payedDate" name="payedDate" value="<?php echo date('d.m.Y')?>" contenteditable="true">
-                    </li>
-                </ul>
-
-            </article>
+        <section class="topSection">
+            <h2>Providio, 2000 Maribor</h2>
+            <hr>
+                <article class="izdal">
+                    <p>Izdal:</p>
+                    <div class="mb-2">
+                        <label for="izdal">Delavec: </label>
+                        <input type="text" id="izdal" name="published" value="Ermin Joldić">
+                    </div>
+                    <p>Podpis: ____________________________________</p>
+                </article>
+                <section id="numbersSection" class="row row-cols-2">
+                    <article class="numbers">
+                        <div class="mb">
+                            <label id="numPerYear">Številka/Leto:</label>
+                            <input type="text" class="form-control" id="numPerYear" name="num_per_year" value="{{$numYear}}">/
+                            <input class="form-control" id="year" name="year" value="<?php echo date('Y')?>">
+                        </div>
+                        <div class="mb">
+                            <label id="numPerMonth">Številka/Mesec:</label>
+                            <input type="text" class="form-control" id="numPerMonth" name="num_per_month" value="{{$numMonth}}">/
+                            <input class="form-control" type="number" id="month" name="month" value="<?php echo ltrim(date('m'), '0')?>">
+                        </div>
+                        <div class="mb">
+                            <label id="kt">Koledarski teden:</label>
+                            <input type="text" class="form-control" id="kt" name="kt" value="<?php echo date('W')?>">
+                        </div>
+                    </article>
+                    <article class="dates">
+                        <ul>
+                            <li>Kraj: Maribor</li>
+                            <li><label for="soldDate">Izdano:</label>
+                                <input type="text" id="soldDate" name="sold_date" value="<?php echo date('d.m.Y')?>" contenteditable="true">
+                            </li>
+                            <li><label for="payedDate">Plačano:</label>
+                                <input type="text" id="payedDate" name="payedDate" value="<?php echo date('d.m.Y')?>" contenteditable="true">
+                            </li>
+                        </ul>
+                    </article>
+                </section>
         </section>
-    </section>
-    <section class="btnSection">
-        <div id="btns" class="row d-flex flex-row flex-wrap">
-            <div class="btn btn-outline-primary d-inline" onclick="addRow()">Dodaj izdelek</div>
-            <div class="btn btn-outline-primary d-inline" onclick="zakljuci()">Zaključi</div>
-            <div class="btn btn-outline-primary d-inline" onclick="placaj()">Plačilo</div>
+        <section class="btnSection">
+            <div id="btns" class="row d-flex flex-row flex-wrap">
+                <div class="btn btn-outline-primary d-inline" onclick="addRow()">Dodaj izdelek</div>
+                <div class="btn btn-outline-primary d-inline" onclick="zakljuci()">Zaključi</div>
+                <div class="btn btn-outline-primary d-inline" onclick="placaj()">Plačilo</div>
+            </div>
+        </section>
+        <section class="tableSection">
+            <table id="productsTable" class="table table-borderless table-responsive">
+                <thead>
+                    <tr id="homeTable" class="border-bottom border-dark">
+                        <th>Izdelek</th>
+                        <th>Količina</th>
+                        <th>Cena</th>
+                        <th>DDV</th>
+                        <th>Free</th>
+                        <th>Neto</th>
+                        <th>Plačano</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="mt-5 border border-start-0 border-end-0 border border-dark" id="cash">
+                        <td class="text-center">Za plačilo</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td id="placilo"><input type="text" class="form-control" id="payment" value="" placeholder=" 0.00 €"></td>
+                        <td class="checkBoxes">
+                            <input type="checkbox" id="pay" name="pay" value="">
+                            <input type="checkbox" id="pay2" name="pay" value="false">
+                            <img src="{{asset('img/payed.jpg')}}" alt="Plačano" id="imgPayed" style="display: none">
+                            <img src="{{asset('img/notPay.jpg')}}" alt="Ni Plačano" id="imgNotPayed" style="display: none">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="buyer">
+            <ul>
+                <li>
+                    <label for="buyer">Ime prejemnika: </label>
+                    <input type="text" name="buyer" id="buyer" value="" placeholder="Kupec">
+                </li>
+                <li>
+                    <h5>PODPIS KUPCA</h5>
+                    <h4>________________________________</h4>
+                </li>
+            </ul>
+        </section>
+        <div class="row">
+            <button class="btn btn-success printBtn" type="submit" value="submit" onclick="window.print()">Print</button>
         </div>
-    </section>
-    <section class="tableSection">
-        <table id="productsTable" class="table table-borderless table-responsive">
-            <thead>
-                <tr id="homeTable" class="border-bottom border-dark">
-                    <th>Izdelek</th>
-                    <th>Količina</th>
-                    <th>Cena</th>
-                    <th>DDV</th>
-                    <th>Free</th>
-                    <th>Neto</th>
-                    <th>Plačano</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="mt-5 border border-start-0 border-end-0 border border-dark" id="cash">
-                    <td class="text-center">Za plačilo</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td id="placilo"><input type="text" class="form-control" id="payment" value="" placeholder=" 0.00 €"></td>
-                    <td class="checkBoxes">
-                        <input type="checkbox" id="pay" name="pay" value="">
-                        <input type="checkbox" id="pay2" name="pay" value="false">
-                        <img src="{{asset('img/payed.jpg')}}" alt="Plačano" id="imgPayed" style="display: none">
-                        <img src="{{asset('img/notPay.jpg')}}" alt="Ni Plačano" id="imgNotPayed" style="display: none">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-    <section class="buyer">
-        <ul>
-            <li>
-                <label for="buyer">Ime prejemnika: </label>
-                <input type="text" name="buyer" id="buyer" value="" placeholder="Kupec">
-            </li>
-            <li>
-                <h5>PODPIS KUPCA</h5>
-                <h4>________________________________</h4>
-            </li>
-        </ul>
-    </section>
-    <div class="row">
-        <button class="btn btn-success printBtn" type="submit" value="submit" onclick="window.print()">Print</button>
-    </div>
     </form>
 </section>
 
@@ -133,11 +134,11 @@
                 const cell5 = row.insertCell(4);
                 const cell6 = row.insertCell(5);
                 const cell7 = row.insertCell(6);
-                cell1.innerHTML = '<input type="text" id ="izdelek" class="form-control text-center ms-auto me-auto" name="product" value="" placeholder="Product" required>';
-                cell2.innerHTML = '<input type="text" id ="kolicina" class="form-control text-center ms-auto me-auto" name="qty" value="" placeholder="1" required>';
-                cell3.innerHTML = '<input type="text" id="cena" class="col form-control text-center ms-auto me-auto" name="price" value="" placeholder="0.00" required>';
+                cell1.innerHTML = '<input type="text" id ="izdelek" class="form-control text-center ms-auto me-auto" name="product[]" value="" placeholder="Product" required>';
+                cell2.innerHTML = '<input type="text" id ="kolicina" class="form-control text-center ms-auto me-auto" name="qty[]" value="" placeholder="1" required>';
+                cell3.innerHTML = '<input type="text" id="cena" class="col form-control text-center ms-auto me-auto" name="price[]" value="" placeholder="0.00" required>';
                 cell4.innerHTML = '1.50 €';
-                cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="true" id="freeProduct" name="firstOfWeek"> <input class="form-check-input" type="checkbox" value="false" id="hiddenInput" name="firstOfWeek"> <img src="{{asset('img/payed.jpg')}}" alt="Payed" id="freChecked" class="ms-auto me-auto"> <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed" id="freeNotChecked" class="ms-auto me-auto">';
+                cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="true" id="freeProduct" name="firstOfWeek[]"> <input class="form-check-input" type="checkbox" value="false" id="hiddenInput" name="firstOfWeek[]"> <img src="{{asset('img/payed.jpg')}}" alt="Payed" id="freChecked" class="ms-auto me-auto"> <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed" id="freeNotChecked" class="ms-auto me-auto">';
                 cell6.innerHTML = '<input type="text" class="form-control text-center ms-auto me-auto" id="total" name="total" value="" placeholder="0.00 €" readonly>';
                 cell7.innerHTML = '<input id="rowDelete" type="button" class="deleteDep btn btn-sm btn-danger" value="Delete" onclick="deleteOneRow(this)">';
 
@@ -216,13 +217,14 @@
                 if (payed.checked) {
                     document.getElementById('pay').setAttribute('value', 'true');
                     document.getElementById('pay').checked = true;
+                    document.getElementById('pay2').setAttribute('disabled', 'true');
                     document.getElementById('pay').style.display = 'none';
                     document.getElementById('imgPayed').style.display = 'block';
                 } else {
                     document.getElementById('pay2').setAttribute('value', 'false');
                     document.getElementById('pay2').checked = true;
                     document.getElementById('pay2').style.display = 'none';
-                    document.getElementById('pay').style.display = 'none';
+                    document.getElementById('pay').setAttribute('disabled', 'true');
                     document.getElementById('imgNotPayed').style.display = 'block';
                     document.getElementById('payedDate').innerHTML = ""+""+"";
                     document.getElementById('payedDate').setAttribute('value', ""+""+"");
