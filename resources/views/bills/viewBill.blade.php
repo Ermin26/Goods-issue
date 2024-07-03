@@ -40,7 +40,7 @@
                     <th>Produkt</th>
                     <th>Količina</th>
                     <th>Brezplačen</th>
-                    <th>Total &euro;</th>
+                    <th>Total</th>
                     <th>Plačano</th>
                     <th>Teden</th>
                     <th>Prodano</th>
@@ -95,10 +95,7 @@
                                 {{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}
                             </td>
                             <td>
-                                @if($bill->pay_date)
-                                    {{\Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y')}}
-
-                                @endif
+                                {{$bill->pay_date !== null ? \Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y') : " "}}
                             </td>
                             <td>
                                 {{Auth::user()->role == 'visitor' ? "/" : "$bill->published"}}

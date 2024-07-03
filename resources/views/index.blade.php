@@ -139,7 +139,7 @@
                 cell3.innerHTML = '<input type="text" id="cena" class="col form-control text-center ms-auto me-auto" name="price[]" value="" placeholder="0.00" required>';
                 cell4.innerHTML = '1.50 €';
                 cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="true" id="freeProduct" name="firstOfWeek[]"> <input class="form-check-input" type="checkbox" value="false" id="hiddenInput" name="firstOfWeek[]"> <img src="{{asset('img/payed.jpg')}}" alt="Payed" id="freChecked" class="ms-auto me-auto"> <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed" id="freeNotChecked" class="ms-auto me-auto">';
-                cell6.innerHTML = '<input type="text" class="form-control text-center ms-auto me-auto" id="total" name="total" value="" placeholder="0.00 €" readonly>';
+                cell6.innerHTML = '<input type="text" class="form-control text-center ms-auto me-auto" id="total" name="total[]" value="" placeholder="0.00 €" readonly>';
                 cell7.innerHTML = '<input id="rowDelete" type="button" class="deleteDep btn btn-sm btn-danger" value="Delete" onclick="deleteOneRow(this)">';
 
                 cell4.id = "ddv"

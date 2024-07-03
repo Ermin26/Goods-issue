@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{asset('css/edit.css')}}">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+        <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/edit.css')}}">
     <title>Uredi</title>
 </head>
 
@@ -27,18 +27,18 @@
             </h2>
         </div>
         <div id="container" class="container justify-content-center">
-
+            {{ $bill->id}}
             <div id="tableData" class="buyed-products text-center">
-                <h3 class="ms-5 mt-5 mb-2">Buyed products</h3>
-                <form action="/all/{{$bill->id}}/products?_method=PUT" method="POST">
+                <h3 class="ms-5 mt-5 mb-2">Kupljeni produkti</h3>
+                <form action="{{route('updateProducts', $bill->id)}}" method="POST">
+                    @csrf
                     <table class="table table-dark table-hover text-center">
                         <thead>
-                            <th>Product</th>
-                            <th>Qty</th>
-                            <th>Price</th>
+                            <th>Produkt</th>
+                            <th>Količina</th>
+                            <th>Cena</th>
                             <th>Total</th>
-                            <th>1<sup>/</sup>Week</th>
-                            <th>Payed</th>
+                            <th>Brezplačen</th>
                         </thead>
 
                         <tbody>
@@ -47,33 +47,26 @@
                                     <td>
                                         <input type="text" id="productId" name="productId"
                                             value="<%= products->id %>" hidden>
-                                        <input type="text" id="productName" name="productName"
-                                            class="w-75 text-center bg-dark" value="{{$product->name}}">
+                                        <input type="text" id="productName" name="name[]"
+                                            class="w-100 text-center bg-dark" value="{{$product->name}}">
                                     </td>
                                     <td>
-                                        <input type="text" id="productQty" name="productQty"
-                                            class="w-25 text-center bg-dark" value="{{$product->qty}}">
+                                        <input type="text" id="productQty" name="qty[]"
+                                            class="w-50 text-center bg-dark" value="{{$product->qty}}">
 
                                     </td>
                                     <td>
-                                        <input type="text" id="productPrice" name="productPrice"
-                                            class="w-50 text-center bg-dark" value="{{$product->price}}">
+                                        <input type="text" id="productPrice" name="price[]"
+                                            class="w-75 text-center bg-dark" value="{{$product->price}}">
                                         &euro;
                                     </td>
                                     <td>
-                                        <input type="text" id="productTotal" name="productTotal"
-                                            class="w-50 text-center bg-dark" value="{{$product->total}}">
+                                        <input type="text" id="productTotal" name="total[]"
+                                            class="w-75 text-center bg-dark" value="{{$product->total}}">
                                         &euro;
                                     </td>
                                     <td>
                                         @if ($product->firstOfWeek === 1 )
-                                            <img src="{{asset('img/payed.jpg')}}" alt="Payed">
-                                        @else
-                                            <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($bill->payed =='1' )
                                             <img src="{{asset('img/payed.jpg')}}" alt="Payed">
                                         @else
                                             <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
@@ -93,12 +86,12 @@
                 </form>
             </div>
 
-
-
             <div class="row bg-success d-flex justify-content-center text-center mt-5 mb-5">
                 <div class="row bg-gray" id="col">
                     <div class="card justify-content-center text-center">
-                        <form action="/all/{{$bill->id}}/bill?_method=PUT" method="POST">
+                        <form action="{{route('updateBill', $bill->id)}}" method="POST">
+                            @csrf
+                            @method('PUT')
                             <div class="card-header text-center">
                                 <!-- Hear put img -->
                             </div>
@@ -107,67 +100,67 @@
                                     class="list-group list-group-flush flex-row row-cols-2 flex-wrap justify-content-center align-content-center">
 
                                     <li id="list" class="list-group-item col">
-                                        <label for="pay">Payed:</label><br>
+                                        <label for="pay">Plačano</label><br>
                                         @if($bill->payed == '1' )
-                                            <input type="checkbox" id="pay" name="user[pay]" class="form-check-input"
+                                            <input type="checkbox" id="pay" name="pay" class="form-check-input"
                                                 value="" checked onclick="update()">
-                                            <input type="checkbox" id="pay2" name="user[pay]" class="form-check-input"
+                                            <input type="checkbox" id="pay2" name="pay" class="form-check-input"
                                                 value="false">
                                             @else
-                                                <input type="checkbox" id="pay" name="user[pay]"
+                                                <input type="checkbox" id="pay" name="pay"
                                                     class="form-check-input" value="" onclick="update()">
-                                                <input type="checkbox" id="pay2" name="user[pay]"
+                                                <input type="checkbox" id="pay2" name="pay"
                                                     class="form-check-input" value="false">
                                             @endif
                                     </li>
 
                                     <li id="list" class="list-group-item col"><label for="kt">Koledarski
-                                            teden:</label> <br>
-                                        <input type="text" id="kt" class="fs-5 text-dark col-6" name="user[kt]"
+                                            teden</label> <br>
+                                        <input type="text" id="kt" class="fs-5 text-dark col-6" name="kt"
                                             value="{{$bill->kt}}" required>
                                     </li>
 
                                     <li id="list" class="list-group-item">
-                                        <label for="perMonth">Num / Month:</label> <br>
+                                        <label for="perMonth">Št / Mesec</label> <br>
                                         <input type="text" id="perMonth" class="fs-5 text-dark col-6"
-                                            name="user[numPerMonth]" value="{{$bill->num_per_month}}">
+                                            name="num_per_month" value="{{$bill->num_per_month}}">
                                     </li>
 
                                     <li id="list" class="list-group-item">
-                                        <label for="month">Month:</label> <br>
+                                        <label for="month">Mesec</label> <br>
                                         <input type="text" id="month" class="fs-5 text-dark bg-light col-6"
-                                            value="{{$bill->month}}" name="user[month]">
+                                            value="{{$bill->month}}" name="month">
                                     </li>
 
                                     <li id="list" class="list-group-item">
-                                        <label for="perYear">Num / Year:</label> <br>
+                                        <label for="perYear">Št / Leto</label> <br>
                                         <input type="text" id="perYears" class="fs-5 text-dark col-6"
-                                            value="{{$bill->num_per_year}}" name="user[numPerYear]">
+                                            value="{{$bill->num_per_year}}" name="num_per_year">
                                     </li>
 
                                     <li id="list" class="list-group-item">
-                                        <label for="year">Year:</label> <br>
+                                        <label for="year">Leto</label> <br>
                                         <input type="text" id="year" class="fs-5 text-dark col-6"
-                                            value="{{$bill->year}}" name="user[year]">
+                                            value="{{$bill->year}}" name="year">
                                     </li>
 
 
                                     <li id="list" class="list-group-item">
-                                        <label for="soldDate">Sold Date:</label> <br>
+                                        <label for="soldDate">Prodano</label> <br>
                                         <input type="text" id="soldDate" class="fs-5 text-dark col-6"
-                                            value="{{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}" name="user[soldDate]">
+                                            value="{{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}" name="sold_date">
                                     </li>
                                     <li id="list" class="list-group-item">
-                                        <label for="payDate">Pay Date:</label> <br>
+                                        <label for="payDate">Plačano</label> <br>
                                         <input type="text" id="payDate" class="fs-5 text-dark col-6"
-                                            value="{{\Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y')}}" name="user[payDate]">
+                                            value="{{$bill->pay_date !== null ? \Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y') : " "}}" name="pay_date">
                                     </li>
 
 
                                     <li id="list" class="list-group-item">
                                         <label for="izdal">Izdal:</label> <br>
                                         <input type="text" id="izdal" class="fs-5 text-dark"
-                                            value="{{Auth::user()->role != 'visitor' ? $bill->published : "/"}}" name="user[izdal]">
+                                            value="{{Auth::user()->role != 'visitor' ? $bill->published : "/"}}" name="published">
                                     </li>
 
                                 </ul>

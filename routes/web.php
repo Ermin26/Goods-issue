@@ -35,6 +35,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/',[BillsController::class, 'testAll'])->name('all');
         Route::get('/view/{id}',[BillsController::class, 'findBill'])->name('viewBill');
         Route::get('/edit/{id}',[BillsController::class, 'editBill'])->name('editBill');
+        Route::put('/update/bill/{id}',[BillsController::class, 'updateBill'])->name('updateBill');
+        Route::post('/update/products/{id}',[BillsController::class, 'updateProducts'])->name('updateProducts');
         Route::delete('/delete/{id}', [BillsController::class, 'deleteUserBill'])->name('deleteUserBill');
         
     });

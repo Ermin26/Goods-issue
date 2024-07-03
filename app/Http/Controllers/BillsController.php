@@ -48,8 +48,9 @@ class BillsController extends Controller{
                 ]);
                 $sold = strtotime($request->input('sold_date'));
                 $solded = date('Y.m.d', $sold);
-                $payDate = $request->input('payDate') === null ? null : strtotime($request->input('payDate'));
+                $payDate = $request->input('payedDate') !== null ? strtotime($request->input('payedDate')) : null;
                 $payedDate = $payDate !== null ? date('Y.m.d',$payDate) : null;
+                #dd($payDate);
                 $newBill = Bills::create([
                     'published' => $request->input('published'),
                     'buyer' => $request->input('buyer'),
@@ -68,13 +69,13 @@ class BillsController extends Controller{
                 $price= $request->input('price');
                 $total= $request->input('total');
                 $firstOfWeek= $request->input('firstOfWeek');
-
                 foreach($products as $index => $product){
+                    #dd(floatval(str_replace(',', '.', $total[$index])));
                     Products::create([
                         'name'=> $product,
                         'qty'=> $qty[$index],
                         'price'=>$price[$index],
-                        'total'=>$total,
+                        'total'=>floatval(str_replace(',', '.', $total[$index])),
                         'firstOfWeek'=>$firstOfWeek[$index] === 'true' ? 1 : 0,
                         'bills_id'=>$newBill->id,
                         'bills_buyer' => $newBill->buyer
@@ -176,7 +177,7 @@ class BillsController extends Controller{
     }
 
     public function testAll(Request $request){
-        $this->deleteJulyBills();
+        //$this->deleteJulyBills();
         $month = ltrim(date('m'), '0');
         $year = date('Y');
         $totalBills = Bills::count();
@@ -212,6 +213,88 @@ class BillsController extends Controller{
         return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");
     }
 
+    public function updateBill(Request $request,$id){
+        if(Auth::user()->role != 'visitor'){
+            try{
+                #dd($request->input('pay'));
+                $request->validate([
+                    'published'=> 'required|string',
+                    #'buyer'=> 'required|string',
+                    'sold_date'=> 'required',
+                    'kt'=> 'required|integer',
+                    'year'=>  'required|integer',
+                    'month'=> 'required|integer',
+                    'num_per_year'=> 'required|integer',
+                    'num_per_month'=> 'required|integer',
+                    'pay'=> 'required',
+                ]);
+
+                $payed = $request->input('pay') === null ? null : $request->input('pay');
+                $payedDate = $request->input('pay_date') !== null ? strtotime($request->input('pay_date')) : null;
+                $soldDate = strtotime($request->input('sold_date'));
+                $bill = Bills::find($id);
+
+                if($bill){
+                    $bill->published = $request->input('published');
+                    #$bill->buyer = $request->input('buyer');
+                    $bill->sold_date = date('Y.m.d',$soldDate);
+                    $bill->pay_date = $payedDate !== null ? date('Y.m.d',$payedDate) : null;
+                    $bill->kt = $request->input('kt');
+                    $bill->year = $request->input('year');
+                    $bill->month = $request->input('month');
+                    $bill->num_per_year = $request->input('num_per_year');
+                    $bill->num_per_month = $request->input('num_per_month');
+                    $bill->payed = $payed === 'true' ? 1 : 0;
+
+                    $bill->save();
+                }
+                return redirect()->route('viewBill', ['id'=>$id])->with('success', "Uspešno posodobljeni podatki!");
+            }catch(ValidationException $e){
+                $errors = $e->validator->errors()->all();
+                return redirect()->back()->with('error', implode(', ', $errors));
+            }
+        }
+        else{
+            return redirect()->back()->with('error', "Nimate pravic za spreminjane podatkov!");
+        }
+    }
+
+    public function updateProducts(Request $request, $id){
+        if(Auth::user()->role !== 'visitor'){
+            try{
+                $request->validate([
+                    'name' => 'required',
+                    'qty' => 'required',
+                    'price' => 'required',
+                    'total' => 'required',
+                ]);
+
+                $productNames = $request->input('name');
+                $productQty = $request->input('qty');
+                $productPrice = $request->input('price');
+                $productTotal = $request->input('total');
+
+                $products = Products::where('bills_id',$id)->get();
+
+                foreach($products as $index => $product){
+                    $product->name = $productNames[$index];
+                    $product->qty = $productQty[$index];
+                    $product->price = $productPrice[$index];
+                    $product->total = $productTotal[$index];
+
+                    $product->save();
+                }
+                return redirect()->route('viewBill',['id'=>$id])->with('success', "Uspešno posodobljeni podatki o produktu!");
+
+            }catch(ValidationException $e){
+                $errors = $e->validator->errors()->all();
+                return redirect()->back()->with('error', implode(', ', $errors));
+            }
+        }else{
+        return redirect()->back()->with('error', "Nimate pravic za spreminjane podatkov!");
+        }
+    }
+
     public function deleteUserBill($id){
         if(Auth::user()->name !== 'Ermin'){
             return redirect()->back()->with('error', 'Prepovedano! Nimate pooblastila, da izbrišete račun!');
@@ -231,7 +314,6 @@ class BillsController extends Controller{
         }
     }
 
-    
     public function searchUser(Request $request){
         if(Auth::user()->role !== 'visitor'){
             try{

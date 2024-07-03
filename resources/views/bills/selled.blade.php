@@ -45,7 +45,7 @@
                   <th class="col-1">Količina</th>
                   <th class="col-1">Cena</th>
                   <th class="col-1">DDV</th>
-                  <th class="col">Free</th>
+                  <th class="col">Brezplačen</th>
                   <th class="col">Teden</th>
                   <th class="col">Neto</th>
                   <th class="col-1">Plačano</th>
@@ -98,7 +98,7 @@
                             @if ($product->firstOfWeek == 1)
                                 <img src="{{asset('img/payed.jpg')}}" alt="Payed"> <br>
                             @else
-                                <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
+                                <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"><br>
                             @endif
                         @endif
                     @endforeach

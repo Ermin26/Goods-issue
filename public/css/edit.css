@@ -6,6 +6,10 @@ html {
     overflow-x: hidden;
 }
 
+#tableData{
+    background-color: rgb(32, 26, 80);
+}
+
 #list {
     background-color: rgb(32, 26, 80);
     color: cyan;
@@ -17,6 +21,18 @@ html {
     box-shadow: 0px 0px 20px 5px blue;
 }
 
+input[name="num_per_month"]{
+    margin-left: 0;
+    max-width: 40px;
+}
+input[name="num_per_year"]{
+    margin-left: 0;
+}
+
+#izdal{
+    margin: 0;
+    max-width: 100%;
+}
 
 
 @media (max-width: 3000px) {
