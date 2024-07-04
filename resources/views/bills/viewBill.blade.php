@@ -23,11 +23,10 @@
             @include('flash')
                 <h1 class="mt-3 text-center">
                     @if(Auth::user()->role != 'visitor')
-                        {{$bill->buyer}}
-                        Bill ID: {{$bill->id}}
+                     Ime kupca: {{$bill->buyer}}
                     @else
-                            Name: <br>
-                            <strong>Not available for visitors</strong>
+                            Ime kupca: <br>
+                            <strong>/</strong>
                             <br>
                     @endif
                 </h1>
@@ -36,7 +35,6 @@
 
             <table id="user" class="table table-dark table-hover mt-3">
                 <thead class="table-data fs-4 text-center">
-                    <th>Kupec</th>
                     <th>Produkt</th>
                     <th>Količina</th>
                     <th>Brezplačen</th>
@@ -52,41 +50,40 @@
                 </thead>
                 <tbody class="text-center">
 
-                    @foreach($products as $product)
-                        <tr>
-                            <td class="fs-4 text-info">
-                                @if(Auth::user()->role != 'visitor')
-                                    {{$bill->buyer}}
-                                @else
-                                    <p>Not available for visitors</p>
-                                @endif
-                            </td>
-
-                            <td>
-                                {{$product->name}}
+                    <tr>
+                    
+                        <td>
+                                @foreach($products as $product)
+                                {{$product->name}}<br>
+                                @endforeach
                             </td>
                             <td>
-                                {{$product->qty}}
+                                @foreach($products as $product)
+                                {{$product->qty}}<br>
+                                @endforeach
                             </td>
-
                             <td>
-
+                                @foreach($products as $product)
                                 @if($product->firstOfWeek =='1')
-                                    <img src="{{asset('img/payed.jpg')}}" alt="Free">
+                                    <img src="{{asset('img/payed.jpg')}}" alt="Free"><br>
                                 @else
-                                    <img src="{{asset('img/notPay.jpg')}}" alt="Not Free">
+                                    <img src="{{asset('img/notPay.jpg')}}" alt="Not Free"><br>
                                 @endif
+                                @endforeach
                             </td>
                             <td>
-                                {{$product->total}} &euro;
+                                @foreach($products as $product)
+                                    {{$product->total}} &euro;
+                                @endforeach
                             </td>
                             <td>
-                                @if($bill->payed =='1' )
-                                    <img src="{{asset('img/payed.jpg')}}" alt="Payed">
-                                @else
-                                    <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
-
-                                @endif
+                                @foreach($products as $product)
+                                    @if($bill->payed =='1' )
+                                        <img src="{{asset('img/payed.jpg')}}" alt="Payed"><br>
+                                    @else
+                                        <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"><br>
+                                    @endif
+                                @endforeach
                             </td>
                             <td>
                                 {{$bill->kt}}
@@ -118,7 +115,6 @@
                                     <td><button class="btn btn-success btn-sm" id="hideOnPrint"
                                             onclick=window.print() {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>Print</button></td>
                         </tr>
-                    @endforeach
                 </tbody>
             </table>
 

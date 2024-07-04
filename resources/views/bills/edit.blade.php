@@ -27,7 +27,6 @@
             </h2>
         </div>
         <div id="container" class="container justify-content-center">
-            {{ $bill->id}}
             <div id="tableData" class="buyed-products text-center">
                 <h3 class="ms-5 mt-5 mb-2">Kupljeni produkti</h3>
                 <form action="{{route('updateProducts', $bill->id)}}" method="POST">

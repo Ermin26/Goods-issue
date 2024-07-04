@@ -13,11 +13,26 @@
 #search {
     height: max-content;
 }
+
+#searchUser{
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: auto;
+    align-items: center;
+}
+.infos{
+    align-content: center;
+}
 .searchInfo{
     background-color: rgb(179, 176, 176);
     padding: 2px 8px;
     margin-top: 10px;
 }
+
+.btns button{
+    margin: 0 4px;
+}
+
 #unPayedBills,#allBills{
     margin: 0;
     padding: 0;

@@ -195,7 +195,6 @@ class BillsController extends Controller{
     public function findBill($id){
         $bill = Bills::findOrFail($id);
         $products = Products::where('bills_id', $id)->get();
-        
         if($bill){
             return view('bills.viewBill', compact('bill','products'));
         };
@@ -327,14 +326,17 @@ class BillsController extends Controller{
                 $products=null;
                 $allProducts = null;
                 $productsSummary = null;
+                $numberOfBills = null;
                 if($username && $product){
                     $bills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->get();
                     $products = Products::where('bills_buyer', 'LIKE', "%{$username}%")->where('products.name', 'LIKE', "%{$product}%")->get();
                     $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
+                    $numberOfBills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->count();
                 }else if($username && !$product){
                     $bills = Bills::where('buyer','LIKE', "%{$username}%")->get();
                     $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
                     $products = null;
+                    $numberOfBills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->count();
                 }else if(!$username && $product){
                         $products = Products::selectRaw('name, COUNT(*) as buyed_times')
                             ->groupBy('name')
@@ -350,7 +352,8 @@ class BillsController extends Controller{
                     'bills' => $bills,
                     'products' => $products,
                     'allProducts' => $allProducts,
-                    'productsSummary' => $productsSummary
+                    'productsSummary' => $productsSummary,
+                    'allBills'=>$numberOfBills
                 ]);
             } catch (ValidationException $e) {
                 return response()->json(['error' => $e->getMessage()], 422);

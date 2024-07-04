@@ -16,68 +16,73 @@
 <body>
      @include('navbar')
 
-        <div class="row d-flex flex-column" id="row">
-            <div class="p-0 border-bottom border-3 border-dark" id="search">
-                <div class="text-center">
+     @include('flash')
+    <section class="topSection border-bottom border-3 border-dark">
+        <div class="row row-cols-2 d-flex flex-row-reverse flex-wrap-reverse" id="row">
+            <div class="col-7 p-0" id="search">
+                <div class=" text-md-center text-start">
                     <h1 class="mt-1">Išči</h1>
+                </div>
                     <form class="text-center" id="searchUser">
-                        <div class="form-group mt-3 w-50 ms-auto me-auto">
+                        <div class="form-group mt-3 me-auto">
                             <label for="user">Delavec</label>
                             <input type="text" class="form-control w-100 border-2 border-dark" name="username" id="username"
                                 placeholder="Ime delavca">
                             <small>%name% vključeno</small>
                         </div>
 
-                        <div class="form-group mt-3 w-50 ms-auto me-auto">
+                        <div class="form-group mt-3 me-auto">
                             <label for="product">Produkt</label>
                             <input type="text" class="form-control w-100 border-2 border-dark" name="product"
                                 id="product" placeholder="Not required">
                             <small>%name% vključeno</small>
                         </div>
 
-                        <div class="searchInfo text-start w-50 ms-auto me-auto">
-                            <small>-Vpiši samo ime delavca če želiš pridobit vse račune.</small><br>
-                            <small>-Vpiši ime delavca in ime produkta če želiš pridobit vse račune in tudi kolikokrat je delavec kupil iskani produkt.</small><br>
-                            <small>-Vpiši samo ime produkta če želiš pridobit podatke kolikokrat je kupljenj iskani produkt.</small><br>
-                            <small>-Pusti vse prazno, če želiš pridobit podatke o vseh kupljenih produktih.</small>
-                        </div>
-
                         <div class="footer mb-4">
                             <button class="btn btn-primary mt-3">Išči</button>
                         </div>
                     </form>
-                </div>
-
-                    <div class="mt-4" id="btns" style="display: none">
-                        <div class="btns mt-4 p-1 d-flex  justify-content-center">
-                            <button class="btn btn-primary" onclick="allBills()">Vsi</button>
-                            <button class="btn btn-danger" onclick="notPayed()">Ne plačano</button>
-                            <button class="btn btn-success" onclick="window.print()">Print</button>
-                        </div>
-                    </div>
-
-                            <div id="qtyBuyedProducts" class="mt-3 mb-5" style="display: none">
-
-                                <caption>
-                                    <h2 class="text-center">Product kupljen</h2>
-                                </caption>
-
-                                <table id="tableProducts" class="table table-info table-hover text-center text-dark">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>Product</th>
-                                        <th>Kupljen</th>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
             </div>
-            @include('flash')
+            <div class="col-5 infos text-start ms-auto me-auto">
+                <div class="searchInfo">
+                    <small>-Vpiši samo ime delavca če želiš pridobit vse račune.</small><br>
+                    <small>-Vpiši ime delavca in ime produkta če želiš pridobit vse račune in tudi kolikokrat je delavec kupil iskani produkt.</small><br>
+                    <small>-Vpiši samo ime produkta če želiš pridobit podatke kolikokrat je kupljenj iskani produkt.</small><br>
+                    <small>-Pusti vse prazno, če želiš pridobit podatke o vseh kupljenih produktih.</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="mt-4" id="searchBtns" style="display: none">
+                <div class="btns mt-4 p-1 d-flex  justify-content-center">
+                    <button class="btn btn-primary" onclick="allBills()">Vsi</button>
+                    <button class="btn btn-danger" onclick="notPayed()">Ne plačano</button>
+                    <button class="btn btn-success" onclick="window.print()">Print</button>
+                </div>
+            </div>
+
+            <div id="qtyBuyedProducts" class="mt-3 mb-5" style="display: none">
+                    <caption>
+                        <h2 class="text-center">Product kupljen</h2>
+                    </caption>
+                    <table id="tableProducts" class="table table-info table-hover text-center text-dark">
+                        <thead>
+                            <th>#</th>
+                            <th>Product</th>
+                            <th>Kupljen</th>
+                        </thead>
+                        <tbody id="tableProductsBody"></tbody>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </section>
             <div id="empty" class="text-center">
                 <h2 class="text-center mt-3">Upišite ime delavca ali produkta!</h2>
             </div>
-                <div id="allBills" style="display: none">
+
+            <div id="allBills" style="display: none">
                     <div class="head text-center">
                         <h1 id="searched">
                             <strong>Vsi računi uporabnika</strong> <br>
@@ -101,35 +106,33 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <!--UNPAYED BILLS-->
-                    <div id="unPayedBills" class="text-center" style="display: none">
-                        <div class="mt-4 mb-3">
-                            <h1 id="unPayedH1" class="text-danger">Neplačani računi <br>
-                                <strong id="notPayedUserName" class="text-primary">
-
-                                </strong>
-                            </h1>
-                        </div>
-                        <div class="data">
-                            <table id="notPayedTable" class="table table-dark table-hover mt-3 text-center">
-                                <thead id="table-data">
-                                    <th class="col">Product</th>
-                                    <th class="col">Količina</th>
-                                    <th class="col">Total</th>
-                                    <th class="col">Mesec</th>
-                                    <th class="col">Teden</th>
-                                    <th class="col">Prodano</th>
-                                    <th class="col">Izdal</th>
-                                    <th id="edit" class="col">Uredi</th>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
             </div>
-        </div>
+            <!--UNPAYED BILLS-->
+            <div id="unPayedBills" class="text-center" style="display: none">
+                <div class="mt-4 mb-3">
+                    <h1 id="unPayedH1" class="text-danger">Neplačani računi <br>
+                        <strong id="notPayedUserName" class="text-primary">
+
+                        </strong>
+                    </h1>
+                </div>
+                <div class="data">
+                    <table id="notPayedTable" class="table table-dark table-hover mt-3 text-center">
+                        <thead id="table-data">
+                            <th class="col">Product</th>
+                            <th class="col">Količina</th>
+                            <th class="col">Total</th>
+                            <th class="col">Mesec</th>
+                            <th class="col">Teden</th>
+                            <th class="col">Prodano</th>
+                            <th class="col">Izdal</th>
+                            <th id="edit" class="col">Uredi</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         <script>
 
             let allBillsResults = document.getElementById('allBills');
@@ -138,7 +141,7 @@
             let notPayedTable = document.querySelector('#notPayedTable tbody');
             let userName = document.getElementById('userName');
             let buyedProductsDiv = document.getElementById('qtyBuyedProducts');
-            let btns = document.getElementById('btns');
+            let btns = document.getElementById('searchBtns');
             let emptyDiv = document.getElementById('empty');
 
             document.getElementById('searchUser').addEventListener('submit', function(event) {
@@ -167,6 +170,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data.allBills)
                     if(data.bills && data.bills.length > 0  && !data.products){
                         searchedName(data, tbody, allBillsTable, allBillsResults,notPayedTable, buyedProductsDiv,btns);
                         notPayedBills(data)
@@ -246,42 +250,7 @@
                     });
                         allBillsResults.style.display="block";
                         document.getElementById('username').textContent= data.bills[0].buyer;
-                /*
-                        else{
-                    userName.textContent = data.bills[0].buyer;
-                    allBillsTable.innerHTML ="";
-                    notPayedTable.innerHTML ="";
-                    data.bills.forEach(bills => {
-                        data.allProducts.forEach(product => {
-                            let row = allBillsTable.insertRow();
-                            if(bills.id === product.bills_id){
-                                let imageUrl = product.firstOfWeek === 1 ? '{{ asset('img/payed.jpg') }}' : '{{ asset('img/notPay.jpg') }}';
-                                let img = document.createElement('img');
-                                img.src = imageUrl;
-                                let payedUrl = bills.payed === 1 ? '{{ asset('img/payed.jpg') }}' : '{{asset('img/notPay.jpg')}}';
-                                let payedImg = document.createElement('img');
-                                payedImg.src = payedUrl;
-                                let soldDate = bills.sold_date.split(' ');
-                                let date = soldDate[0];
-                                row.insertCell(0).textContent = product.name;
-                                row.insertCell(1).textContent = product.qty;
-                                row.insertCell(2).textContent = product.total;
-                                row.insertCell(3).textContent = bills.month;
-                                row.insertCell(4).textContent = bills.kt;
-                                row.insertCell(5);
-                                row.cells[5].appendChild(img);
-                                row.insertCell(6);
-                                row.cells[6].appendChild(payedImg);
-                                row.insertCell(7).textContent = date;
-                                row.insertCell(8).textContent = bills.published;
-                            }
-                        })
-                    });
-                        allBillsResults.style.display="block";
-                        document.getElementById('username').textContent= data.bills[0].buyer;
-                    }
-                        */
-        }
+                }
 
         function searchedName(data, tbody, allBillsTable, allBillsResults,notPayedTable, buyedProductsDiv,btns){
             userName.textContent = data.bills[0].buyer;
@@ -289,8 +258,9 @@
                     notPayedTable.innerHTML ="";
                     btns.style.display="block";
                     data.bills.forEach(bills => {
+                        let row = allBillsTable.insertRow();
+                        
                         data.allProducts.forEach(product => {
-                            let row = allBillsTable.insertRow();
                             if(bills.id === product.bills_id){
                                 let imageUrl = product.firstOfWeek === 1 ? '{{ asset('img/payed.jpg') }}' : '{{ asset('img/notPay.jpg') }}';
                                 let img = document.createElement('img');
@@ -313,9 +283,10 @@
                                 row.insertCell(8).textContent = bills.published;
                             }
                         })
+                            
                     });
                         allBillsResults.style.display="block";
-                        document.getElementById('username').textContent= data.bills[0].buyer;
+                        document.getElementById('username').textContent= data.bills[0].buyer + " " + "skupaj" + data.allBills + "računov.";
         }
         function notPayedBills(data) {
             userName.textContent = data.bills[0].buyer;
@@ -378,27 +349,28 @@
             function notPayed() {
                 allBillsResults.style.display = "none";
                 unPayedBills.style.display = "block";
+                let taable = document.getElementById('notPayedTable');
+                let rows = taable.rows.length - 2
+                console.log(taable.rows)
+                let pay = 0;
+                let qtys = 0;
+                for (let i = 1; i <= rows; i++) {
+                    var x = document.getElementById('myTable').rows[i].cells[5].children[0].value;
+                    var x = document.getElementById('notPayedTable').rows[i].cells[2].innerHTML
+                    var y = document.getElementById('notPayedTable').rows[i].cells[1].innerHTML
+                    pay += parseFloat(x, 10);
+                    qtys += parseFloat(y, 10);
+
+                }
+                //document.getElementById('payed').innerHTML = pay.toFixed(2) + ' ' + '€';
+                //document.getElementById('qtys').innerHTML = qtys;
             }
             function allBills() {
                 allBillsResults.style.display = "block";
                 unPayedBills.style.display = "none";
             }
 
-            let taable = document.getElementById('notPayedTable');
-            let rows = taable.rows.length - 2
-            let pay = 0;
-            let qtys = 0;
-            for (let i = 1; i <= rows; i++) {
-                //console.log(rows[i].cells[5].innerHTML)
-                // var x = document.getElementById('myTable').rows[i].cells[5].children[0].value;
-                //var x = document.getElementById('notPayedTable').rows[i].cells[2].innerHTML
-                //var y = document.getElementById('notPayedTable').rows[i].cells[1].innerHTML
-                //pay += parseFloat(x, 10);
-                //qtys += parseFloat(y, 10);
-
-            }
-            //document.getElementById('payed').innerHTML = pay.toFixed(2) + ' ' + '€';
-            //document.getElementById('qtys').innerHTML = qtys;
+            
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
