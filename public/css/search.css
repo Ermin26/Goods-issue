@@ -29,6 +29,14 @@
     margin-top: 10px;
 }
 
+#table span, #table img, #unPayedBills span{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+#table img{
+    margin: 4px 0;
+}
 .btns button{
     margin: 0 4px;
 }
