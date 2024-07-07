@@ -225,6 +225,7 @@
                     document.getElementById('pay2').checked = true;
                     document.getElementById('pay2').style.display = 'none';
                     document.getElementById('pay').setAttribute('disabled', 'true');
+                    document.getElementById('pay').style.display = 'none';
                     document.getElementById('imgNotPayed').style.display = 'block';
                     document.getElementById('payedDate').innerHTML = ""+""+"";
                     document.getElementById('payedDate').setAttribute('value', ""+""+"");

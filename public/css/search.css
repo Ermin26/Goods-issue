@@ -112,7 +112,7 @@
     #navbar,
     #h1Results,
     #edit,
-    #editLink, #successAlert, #errorAlert, #userInfo {
+    #editLink, #successAlert, #errorAlert, #userInfom .topSection, .infos, #searchBtns, .btn, #qtyBuyedProducts {
         display: none;
     }
 
@@ -132,13 +132,16 @@
 
 
     #unPayedBills {
-        transform: translate(00px, -90px);
+        transform: translate(00px, -100px);
         -webkit-transform: translate(00px, -90px);
         -moz-transform: translate(00px, -90px);
         -ms-transform: translate(00px, -90px);
         -o-transform: translate(00px, -90px);
         background-color: transparent;
         color: black;
+    }
+    #unPayedH1{
+        margin-top: 50px;
     }
 
     #searched,
