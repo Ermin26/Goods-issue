@@ -77,3 +77,6 @@ Route::middleware(['auth'])->group(function(){
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
+Route::fallback(function () {
+    return view('error404');
+});

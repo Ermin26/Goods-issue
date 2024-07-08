@@ -218,7 +218,6 @@ class BillsController extends Controller{
                 #dd($request->input('pay'));
                 $request->validate([
                     'published'=> 'required|string',
-                    #'buyer'=> 'required|string',
                     'sold_date'=> 'required',
                     'kt'=> 'required|integer',
                     'year'=>  'required|integer',
@@ -314,7 +313,6 @@ class BillsController extends Controller{
     }
 
     public function searchUser(Request $request){
-        if(Auth::user()->role !== 'visitor'){
             try{
                 $request->validate([
                     'username' => 'nullable|string',
@@ -360,8 +358,5 @@ class BillsController extends Controller{
             } catch (\Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
-        }else{
-            return response()->json(['error' => 'Unauthorized'], 403);
         }
-    }
 }

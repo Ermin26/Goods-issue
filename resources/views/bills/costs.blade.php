@@ -102,7 +102,7 @@
                 @else
 
                         <div class="header mt-3 text-center">
-                            <h1>Računi porabe denarja podjetja</h1>
+                            <h1>Poraba denarja podjetja</h1>
                         </div>
 
 

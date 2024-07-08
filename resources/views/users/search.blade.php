@@ -367,6 +367,7 @@
                 }
 
                 function allBuyedProducts(data, tbody){
+                    console.log(data);
                     buyedProductsDiv.style.display = 'block';
                         let rows = 1;
                         data.productsSummary.forEach(product => {
