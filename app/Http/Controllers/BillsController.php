@@ -178,18 +178,35 @@ class BillsController extends Controller{
 
     public function testAll(Request $request){
         //$this->deleteJulyBills();
+        $path = $request->path();
+        #dd($path);
         $month = ltrim(date('m'), '0');
         $year = date('Y');
         $totalBills = Bills::count();
+        $totalPayed = Bills::where('payed', '1')->count();
+        $totalNotPayed = Bills::where('payed', '0')->count();
         $thisMonth = Bills::where('month', $month)
                         ->where('year', $year)
                         ->count();
-        $bills= Bills::orderBy('year', 'DESC')
-        ->orderBy('num_per_year', 'DESC')
-        ->paginate(10); //Eloquent ORM
+        
+        $bills = null;
+        $payed = null;
+        $notPayed = null;
+
+        if($path == 'all'){
+            $bills = Bills::orderBy('year', 'DESC')
+            ->orderBy('num_per_year', 'DESC')
+            ->paginate(10); //Eloquent ORM
+        }
+        else if($path == 'all/payed'){
+            $payed = Bills::where('payed', '1')->orderBy('year', 'DESC')->paginate(10);
+        }else{
+            $notPayed = Bills::where('payed', '0')->orderBy('year', 'DESC')->paginate(10);
+            
+        }
 
         $products = Products::all();
-        return view('bills.selled', compact('bills', 'products', 'thisMonth', 'totalBills'));
+        return view('bills.selled', compact('bills','payed','notPayed', 'products', 'thisMonth', 'totalBills', 'totalPayed','totalNotPayed'));
     }
 
     public function findBill($id){

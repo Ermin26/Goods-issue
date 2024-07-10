@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function(){
 
     Route::prefix('all')->group(function(){
         Route::get('/',[BillsController::class, 'testAll'])->name('all');
+        Route::get('/payed',[BillsController::class, 'testAll'])->name('payed');
+        Route::get('/notpayed',[BillsController::class, 'testAll'])->name('notpayed');
         Route::get('/view/{id}',[BillsController::class, 'findBill'])->name('viewBill');
         Route::get('/edit/{id}',[BillsController::class, 'editBill'])->name('editBill');
         Route::put('/update/bill/{id}',[BillsController::class, 'updateBill'])->name('updateBill');
