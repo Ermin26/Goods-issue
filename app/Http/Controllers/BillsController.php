@@ -177,7 +177,11 @@ class BillsController extends Controller{
     }
 
     public function testAll(Request $request){
-        //$this->deleteJulyBills();
+        $bills = null;
+        $payed = null;
+        $notPayed = null;
+        $netoPayed = 0;
+        $netoNotPayed = 0;
         $path = $request->path();
         #dd($path);
         $month = ltrim(date('m'), '0');
@@ -189,9 +193,12 @@ class BillsController extends Controller{
                         ->where('year', $year)
                         ->count();
         
-        $bills = null;
-        $payed = null;
-        $notPayed = null;
+        $allPayed = Bills::select('id')->where('payed', '1')->get();
+        #dd($allPayed);
+        foreach($allPayed as $bill){
+            $price = Products::where('bills_id', $bill->id)->value('total');
+            $netoPayed += $price;
+        };
 
         if($path == 'all'){
             $bills = Bills::orderBy('year', 'DESC')
@@ -199,14 +206,18 @@ class BillsController extends Controller{
             ->paginate(10); //Eloquent ORM
         }
         else if($path == 'all/payed'){
-            $payed = Bills::where('payed', '1')->orderBy('year', 'DESC')->paginate(10);
-        }else{
-            $notPayed = Bills::where('payed', '0')->orderBy('year', 'DESC')->paginate(10);
+            $payed = Bills::where('payed', '1')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
             
+        }else{
+            $notPayed = Bills::where('payed', '0')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
+            foreach($notPayed as $bill){
+                $price = Products::where('bills_id', $bill->id)->value('total');
+                $netoNotPayed += $price;
+            };
         }
 
         $products = Products::all();
-        return view('bills.selled', compact('bills','payed','notPayed', 'products', 'thisMonth', 'totalBills', 'totalPayed','totalNotPayed'));
+        return view('bills.selled', compact('bills','payed','notPayed', 'products', 'thisMonth', 'totalBills', 'totalPayed','totalNotPayed', 'netoPayed', 'netoNotPayed'));
     }
 
     public function findBill($id){

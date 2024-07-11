@@ -30,10 +30,10 @@
                     {{$totalBills}}
             </strong></h2>
         @elseif (request()->is('all/payed'))
-        <h2>Total</h2>
+        <h2>Total:<span id="spanPayed"></span></h2>
         <h3>Število plačanih računov: <span class="text-success">{{$totalPayed}}</span></h3>
         @elseif (request()->is('all/notpayed'))
-        <h2>Total</h2>
+        <h2>Total: <span id="spanNotPayed"></span></h2>
         <h3>Število ne plačanih računov: <span class="text-danger">{{$totalNotPayed}}</span></h3>
         @endif
     </div>
@@ -85,6 +85,17 @@
             }
         });
 
+        if(window.location.pathname == '/all/payed'){
+            let span = document.getElementById('spanPayed');
+            span.classList.add('text-success')
+            span.innerText = {{$netoPayed}};
+        }else if(window.location.pathname == '/all/notpayed'){
+            let span = document.getElementById('spanNotPayed');
+            span.classList.add('text-danger');
+            span.innerText = ' 55 €';
+
+        }
+
 /*
         function payedBills() {
 
@@ -100,7 +111,7 @@
             active.classList.add('border-bottom', 'border-3', 'rounded-bottom', 'border-success')
             document.getElementById('vsi').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-primary')
             document.getElementById('nePlacali').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-danger')
-            let placano = document.getElementById('payed');
+            let placano = document.getElementById('payedBills');
             let rows = placano.rows.length - 1;
             let totalPayed = 0;
             for (let i = 1; i <= rows; i++) {
