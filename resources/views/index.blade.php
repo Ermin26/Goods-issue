@@ -84,7 +84,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td id="placilo"><input type="text" class="form-control" id="payment" value="" placeholder=" 0.00 €"></td>
+                        <td id="placilo"><input type="text" class="form-control" name="payment" id="payment" value="" placeholder=" 0.00 €"></td>
                         <td class="checkBoxes">
                             <input type="checkbox" id="pay" name="pay" value="">
                             <input type="checkbox" id="pay2" name="pay" value="false">

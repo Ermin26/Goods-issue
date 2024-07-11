@@ -38,7 +38,8 @@
                     <th>Produkt</th>
                     <th>Količina</th>
                     <th>Brezplačen</th>
-                    <th>Total</th>
+                    <th>Neto</th>
+                    <th>Skupaj</th>
                     <th>Plačano</th>
                     <th>Teden</th>
                     <th>Prodano</th>
@@ -76,6 +77,7 @@
                                     {{$product->total}} &euro;
                                 @endforeach
                             </td>
+                            <td>{{$bill->total}} &euro;</td>
                             <td>
                                 @foreach($products as $product)
                                     @if($bill->payed =='1' )

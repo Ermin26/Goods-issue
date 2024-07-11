@@ -10,6 +10,7 @@
               <th class="col">Brezplačen</th>
               <th class="col">Teden</th>
               <th class="col">Neto</th>
+              <th class="col">Skupaj</th>
               <th class="col-1">Plačano</th>
               <th class="col-1">Št / mesec</th>
               <th class="col-1">Mesec</th>
@@ -73,6 +74,7 @@
                     @endif
                 @endforeach
             </td>
+            <td>{{$bill->total}}</td>
                 @if ($bill->payed == 1)
                     <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
                 @else

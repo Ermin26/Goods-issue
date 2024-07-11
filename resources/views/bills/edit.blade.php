@@ -31,12 +31,12 @@
                 <h3 class="ms-5 mt-5 mb-2">Kupljeni produkti</h3>
                 <form action="{{route('updateProducts', $bill->id)}}" method="POST">
                     @csrf
-                    <table class="table table-dark table-hover text-center">
+                    <table id="productsTable" class="table table-dark table-hover text-center">
                         <thead>
                             <th>Produkt</th>
                             <th>Količina</th>
                             <th>Cena</th>
-                            <th>Total</th>
+                            <th>Neto</th>
                             <th>Brezplačen</th>
                         </thead>
 
@@ -47,21 +47,21 @@
                                         <input type="text" id="productId" name="productId"
                                             value="<%= products->id %>" hidden>
                                         <input type="text" id="productName" name="name[]"
-                                            class="w-100 text-center bg-dark" value="{{$product->name}}">
+                                            class=" text-center bg-dark" value="{{$product->name}}" onchange="calculate()">
                                     </td>
                                     <td>
                                         <input type="text" id="productQty" name="qty[]"
-                                            class="w-50 text-center bg-dark" value="{{$product->qty}}">
+                                            class="w-50 text-center bg-dark" value="{{$product->qty}}" onchange="calculate()">
 
                                     </td>
                                     <td>
                                         <input type="text" id="productPrice" name="price[]"
-                                            class="w-75 text-center bg-dark" value="{{$product->price}}">
+                                            class="w-75 text-center bg-dark" value="{{$product->price}}" onchange="calculate()">
                                         &euro;
                                     </td>
                                     <td>
                                         <input type="text" id="productTotal" name="total[]"
-                                            class="w-75 text-center bg-dark" value="{{$product->total}}">
+                                            class="w-75 text-center bg-dark" value="{{$product->total}}" onchange="calculate()">
                                         &euro;
                                     </td>
                                     <td>
@@ -73,8 +73,14 @@
                                     </td>
 
                                 </tr>
-                                
                                 @endforeach
+                                <tr>
+                                    <td>Skupaj</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="text" class="w-50 text-center" name="payment" id="sum" value="{{$bill->total}}"></td>
+                                    <td></td>
+                                </tr>
                         </tbody>
                     </table>
                     @if(Auth::user()->role == 'visitor')
@@ -194,6 +200,13 @@
                     }
 
                 }
+
+                function calculate(){
+                    let productsTables = document.getElementById('productsTable');
+                    let rows = productsTables.rows.length - 2;
+                    console.log(rows);
+                }
+                
             </script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
                 integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"

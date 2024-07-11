@@ -18,6 +18,7 @@ class CreateCostsTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->string('products');
+            $table->float('price');
             $table->date('booked_date');
             $table->string('users_name');
             $table->timestamps();

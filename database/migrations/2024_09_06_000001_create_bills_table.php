@@ -26,6 +26,7 @@ class CreateBillsTable extends Migration
             $table->integer('num_per_month');
             $table->date('pay_date');
             $table->boolean('payed');
+            $table->float('total');
             $table->timestamps();
         });
     }

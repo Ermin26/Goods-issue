@@ -17,13 +17,20 @@ use function Symfony\Component\String\b;
 
 class BillsController extends Controller{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+    private function updateBillsTotal(){
+        $bills = Bills::all();
+        foreach($bills as $bill){
+            $product = Products::where('bills_id', $bill->id)->sum('total');
+            $bill->total = $product;
+            $bill->save();
+        };
+    }
     public function getNumbersPerMonthAndPerYear(){
         $month = ltrim(date('m'), '0');
         $year = date("Y");
         $numYear = Bills::where('year', $year)->orderBy('num_per_year', 'DESC')->pluck('num_per_year')->first();
         $numMonth = Bills::where('year', $year)->where('month', $month)->orderBy('num_per_month', 'DESC')->pluck('num_per_month')->first();
-       
+        #$this->updateBillsTotal();
         return view('index',['numYear'=>$numYear + 1,'numMonth'=>$numMonth + 1]);
     }
 
@@ -62,6 +69,7 @@ class BillsController extends Controller{
                     'num_per_month'=> $request->input('num_per_month'),
                     'pay_date'=> $payedDate,
                     'payed'=> $request->input('pay') === 'true' ? 1 : 0,
+                    'total'=> $request->input('payment'),
                 ]);
 
                 $products= $request->input('product');
@@ -160,6 +168,8 @@ class BillsController extends Controller{
                         'bills_id' => $importBill->id,
                         'bills_buyer' => $importBill->buyer,
                     ]);
+                    $billFind = Bills::find($importBill->id);
+                    $billFind->total += $document['total'][0];
                 }
             }
             return view('bills.selled', ['bills' => $bills]);
@@ -175,6 +185,7 @@ class BillsController extends Controller{
             $bill->delete();
         }
     }
+    
 
     public function testAll(Request $request){
         $bills = null;
@@ -192,9 +203,7 @@ class BillsController extends Controller{
         $thisMonth = Bills::where('month', $month)
                         ->where('year', $year)
                         ->count();
-        
         $allPayed = Bills::select('id')->where('payed', '1')->get();
-        #dd($allPayed);
         foreach($allPayed as $bill){
             $price = Products::where('bills_id', $bill->id)->value('total');
             $netoPayed += $price;
@@ -207,7 +216,6 @@ class BillsController extends Controller{
         }
         else if($path == 'all/payed'){
             $payed = Bills::where('payed', '1')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
-            
         }else{
             $notPayed = Bills::where('payed', '0')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
             foreach($notPayed as $bill){

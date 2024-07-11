@@ -206,12 +206,14 @@ ul input{
 
 #productsTable input:not(#freeProduct){
     border: none !important;
-    padding: 2px 0;
+    padding: 4px 0;
 }
 #kolicina, #cena{
     max-width: 100px;
 }
-
+#sum{
+    background-color: transparent;
+}
 #imgPayed, #imgNotPayed{
     margin-left: auto;
     margin-right: auto;
