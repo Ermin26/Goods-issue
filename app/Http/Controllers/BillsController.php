@@ -51,7 +51,8 @@ class BillsController extends Controller{
                     'qty'=>'required',
                     'price'=>'required',
                     'firstOfWeek'=> 'required',
-                    'total'=> 'required'
+                    'total'=> 'required',
+                    'payment'=> 'required',
                 ]);
                 $sold = strtotime($request->input('sold_date'));
                 $solded = date('Y.m.d', $sold);
@@ -204,9 +205,14 @@ class BillsController extends Controller{
                         ->where('year', $year)
                         ->count();
         $allPayed = Bills::select('id')->where('payed', '1')->get();
+        $allNotPayed = Bills::select('id')->where('payed', '0')->get();
         foreach($allPayed as $bill){
-            $price = Products::where('bills_id', $bill->id)->value('total');
+            $price = Products::where('bills_id', $bill->id)->sum('total');
             $netoPayed += $price;
+        };
+        foreach($allNotPayed as $bill){
+            $dept = Products::where('bills_id', $bill->id)->sum('total');
+            $netoNotPayed += $dept;
         };
 
         if($path == 'all'){
@@ -216,15 +222,15 @@ class BillsController extends Controller{
         }
         else if($path == 'all/payed'){
             $payed = Bills::where('payed', '1')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
-        }else{
+        }else if($path == 'all/notpayed'){
+            #dd($netoNotPayed);
             $notPayed = Bills::where('payed', '0')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
-            foreach($notPayed as $bill){
-                $price = Products::where('bills_id', $bill->id)->value('total');
-                $netoNotPayed += $price;
-            };
+            
         }
 
         $products = Products::all();
+        
+        Log::info('Neto Not Payed (Controller): ' . $netoNotPayed);
         return view('bills.selled', compact('bills','payed','notPayed', 'products', 'thisMonth', 'totalBills', 'totalPayed','totalNotPayed', 'netoPayed', 'netoNotPayed'));
     }
 
@@ -301,15 +307,21 @@ class BillsController extends Controller{
                     'qty' => 'required',
                     'price' => 'required',
                     'total' => 'required',
+                    'payment' => 'required',
                 ]);
 
                 $productNames = $request->input('name');
                 $productQty = $request->input('qty');
                 $productPrice = $request->input('price');
                 $productTotal = $request->input('total');
+                $billTotal = $request->input('sum');
 
+                $bill = Bills::findOrFail($id);
+                $bill->total = $billTotal;
+                $bill->save();
+                
                 $products = Products::where('bills_id',$id)->get();
-
+                
                 foreach($products as $index => $product){
                     $product->name = $productNames[$index];
                     $product->qty = $productQty[$index];

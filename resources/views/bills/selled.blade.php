@@ -88,11 +88,12 @@
         if(window.location.pathname == '/all/payed'){
             let span = document.getElementById('spanPayed');
             span.classList.add('text-success')
-            span.innerText = {{$netoPayed}};
+            span.innerText = {{round($netoPayed, 2)}} + ' €';
         }else if(window.location.pathname == '/all/notpayed'){
             let span = document.getElementById('spanNotPayed');
             span.classList.add('text-danger');
-            span.innerText = ' 55 €';
+            console.log({{$netoNotPayed}})
+            span.innerText = {{round($netoNotPayed, 2)}} + ' €';
 
         }
 

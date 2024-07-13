@@ -50,8 +50,8 @@
                                             class=" text-center bg-dark" value="{{$product->name}}" onchange="calculate()">
                                     </td>
                                     <td>
-                                        <input type="text" id="productQty" name="qty[]"
-                                            class="w-50 text-center bg-dark" value="{{$product->qty}}" onchange="calculate()">
+                                        <input type="number" id="productQty" name="qty[]"
+                                            class="w-50 text-center bg-dark" min="1" value="{{$product->qty}}" onchange="calculate()">
 
                                     </td>
                                     <td>
@@ -67,8 +67,10 @@
                                     <td>
                                         @if ($product->firstOfWeek === 1 )
                                             <img src="{{asset('img/payed.jpg')}}" alt="Payed">
+                                            <input type="checkbox" id="firstOffWeek" checked style="display: none">
                                         @else
                                             <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed">
+                                            <input type="checkbox" id="firstOffWeek" style="display: none">
                                         @endif
                                     </td>
 
@@ -78,7 +80,7 @@
                                     <td>Skupaj</td>
                                     <td></td>
                                     <td></td>
-                                    <td><input type="text" class="w-50 text-center" name="payment" id="sum" value="{{$bill->total}}"></td>
+                                    <td><input type="text" class="w-75 text-center" name="payment" id="sum" value="{{$bill->total}}"> €</td>
                                     <td></td>
                                 </tr>
                         </tbody>
@@ -204,7 +206,30 @@
                 function calculate(){
                     let productsTables = document.getElementById('productsTable');
                     let rows = productsTables.rows.length - 2;
-                    console.log(rows);
+                    
+                    let qty = document.querySelectorAll('#productQty');
+                    let price = document.querySelectorAll('#productPrice');
+                    let neto = document.querySelectorAll('#productTotal');
+                    let checkBox = document.querySelectorAll('#firstOffWeek');
+                    let billPrice = 0;
+                    for (let i = 0; i < rows; i++) {
+                        if(checkBox[i].checked){
+                            if(qty[i].value < 2){
+                                neto[i].value = 0.00;
+                            }else{
+                                let updatedtQty = qty[i].value - 1;
+                                let calculatePrice = parseFloat(price[i].value) + 1.5;
+                                let totalPrice = calculatePrice * updatedtQty;
+                                neto[i].value = totalPrice.toFixed(2);
+                            }
+                        }else{
+                            let calculatePrice = parseFloat(price[i].value) + 1.5;
+                            let totalPrice = parseFloat(calculatePrice) * qty[i].value;
+                            neto[i].value = totalPrice.toFixed(2);
+                        }
+                        billPrice = parseFloat(billPrice) + parseFloat(neto[i].value);
+                    }
+                    document.getElementById('sum').value = billPrice.toFixed(2);
                 }
                 
             </script>

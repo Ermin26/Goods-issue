@@ -40,7 +40,8 @@ class CostsController extends Controller{
 
     public function allCosts(){
         $bills = Costs::all();
-        $payedBills = DB::table('bills')->join('products', 'bills_id', '=', 'bills.id' )->select('total')->where('bills.payed', '=', '1')->get();
+        #$payedBills = DB::table('bills')->join('products', 'bills_id', '=', 'bills.id' )->select('products.total')->where('bills.payed', '=', '1')->get();
+        $payedBills = DB::table('bills')->join('products', 'bills_id', '=', 'bills.id' )->where('bills.payed', '=', '1')->sum('products.total');
         return view('bills.costs', ['bills'=>$bills, 'payedBills'=>$payedBills]);
     }
 

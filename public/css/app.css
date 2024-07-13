@@ -25,6 +25,12 @@ header{
     z-index: 1;
 }
 
+.container-fluid {
+    position: fixed;
+    margin: 10px 0;
+    top: 0;
+}
+
 #main {
     width: 100%;
     margin: 0;
@@ -263,134 +269,16 @@ ul input{
     margin: 6px;
     padding: 6px 12px;
 }
+
+@media (max-width: 767px) {
+    .navbar-nav{
+        margin: 5px 0;
+    }
+    .navbar-nav li:last-child{
+        margin-left: auto;
+    }
+}
 /*
-
-
-@media (max-width: 3000px) {
-    
-    #izdal {
-        display: inline-flex;
-        flex-direction: column;
-        padding: 0px;
-    }
-
-    #hiderow {
-        display: inline-flex;
-        flex-direction: row;
-        transform: translate(150px, 340px);
-        -webkit-transform: translate(150px, 340px);
-        -moz-transform: translate(150px, 340px);
-        -ms-transform: translate(150px, 340px);
-        -o-transform: translate(150px, 340px);
-    }
-
-    #dates {
-        padding: 0px;
-        margin-left: -50px;
-    }
-
-    #dates-left {
-        padding: 0px;
-        margin-left: 98px;
-    }
-
-    #info {
-        margin: 0;
-        padding: 0;
-    }
-
-    #info-ul {
-        padding: 0px;
-    }
-
-    #info-ul li {
-        margin-left: 25px;
-    }
-
-
-}
-
-@media (max-width: 1500px) {
-    #izdal {
-        margin-top: 0px;
-    }
-
-    #hiderow {
-        display: inline-flex;
-        flex-direction: row;
-        transform: translate(50px, 330px);
-        -webkit-transform: translate(50px, 330px);
-        -moz-transform: translate(50px, 330px);
-        -ms-transform: translate(50px, 330px);
-        -o-transform: translate(50px, 330px);
-    }
-
-    #dates {
-        padding: 0px;
-        margin-left: -50px;
-    }
-
-    #dates-left {
-        padding: 0px;
-        margin-left: 98px;
-    }
-
-    #info {
-        margin: 0;
-        padding: 0;
-    }
-
-    #info-ul {
-        padding: 0px;
-    }
-
-    #info-ul li {
-        margin-left: 25px;
-    }
-
-
-}
-
-@media (max-width: 1024px) {
-    #izdal {
-        margin-top: 0px;
-    }
-
-    #hiderow {
-        display: inline-flex;
-        flex-direction: row;
-        transform: translate(50px, 330px);
-        -webkit-transform: translate(50px, 330px);
-        -moz-transform: translate(50px, 330px);
-        -ms-transform: translate(50px, 330px);
-        -o-transform: translate(50px, 330px);
-    }
-
-    #dates {
-        padding: 0px;
-        margin-left: -50px;
-    }
-
-    #dates-left {
-        padding: 0px;
-        margin-left: 98px;
-    }
-
-    #info {
-        margin: 0;
-        padding: 0;
-    }
-
-    #info-ul {
-        padding: 0px;
-    }
-
-    #info-ul li {
-        margin-left: 25px;
-    }
-
-
-}
 
 @media (max-width: 550px) {
     #izdal {

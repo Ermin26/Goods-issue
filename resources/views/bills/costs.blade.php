@@ -33,7 +33,7 @@
                     <tbody>
                         <tr>
                             <td class="bg-info">
-                                <strong id="payed"> </strong> &euro;</h4>
+                                <strong id="payed">{{round($payedBills),2}} </strong> &euro;</h4>
                             </td>
                             <td class="bg-danger">
                                 <strong id="spended"></strong> &euro;</h4>
@@ -51,13 +51,7 @@
                         </thead>
                     </tr>
                     <!-- GET ALL PRICES FROM BILLS TABLE!! -->
-                    @foreach ($payedBills as $payed)
-                        <tr>
-                            <td>
-                                {{$payed->total}}
-                            </td>
-                        </tr>
-                    @endforeach
+                    
                 </table>
                 <div class="addBills mt-5 mb-5 ms-auto me-auto text-center">
                     <button id="showFormBtn" class="btn btn-primary" onclick="showInputForm()">Dodaj račun</button>
@@ -182,7 +176,7 @@
                 document.getElementById("hideMe").style.display = "block";
                 document.getElementById("showFormBtn").style.display = "none";
             }
-
+            /*
             let totalTable = document.getElementById('hide')
             if (totalTable.rows.length) {
                 let tableRows = totalTable.rows.length - 1;
@@ -194,7 +188,7 @@
                 document.getElementById("payed").innerText = cash.toFixed(2);
                 document.getElementById("payed").style.color = 'white'
             }
-
+*/
             let myTable = document.getElementById('tableOfCosts')
             if (myTable.rows.length) {
                 let rows = myTable.rows.length - 1

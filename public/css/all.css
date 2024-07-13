@@ -7,6 +7,13 @@ body{
 
 .navbar-nav{
     align-items: center;
+    margin: 4px 0;
+}
+
+.container-fluid{
+    margin: 5px 0;
+    position: fixed;
+    top: 0;
 }
 
 a{
@@ -39,8 +46,8 @@ a{
 }
 
 #allUsers,
-#placano,
-#niPlacano {
+#payed,
+#not_payed {
     display: flex;
     flex-direction: column;
     overflow-x: auto;
@@ -133,11 +140,9 @@ ul.pagination li.active {
     }
 
     #allUsers,
-    #placano,
-    #niPlacano {
+    #payed,
+    #not_payed {
         display: inline-flex;
-
-
     }
 
     #table-data,
@@ -198,12 +203,6 @@ ul.pagination li.active {
         margin-left: 10px;
     }
 
-    #allUsers,
-    #placano,
-    #niPlacano {
-        display: inline-flex;
-    }
-
     #table-data,
     #table-head {
         position: sticky;
@@ -212,8 +211,27 @@ ul.pagination li.active {
 }
 
 @media (max-width: 992px){
-    
+    .navbar-nav{
+        align-items: center;
+    }
     #notificationIcon:hover~#notifications, #notifications:hover{
         text-wrap: wrap;
+    }
+}
+
+
+@media (max-width:767px){
+    .navbar-nav{
+        align-items: start;
+    }
+    .navbar-nav li:nth-last-child(3){
+        padding: 3px;
+    }
+
+    .navbar-nav li:last-child{
+        margin-left: auto;
+    }
+    .container-fluid{
+        top: 5px;
     }
 }
