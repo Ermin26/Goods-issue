@@ -169,9 +169,12 @@ class BillsController extends Controller{
                         'bills_id' => $importBill->id,
                         'bills_buyer' => $importBill->buyer,
                     ]);
-                    $billFind = Bills::find($importBill->id);
-                    $billFind->total += $document['total'][0];
                 }
+                $billFind = Bills::find($importBill->id);
+                $product = Products::where('bills_id',$importBill->id)->sum('total');
+                $billFind->total += $product;
+
+                $billFind->save();
             }
             return view('bills.selled', ['bills' => $bills]);
         }catch(ValidationException $e){

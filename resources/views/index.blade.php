@@ -36,12 +36,12 @@
                         </div>
                         <div class="mb">
                             <label id="numPerMonth">Številka/Mesec:</label>
-                            <input type="text" class="form-control" id="numPerMonth" name="num_per_month" value="{{$numMonth}}">/
+                            <input type="number" class="form-control" id="numPerMonth" name="num_per_month" value="{{$numMonth}}">/
                             <input class="form-control" type="number" id="month" name="month" value="<?php echo ltrim(date('m'), '0')?>">
                         </div>
                         <div class="mb">
                             <label id="kt">Koledarski teden:</label>
-                            <input type="text" class="form-control" id="kt" name="kt" value="<?php echo date('W')?>">
+                            <input type="number" min="1" max="52" class="form-control" id="kt" name="kt" value="<?php echo date('W')?>">
                         </div>
                     </article>
                     <article class="dates">
