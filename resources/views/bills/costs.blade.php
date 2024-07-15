@@ -117,11 +117,11 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                        {{$bill->date}}
+                                        {{\Carbon\Carbon::parse($bill->date)->format('d.m.Y')}}
                                         </td>
 
-                                        <td>
-                                        {{$bill->price}}
+                                        <td style="text-wrap:nowrap">
+                                        {{$bill->price}} &euro;
                                         </td>
 
                                         <td>
@@ -129,7 +129,7 @@
 
                                         </td>
                                         <td>
-                                        {{$bill->booked_date}}
+                                        {{\Carbon\Carbon::parse($bill->booked_date)->format('d.m.Y')}}
                                         </td>
                                         <td>
                                         @if(Auth::user()->role !== 'visitor')

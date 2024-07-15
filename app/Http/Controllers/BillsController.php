@@ -8,12 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
 use MongoDB\Client as MongoClient;
 use App\Models\Bills;
 use App\Models\Products;
 
-use function Symfony\Component\String\b;
 
 class BillsController extends Controller{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -189,7 +187,6 @@ class BillsController extends Controller{
             $bill->delete();
         }
     }
-    
 
     public function testAll(Request $request){
         $bills = null;

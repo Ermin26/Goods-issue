@@ -37,12 +37,12 @@
                         {{$product->qty}} <br>
                     @endif
                 @endforeach</td>
-                <td>@foreach ($products as $product)
+                <td style="text-wrap:nowrap">@foreach ($products as $product)
                     @if($bill->id == $product->bills_id)
-                        {{$product->price}} <br>
+                        {{$product->price}} €<br>
                     @endif
                 @endforeach</td>
-                <td>1.50</td>
+                <td style="text-wrap:nowrap">1.50 €</td>
     
                 <td>
                     @foreach ($products as $product)
@@ -56,12 +56,12 @@
                     @endforeach
                 </td>
                 <td>{{$bill->kt}}</td>
-                <td>@foreach ($products as $product)
+                <td style="text-wrap:nowrap">@foreach ($products as $product)
                     @if($bill->id == $product->bills_id)
-                        {{$product->total}} <br>
+                        {{$product->total}} €<br>
                     @endif
                 @endforeach</td>
-                <td>{{$bill->total}} €</td>
+                <td style="text-wrap:nowrap">{{$bill->total}} €</td>
                 <td>{{$bill->num_per_month}}</td>
                 <td>{{$bill->month}}</td>
                 <td>{{$bill->num_per_year}}</td>

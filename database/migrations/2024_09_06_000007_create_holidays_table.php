@@ -14,7 +14,7 @@ class CreatePendingholidaysTable extends Migration
     public function up()
     {
 
-        Schema::table('pendingholidays', function (Blueprint $table) {
+        Schema::table('holidays', function (Blueprint $table) {
             $table->timestamps();
         });
     }

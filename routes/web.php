@@ -1,15 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CostsController;
-use App\Http\Controllers\CheckRoleController;
-use App\Http\Controllers\MongoDBController;
-use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\VacationController;
+use App\Http\Controllers\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,7 +37,6 @@ Route::middleware(['auth'])->group(function(){
         Route::put('/update/bill/{id}',[BillsController::class, 'updateBill'])->name('updateBill');
         Route::post('/update/products/{id}',[BillsController::class, 'updateProducts'])->name('updateProducts');
         Route::delete('/delete/{id}', [BillsController::class, 'deleteUserBill'])->name('deleteUserBill');
-        
     });
 
     Route::get('/costs',[CostsController::class, 'allCosts'])->name('costs');
@@ -56,6 +52,7 @@ Route::middleware(['auth'])->group(function(){
 
 
     Route::prefix('vacation')->group(function(){
+        #Route::get('/',[VacationController::class, 'importVacations'])->name('vacation');
         Route::get('/',function(){
             return view('info');
         })->name('vacation');
@@ -64,10 +61,10 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
         Route::get('/add',[UsersController::class, 'checkEmails'])->name('users.add');
         Route::get('/edit/{id}',[UsersController::class, 'findUser'])->name('users.editUser');
-        Route::get('/employee/{id}',[UsersController::class, 'findEmployee'])->name('users.editEmployee');
+        Route::get('/employee/{id}',[EmployeeController::class, 'findEmployee'])->name('users.editEmployee');
         Route::post('/update/{id}',[UsersController::class, 'updateUser'])->name('users.update');
-        Route::post('/employeeupdate/{id}',[UsersController::class, 'updateEmployee'])->name('users.updateEmployee');
-        Route::post('/addEmployee',[UsersController::class, 'addEmployee'])->name('users.addEmployee');
+        Route::post('/employeeupdate/{id}',[EmployeeController::class, 'updateEmployee'])->name('users.updateEmployee');
+        Route::post('/addEmployee',[EmployeeController::class, 'addEmployee'])->name('users.addEmployee');
         Route::get('/register',[UsersController::class, 'checkUsers'])->name('users.register');
 
         Route::delete('/{id}', [UsersController::class, 'deleteUser'])->name('users.destroy');
