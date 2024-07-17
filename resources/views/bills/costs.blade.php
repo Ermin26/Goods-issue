@@ -22,7 +22,7 @@
         <div id="cols" class="row row-cols-2 w-100 ms-auto me-auto">
 
             <div id="col2" class="col-4 p-0 ms-auto me-auto">
-                <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">                                                                            
+                <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">
                     <thead>
                         <tr>
                             <th>Prihodki</th>
@@ -43,15 +43,6 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
-                <table id="hide">
-                    <tr>
-                        <thead>
-                            <th>Price</th>
-                        </thead>
-                    </tr>
-                    <!-- GET ALL PRICES FROM BILLS TABLE!! -->
-                    
                 </table>
                 <div class="addBills mt-5 mb-5 ms-auto me-auto text-center">
                     <button id="showFormBtn" class="btn btn-primary" onclick="showInputForm()">Dodaj račun</button>
@@ -91,7 +82,7 @@
 
                 @if(!count($bills) > 0)
 
-                    <h1>Nothing to show yet. Add some bills.</h1>
+                    <h1>Ni podatkov o računih.</h1>
 
                 @else
 
@@ -120,8 +111,8 @@
                                         {{$bill->date}}
                                         </td>
 
-                                        <td>
-                                        {{$bill->price}}
+                                        <td style="text-wrap:nowrap">
+                                        {{$bill->price}} €
                                         </td>
 
                                         <td>
@@ -142,16 +133,16 @@
                                             <form action="/costs/{{$bill->id}}/?_method=DELETE" method="post">
                                                 @csrf
                                                 @if(Auth::user()->role !== 'visitor')
-                                                    <button class="btn btn-danger btn-sm">DELETE</button>
+                                                    <button class="btn btn-danger btn-sm">Izbriši</button>
                                                 @else
-                                                    <button class="btn btn-danger btn-sm" disabled="true">DELETE</button>
+                                                    <button class="btn btn-danger btn-sm" disabled="true">Izbriši</button>
                                                 @endif
                                             </form>
                                         </td>
                                     </tr>
                                 @endforeach
                                         <tr>
-                                            <td>Total spend:</td>
+                                            <td>Total:</td>
                                             <td></td>
                                             <td id="spend" class="bg-danger"></td>
                                             <td></td>
@@ -171,24 +162,11 @@
         <script>
 
             document.getElementById("hideMe").style.display = "none";
-            document.getElementById("hide").style.display = "none";
             function showInputForm() {
                 document.getElementById("hideMe").style.display = "block";
                 document.getElementById("showFormBtn").style.display = "none";
             }
-            /*
-            let totalTable = document.getElementById('hide')
-            if (totalTable.rows.length) {
-                let tableRows = totalTable.rows.length - 1;
-                let cash = 0;
-                for (let j = 2; j <= tableRows; j++) {
-                    var y = totalTable.rows[j].cells[0].innerText;
-                    cash += parseFloat(y, 10);
-                }
-                document.getElementById("payed").innerText = cash.toFixed(2);
-                document.getElementById("payed").style.color = 'white'
-            }
-*/
+
             let myTable = document.getElementById('tableOfCosts')
             if (myTable.rows.length) {
                 let rows = myTable.rows.length - 1
@@ -201,8 +179,6 @@
                 for (let j = 2; j < rows; j++) {
                     number += 1
                     myTable.rows[j].cells[0].innerHTML = number;
-
-                    //document.getElementById('num').innerText = j
                 }
                 document.getElementById('spend').innerText = pay.toFixed(2);
                 document.getElementById('spended').innerText = pay.toFixed(2);

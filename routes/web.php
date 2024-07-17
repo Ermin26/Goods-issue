@@ -40,7 +40,6 @@ Route::middleware(['auth'])->group(function(){
         Route::put('/update/bill/{id}',[BillsController::class, 'updateBill'])->name('updateBill');
         Route::post('/update/products/{id}',[BillsController::class, 'updateProducts'])->name('updateProducts');
         Route::delete('/delete/{id}', [BillsController::class, 'deleteUserBill'])->name('deleteUserBill');
-        
     });
 
     Route::get('/costs',[CostsController::class, 'allCosts'])->name('costs');
