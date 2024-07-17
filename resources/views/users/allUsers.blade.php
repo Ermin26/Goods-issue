@@ -37,36 +37,27 @@
                                     @forEach($users as $user)
                                         <tr>
                                             <td>
-                                                @if(Auth::check())
-                                                    @if(Auth::user()->role != 'visitor' || Auth::user()->role == 'jan')
-                                                    {{$user->name}}
-                                                    @else /
-                                                    @endif
-                                                @endif
+                                                    {{Auth::user()->role != 'visitor' ? $user->name : "/"}}
                                             </td>
                                             <td>
                                                 {{$user->role}}
                                             </td>
                                                 <td>
-                                                    @if(Auth::check())
                                                         @if(Auth::user()->role === 'admin')
                                                             <a href="/users/edit/{{$user->id}}"><button class="btn btn-warning">Uredi</button></a>
                                                         @else
                                                             <a href="/users" disabled><button class="btn btn-warning" disabled>Uredi</button></a>
                                                         @endif
-                                                    @endif
                                                 </td>
                                                 <td>
                                                     <form action="/users/{{$user->id}}/?_method=DELETE" method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        @if(Auth::check())
                                                             @if(Auth::user()->role === 'admin')
                                                                 <button class="btn btn-danger">Izbriši</button>
                                                             @else
                                                                 <button class="btn btn-danger" disabled>Izbriši</button>
                                                             @endif
-                                                        @endif
                                                     </form>
                                                 </td>
                                         </tr>
@@ -99,8 +90,8 @@
                                             @foreach ($employees as $employee)
                                                 <tr>
                                                     <td></td>
-                                                    <td>{{$employee->name}}</td>
-                                                    <td>{{$employee->last_name}}</td>
+                                                    <td>{{Auth::user()->role != 'visitor' ? $employee->name : "/"}}</td>
+                                                    <td>{{Auth::user()->role != 'visitor' ? $employee->last_name : "/"}}</td>
                                                     <td>{{$employee->working_status}}</td>
                                                     <td>{{$employee->status === 1 ? 'Aktiven' : 'Neaktiven'}} </td>
                                                     <td>

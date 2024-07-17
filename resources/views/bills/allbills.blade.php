@@ -46,15 +46,15 @@
                     @endif
                     @endforeach
                 </td>
-            <td>
+            <td style="text-wrap:nowrap">
                 @foreach ($products as $product)
                 @if($bill->id == $product->bills_id)
-                    {{$product->price}}<br>
+                    {{$product->price}} €<br>
 
                     @endif
                     @endforeach
                 </td>
-                <td>1.50</td>
+                <td style="text-wrap:nowrap">1.50 €</td>
             <td>
                 @foreach ($products as $product)
                     @if($bill->id == $product->bills_id)
@@ -67,14 +67,14 @@
                 @endforeach
             </td>
             <td>{{$bill->kt}}</td>
-            <td>
+            <td style="text-wrap:nowrap">
                 @foreach ($products as $product)
                     @if($bill->id == $product->bills_id)
-                        {{$product->total}} <br>
+                        {{$product->total}} €<br>
                     @endif
                 @endforeach
             </td>
-            <td>{{$bill->total}}</td>
+            <td style="text-wrap:nowrap">{{$bill->total}} €</td>
                 @if ($bill->payed == 1)
                     <td><img src="{{asset('img/payed.jpg')}}" alt="Payed"></td>
                 @else
