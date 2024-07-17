@@ -52,13 +52,14 @@ Route::middleware(['auth'])->group(function(){
 
 
     Route::prefix('vacation')->group(function(){
-        #Route::get('/',[VacationController::class, 'importVacations'])->name('vacation');
-        Route::get('/',function(){
-            return view('info');
-        })->name('vacation');
+        Route::get('/',[VacationController::class, 'vacationData'])->name('vacation');
+        #Route::get('/',function(){
+        #    return view('holidays.holidays');
+        #})->name('vacation');
     });
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
+        #Route::get('/',[EmployeeController::class, 'importEmployee'])->name('users');
         Route::get('/add',[UsersController::class, 'checkEmails'])->name('users.add');
         Route::get('/edit/{id}',[UsersController::class, 'findUser'])->name('users.editUser');
         Route::get('/employee/{id}',[EmployeeController::class, 'findEmployee'])->name('users.editEmployee');
@@ -68,7 +69,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/register',[UsersController::class, 'checkUsers'])->name('users.register');
 
         Route::delete('/{id}', [UsersController::class, 'deleteUser'])->name('users.destroy');
-        Route::delete('/employee/delete/{id}', [UsersController::class, 'deleteEmployee'])->name('users.deleteEmployee');
+        Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('users.deleteEmployee');
     });
     Route::post('/newBill', [BillsController::class, 'newBill'])->name('create.newBill');
     Route::post('/createUser', [UsersController::class, 'storeUser'])->name('users.createUser');

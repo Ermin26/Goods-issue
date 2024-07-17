@@ -32,7 +32,7 @@ class EmployeeController extends Controller{
                     'working_status'=> $employee->employmentStatus
                 ]);
             }
-            return redirect()->route('users')->with('success', "Uspešno uveženi podatki za dopuste.");
+            return redirect()->route('home')->with('success', "Uspešno uveženi podatki za dopuste.");
         }catch(ValidationException $e){
             return redirect()->back()->with('error', $e->getMessage());
         }
