@@ -1,28 +1,62 @@
-
+*{
+    color: white;
+}
 
 .holidayTable{
     table-layout: fixed;
 }
+#section{
+    margin: 0;
+}
 #section,#left,#middle,#right{
     height: 86vh;
 }
-.table-responsive{
-    margin-bottom: 10vh;
+
+#infoHolidays tr:hover{
+    background-color: darkblue;
 }
-@media (max-width: 3000px) {
+
     #section {
         overflow: hidden;
+        background-color: rgb(27, 27, 94);
     }
+
+  
 
     #middle {
         max-height: 100vh;
+        padding: 10px;
         overflow-y: auto;
         margin-bottom: 15vh;
+    }
+    #middle table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 20px 0;
+    }
+    #middle th{
+        border: 1px solid white;
+        color: white;
+        text-align: center;
+        padding: 5px 10px;
+    }
+    #middle td {
+        padding: 5px;
+        border: 1px solid white;
+        color: white;
+        text-align: start;
+        height: 100px;
+        width: 150px;
+        aspect-ratio: 1/1;
+    }
+    .vacation {
+        background-color: rgb(95, 189, 82);
     }
     #left{
         max-height: 100vh;
         overflow-y: auto;
         margin-bottom: 10vh;
+        padding: 0;
     }
 
     .container {
@@ -32,7 +66,6 @@
         max-height: 100vh;
     }
 
-}
 
 @media (max-width: 1505px) {
     html {

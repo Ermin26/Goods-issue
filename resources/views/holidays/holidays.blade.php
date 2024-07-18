@@ -7,22 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{asset('css/vacation.css')}}">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+        <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/vacation.css')}}">
     <title>Vacation</title>
 </head>
 
 <body>
     @include('navbar')
         @include('flash')
-            <div id="section" class="row row-cols-3 m-0 p-0 mt-2">
-                <div id="left" class="col-3 text-center ms-auto me-auto shadow">
+            <section id="section" class="row row-cols-3 m-0 p-0">
+                <section id="left" class="col-3 text-center ms-auto me-auto shadow">
                     <div id="usersQtyHolidays" class="text-center ms-auto me-auto">
                         <div class="caption mt-2">
                             <h2 class="mb-3">Stanje dopusta</h2>
                         </div>
-                        <table id="infoHolidays" class="table table-active table-hover text-center w-100">
+                        <table id="infoHolidays" class="table table-active text-center w-100">
                             <thead>
                                 <th>Delavec</th>
                                 <th>Lani</th>
@@ -61,7 +61,7 @@
                         </table>
                     </div>
                     <!-- USED HOLIDAYS, TABLES FOR EVERY USER-->
-                    <div class="table-responsive">
+                    <div class="table-responsive mt-5">
                         @foreach ($employees as $employee)
                         @if($employee->status == 1)
                         <caption><strong>{{Auth::user()->role !== 'visitor' ? $employee->name." ".$employee->last_name : "Ime delavca"}}</strong></caption>
@@ -88,8 +88,58 @@
                             @endif
                         @endforeach
                     </div>
-                </div>
+                </section>
 
+                <section id="middle" class="col-6 flex-row flex-nowrap shadow">
+                    <div class="row row-cols-2">
+                        <div class="col">
+                            <h2><?php echo date('F')." ". date('Y')?></h2>
+                        </div>
+                        <div class="col text-end align-self-end">
+                            <button class="bg-secondary p-1" onclick="changeMonth(-1)">prev</button>
+                            <button class="bg-secondary p-1" onclick="changeMonth(1)">next</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pon</th>
+                                <th>Tor</th>
+                                <th>Sre</th>
+                                <th>Čet</th>
+                                <th>Pet</th>
+                                <th>Sob</th>
+                                <th>Ned</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $month = date('m'); // Trenutni mesec
+                            $year = date('Y'); // Trenutno leto
+                            $week = date('W');
+                            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+                            $firstDayOfMonth = date('N', strtotime("$year-$month-01"));
+                
+                            $currentDay = 1;
+                            $startDay = 1;
+                
+                            while ($currentDay <= $daysInMonth) {
+                                echo '<tr>';
+                                for ($i = 1; $i <= 7; $i++) {
+                                    if ($startDay < $firstDayOfMonth || $currentDay > $daysInMonth) {
+                                        echo '<td></td>';
+                                        $startDay++;
+                                    } else {
+                                        echo "<td data-date=\"$year-$month-$currentDay\"><span>$currentDay</span></td>";
+                                        $currentDay++;
+                                    }
+                                }
+                                echo '</tr>';
+                            }
+                            ?>
+                        </tbody>
+                    </table>    
+                </section>
 
                 <div id="right" class="col-3 shadow">
                     <div id="addUser" class="shadow mt-5 rounded-5 mb-5">
@@ -146,17 +196,34 @@
                         <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Submit</button>
                     </div>
                 </div>
-            </div>
+            </section>
 
 
 
             <script>
+                let vacations = @json($holidays);
+                document.addEventListener('DOMContentLoaded', function () {
+                    vacations.forEach(function(vacation) {
+                    var startDate = new Date(vacation.start_date);
+                    var endDate = new Date(vacation.end_date);
+                    
+                        for (var d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+                            var dateStr = d.getFullYear() + '-' + 
+                                ('0' + (d.getMonth() + 1)).slice(-2) + '-' + 
+                                ('0' + d.getDate()).slice(-2);
+
+                            var cell = document.querySelector('td[data-date="' + dateStr + '"]');
+                            if (cell) {
+                                cell.classList.add('vacation');
+                            }
+                        }
+                    });
+                });
                 document.getElementById('addUser').style.display = 'none';
                 const lastYearHolidays = document.getElementById('lastYearHolidays');
                 const holidays = document.getElementById('holidays');
                 const usedHolidays = document.getElementById('usedHolidays');
                 const hours = document.getElementById('overtime');
-                let vacations = @json($vacations);
 
                 function editEmployeeHolidayData() {
                     document.getElementById('addUser').style.display = 'block';
