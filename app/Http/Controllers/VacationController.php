@@ -95,5 +95,32 @@ class VacationController extends Controller{
         return view('holidays.holidays', compact('vacations','holidays', 'employees'));
     }
 
+    public function updateVacations(Request $request){
+        if(Auth::user()->role !== 'visitor'){
+            try{
+                $request->validate([
+                    'user' => 'required',
+                    'last_year' => 'integer|required',
+                    'holidays' => 'integer|required',
+                    'used_holidays' => 'integer|required',
+                    'overtime' => 'integer|required',
+                ]);
+                $user = Vacation::where('user', $request->input('user'))->first();
+
+                $user->last_year = $request->input('last_year');
+                $user->holidays = $request->input('holidays');
+                $user->used_holidays = $request->input('used_holidays');
+                $user->overtime = $request->input('overtime');
+                $user->save();
+
+                return redirect()->back()->with('success', "Uspešno posodobljeni podatki.");
+            }catch(ValidationException $e){
+                $errors = $e->validator->errors()->all();
+                return redirect()->back()->with('error', "Napaka pri posodabljanju podatkov. ".$errors);
+            }
+        }else{
+            return redirect()->back()->with('error', "Nimate dovoljena za spreminjanje podatkov.");
+        }
+    }
 
 }

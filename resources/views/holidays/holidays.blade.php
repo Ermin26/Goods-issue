@@ -64,8 +64,8 @@
                     <div class="table-responsive">
                         @foreach ($employees as $employee)
                         @if($employee->status == 1)
-                        <caption>{{Auth::user()->role !== 'visitor' ? $employee->name." ".$employee->last_name : "/"}}</caption>
-                        <table class="mb-5 table table-bordered holidayTable bg-success">
+                        <caption><strong>{{Auth::user()->role !== 'visitor' ? $employee->name." ".$employee->last_name : "Ime delavca"}}</strong></caption>
+                        <table class="mb-5 table table-bordered table-hover holidayTable bg-secondary text-light">
                             <thead>
                                 <th scope="col" class="ps-0 pe-0 align-middle">Od</th>
                                 <th scope="col" class="ps-0 pe-0 align-middle">Do</th>
@@ -95,37 +95,42 @@
                     <div id="addUser" class="shadow mt-5 rounded-5 mb-5">
                         <caption>
                             <h1 class="text-center">
-                                Edit users vacation
+                                Uredi podatke o dopustu
                             </h1>
                         </caption>
                         <div class="holidaysEdit mt-3 d-flex flex-column text-center">
-                            <form action="/holidays" method="post">
+                            <form action="{{route('updateVacation')}}" method="post">
+                                @csrf
                                 <div class="mb-2 d-flex flex-column">
                                     <label for="user" class="">Ime delavca</label>
                                     <select name="user" id="user" class="w-50 ms-auto me-auto text-center" onchange="checkEmployee()">
                                         <option selected>Izberi delavca</option>
                                         @foreach($employees as $employee)
-                                            <option value={{Auth::user()->role !== 'visitor' ? $employee->name." ".$employee->last_name : '/'}}>{{Auth::user()->role !== 'visitor' ? $employee->name." ".$employee->last_name : '/'}}</option>
+                                            @if(Auth::user()->role !== 'visitor')
+                                                <option value="{{$employee->name.' '.$employee->last_name}}">{{$employee->name.' '.$employee->last_name}}</option>
+                                                @else
+                                                <option value="/">/</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-2 d-flex flex-column">
-                                    <label for="lastYearHolidays">Last year Holidays</label>
-                                    <input type="number" name="lastYearHolidays"
+                                    <label for="lastYearHolidays">Lanski dopust</label>
+                                    <input type="number" name="last_year"
                                         class="w-50 ms-auto me-auto text-center" id="lastYearHolidays" value="" min="0">
                                 </div>
                                 <div class="mb-2 d-flex flex-column">
-                                    <label for="holidays">Holidays</label>
+                                    <label for="holidays">Letni dopust</label>
                                     <input type="number" name="holidays" class="w-50 ms-auto me-auto text-center"
                                         id="holidays" value="" min="0">
                                 </div>
                                 <div class="mb-2 d-flex flex-column">
-                                    <label for="usedHolidays">Used holidays</label>
-                                    <input type="number" name="usedHolidays" class="w-50 ms-auto me-auto text-center"
+                                    <label for="usedHolidays">Iskoriščen dopust</label>
+                                    <input type="number" name="used_holidays" class="w-50 ms-auto me-auto text-center"
                                         id="usedHolidays" value="" min="0">
                                 </div>
                                 <div class="mb-2 d-flex flex-column">
-                                    <label for="overtime">Overtime</label>
+                                    <label for="overtime">Nadure</label>
                                     <input class="w-50 ms-auto me-auto text-center" type="text" name="overtime"
                                         id="overtime" value="0">
                                 </div>
@@ -137,7 +142,7 @@
                         </div>
                     </div>
                     <div id="div" class="mt-5 mb-5 text-center">
-                        <h3>Update employee holiday data.</h3>
+                        <h3>Uredi podatke o dopustu.</h3>
                         <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Submit</button>
                     </div>
                 </div>
@@ -151,6 +156,8 @@
                 const holidays = document.getElementById('holidays');
                 const usedHolidays = document.getElementById('usedHolidays');
                 const hours = document.getElementById('overtime');
+                let vacations = @json($vacations);
+
                 function editEmployeeHolidayData() {
                     document.getElementById('addUser').style.display = 'block';
                     document.getElementById('div').style.display = 'none';
@@ -169,11 +176,11 @@
 
                 function checkEmployee(){
                 const employee = document.getElementById('user').value;
-                    for(employeeData of holidayData){
+                    for(employeeData of vacations){
                         if(employeeData.user == employee){
                             holidays.value = employeeData.holidays;
-                            lastYearHolidays.value = employeeData.lastYearHolidays;
-                            usedHolidays.value = employeeData.usedHolidays;
+                            lastYearHolidays.value = employeeData.last_year;
+                            usedHolidays.value = employeeData.used_holidays;
                             hours.value = employeeData.overtime;
                         }
                     }

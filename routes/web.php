@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::prefix('vacation')->group(function(){
         Route::get('/',[VacationController::class, 'vacationData'])->name('vacation');
+        Route::post('/updateVacations', [VacationController::class, 'updateVacations'])->name('updateVacation');
         #Route::get('/',function(){
         #    return view('holidays.holidays');
         #})->name('vacation');
