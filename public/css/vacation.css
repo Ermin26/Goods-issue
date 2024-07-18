@@ -1,6 +1,4 @@
-*{
-    color: white;
-}
+
 
 .holidayTable{
     table-layout: fixed;
@@ -10,8 +8,11 @@
 }
 #section,#left,#middle,#right{
     height: 86vh;
+    color: white;
 }
-
+#infoHolidays,form{
+    color: white;
+}
 #infoHolidays tr:hover{
     background-color: darkblue;
 }
@@ -20,8 +21,6 @@
         overflow: hidden;
         background-color: rgb(27, 27, 94);
     }
-
-  
 
     #middle {
         max-height: 100vh;
@@ -46,11 +45,15 @@
         color: white;
         text-align: start;
         height: 100px;
-        width: 150px;
+        width: 100px;
         aspect-ratio: 1/1;
     }
     .vacation {
         background-color: rgb(95, 189, 82);
+    }
+
+    form label{
+        color: white !important;
     }
     #left{
         max-height: 100vh;

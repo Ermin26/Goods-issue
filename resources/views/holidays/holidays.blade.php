@@ -90,8 +90,8 @@
                     </div>
                 </section>
 
-                <section id="middle" class="col-6 flex-row flex-nowrap shadow">
-                    <div class="row row-cols-2">
+                <section id="middle" class="col-6 flex-column flex-nowrap shadow">
+                    <div class="row row-cols-2 w-100">
                         <div class="col">
                             <h2><?php echo date('F')." ". date('Y')?></h2>
                         </div>
@@ -114,8 +114,8 @@
                         </thead>
                         <tbody>
                             <?php
-                            $month = date('m'); // Trenutni mesec
-                            $year = date('Y'); // Trenutno leto
+                            $month = sprintf('%02d', date('m')); // Trenutni mesec
+                            $year = date('Y');
                             $week = date('W');
                             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
                             $firstDayOfMonth = date('N', strtotime("$year-$month-01"));
@@ -127,10 +127,11 @@
                                 echo '<tr>';
                                 for ($i = 1; $i <= 7; $i++) {
                                     if ($startDay < $firstDayOfMonth || $currentDay > $daysInMonth) {
-                                        echo '<td></td>';
+                                        echo "<td></td>";
                                         $startDay++;
                                     } else {
-                                        echo "<td data-date=\"$year-$month-$currentDay\"><span>$currentDay</span></td>";
+                                        $dayFormatted = sprintf('%02d', $currentDay);
+                                        echo "<td data-date=\"$year-$month-$dayFormatted\"><span>$currentDay</span></td>";
                                         $currentDay++;
                                     }
                                 }
@@ -203,22 +204,27 @@
             <script>
                 let vacations = @json($holidays);
                 document.addEventListener('DOMContentLoaded', function () {
+                    let thisYear = new Date();
+                    let year = thisYear.getFullYear();
                     vacations.forEach(function(vacation) {
-                    var startDate = new Date(vacation.start_date);
-                    var endDate = new Date(vacation.end_date);
-                    
-                        for (var d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-                            var dateStr = d.getFullYear() + '-' + 
-                                ('0' + (d.getMonth() + 1)).slice(-2) + '-' + 
-                                ('0' + d.getDate()).slice(-2);
-
-                            var cell = document.querySelector('td[data-date="' + dateStr + '"]');
-                            if (cell) {
-                                cell.classList.add('vacation');
+                        let splitDate = vacation.from.split(' ');
+                        let getYear = splitDate[0].split('-');
+                        if(vacation.status === 'Approved' && getYear[0] == year){
+                            let startDate = vacation.from.split(' ');
+                            let endDate = vacation.to.split(' ');
+                            let from = new Date(startDate[0]);
+                            let to = new Date(endDate[0]);
+                            for (let d = from; d <= to; d.setDate(d.getDate() + 1)) {
+                                let dateStr = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+                                let cell = document.querySelector(`td[data-date="${dateStr}"]`);
+                                if (cell) {
+                                    cell.classList.add('vacation');
+                                }
                             }
                         }
                     });
                 });
+
                 document.getElementById('addUser').style.display = 'none';
                 const lastYearHolidays = document.getElementById('lastYearHolidays');
                 const holidays = document.getElementById('holidays');
@@ -242,7 +248,7 @@
                 }
 
                 function checkEmployee(){
-                const employee = document.getElementById('user').value;
+                    const employee = document.getElementById('user').value;
                     for(employeeData of vacations){
                         if(employeeData.user == employee){
                             holidays.value = employeeData.holidays;

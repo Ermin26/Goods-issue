@@ -43,8 +43,8 @@ class VacationController extends Controller{
                         ]);
                     }
                 }
-                
             }
+            $this->importHolidays($vacations);
             return redirect()->route('home')->with('success', "Uspešno uveženi podatki za dopuste.");
         }catch(ValidationException $e){
             return redirect()->back()->with('error', $e->getMessage());
@@ -52,12 +52,12 @@ class VacationController extends Controller{
         
     }
 
-    private function importHolidays($vacations){
+    private function importHolidays(){
         $mongoClient = new MongoClient(env('MONGODB_HOST'));
         $database = $mongoClient->selectDatabase('test');
         $collection = $database->selectCollection('vacations');
         $data = $collection->find([],[]);
-
+        $vacations = Vacation::all();
         $holidays = iterator_to_array($data);
         foreach($holidays as $holiday){
             foreach($holiday['pendingHolidays'] as $data){
@@ -71,6 +71,7 @@ class VacationController extends Controller{
                         $changeDate = date('Y-m-d', $start);
                         $changeDate2 = date('Y-m-d', $end);
                         $applyed = date('Y-m-d', $apply);
+                        //dd("vacations",$vacation);
                         Holidays::create([
                             'from'=>$changeDate,
                             'to'=> $changeDate2,
