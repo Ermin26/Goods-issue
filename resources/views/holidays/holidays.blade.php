@@ -93,14 +93,14 @@
                 <section id="middle" class="col-6 flex-column flex-nowrap shadow">
                     <div class="row row-cols-2 w-100">
                         <div class="col">
-                            <h2><?php echo date('F')." ". date('Y')?></h2>
+                            <h2><span id="month"></span> <span id="year"></span></h2>
                         </div>
                         <div class="col text-end align-self-end">
-                            <button class="bg-secondary p-1" onclick="changeMonth(-1)">prev</button>
-                            <button class="bg-secondary p-1" onclick="changeMonth(1)">next</button>
+                            <button class="bg-transparent border-0" onclick="changeMonth(-1)"><img src="{{asset('img/left.png')}}" style="height: 30px"></button>
+                            <button class="bg-transparent border-0" onclick="changeMonth(1)"><img src="{{asset('img/right.png')}}" style="height: 30px"></button>
                         </div>
                     </div>
-                    <table>
+                    <table id="calendar">
                         <thead>
                             <tr>
                                 <th>Pon</th>
@@ -113,33 +113,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $month = sprintf('%02d', date('m')); // Trenutni mesec
-                            $year = date('Y');
-                            $week = date('W');
-                            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-                            $firstDayOfMonth = date('N', strtotime("$year-$month-01"));
-                
-                            $currentDay = 1;
-                            $startDay = 1;
-                
-                            while ($currentDay <= $daysInMonth) {
-                                echo '<tr>';
-                                for ($i = 1; $i <= 7; $i++) {
-                                    if ($startDay < $firstDayOfMonth || $currentDay > $daysInMonth) {
-                                        echo "<td></td>";
-                                        $startDay++;
-                                    } else {
-                                        $dayFormatted = sprintf('%02d', $currentDay);
-                                        echo "<td data-date=\"$year-$month-$dayFormatted\"><span>$currentDay</span></td>";
-                                        $currentDay++;
-                                    }
-                                }
-                                echo '</tr>';
-                            }
-                            ?>
+                            
                         </tbody>
-                    </table>    
+</table>
                 </section>
 
                 <div id="right" class="col-3 shadow">
@@ -203,9 +179,52 @@
 
             <script>
                 let vacations = @json($holidays);
+                const date = new Date();
+                let setMonth = date.getMonth() + 1;
+                let month = setMonth;  // Trenutni mesec
+                let year = date.getFullYear();
+
+                function generateCalendar(month,year){
+                    let monthName = new Date(0, month - 1).toLocaleString('default',{month: 'long'})
+                    document.getElementById('month').innerText = monthName;
+                    document.getElementById('year').innerText = year;
+                    let calendar = document.querySelector('#calendar tbody');
+                    calendar.innerHTML = "";
+                    let daysInMonth = new Date(year, month,0).getDate();
+                    let startDate = new Date(year,month -1,1);
+                    let firstDayOfMonth = startDate.getDay();
+                    let currentDay = 1;
+                    let startDay = 1;
+    
+                    while (currentDay <= daysInMonth) {
+                        let row = calendar.insertRow();
+                        for (let i = 1; i <= 7; i++) {
+                            let cell = row.insertCell(i - 1);
+                            if (startDay < firstDayOfMonth || currentDay > daysInMonth) {
+                                cell.innerHTML = " ";
+                                startDay++;
+                            } else {
+                                let formattedMonth = String(month).padStart(2, '0');
+                                let formattedDay = String(currentDay).padStart(2, '0');
+                                cell.innerHTML = `<span>${currentDay}</span>`;
+                                cell.setAttribute("data-date",`${year}-${formattedMonth}-${formattedDay}`);
+                                currentDay++;
+                            }
+                        }
+                    }
+                    let getTodayDate = date.toISOString().split('T')[0];
+                    let findedDate = document.querySelector(`[data-date="${getTodayDate}"]`)
+                    if(findedDate){
+                        findedDate.style.backgroundColor = "#474745";
+                    }
+                }
                 document.addEventListener('DOMContentLoaded', function () {
+                    markVacations(month,year); //
+                });
+
+                function markVacations(month, year){
+                    generateCalendar(month,year);
                     let thisYear = new Date();
-                    let year = thisYear.getFullYear();
                     vacations.forEach(function(vacation) {
                         let splitDate = vacation.from.split(' ');
                         let getYear = splitDate[0].split('-');
@@ -223,7 +242,21 @@
                             }
                         }
                     });
-                });
+                };
+
+                function changeMonth(direction){
+                    month += direction;
+                    if(month < 1){
+                        month = 12;
+                        year -= 1;
+                    }else if(month>12){
+                        month = 1;
+                        year += 1;
+                    }
+                    markVacations(month,year);
+                    document.getElementById('month').innerText = monthName;
+                    document.getElementById('year').innerText = year;
+                }
 
                 document.getElementById('addUser').style.display = 'none';
                 const lastYearHolidays = document.getElementById('lastYearHolidays');
