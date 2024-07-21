@@ -2,20 +2,26 @@
     margin: 0;
     padding: 0;
 }
+header {
+    margin-bottom: 50px;
+}
 #navbar{
-    position: sticky;
+    position: fixed;
     top: 0;
     height: 62px;
+    width: 100%;
     padding: 0;
 }
+
 #userInfo{
-    position: sticky;
+    position: fixed;
     justify-content: end;
-    margin-right: 10px;
     top: 62px;
+    width: 100%;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    margin-right: 10px;
     background-color: rgba(209, 210, 211);
 }
 .name,.role{

@@ -1,10 +1,13 @@
-
+body{
+    max-height: 100vh;
+}
 a {
     text-decoration: none;
 }
 #col1,#col2{
-    max-height: 85vh;
+    max-height: 80vh;
     overflow-y: auto;
+    scrollbar-width: thin;
 }
 #cashTable{
     margin-top: 84px;
@@ -28,8 +31,6 @@ a {
 
     #bills {
         display: inline-flex;
-
-
     }
 
     #table-data,
@@ -87,6 +88,9 @@ a {
     #col1,#col2{
         width: 100%;
     }
+    #col1{
+        max-height: 63vh;
+    }
     #btn-func {
         margin: 3px;
     }
@@ -97,8 +101,7 @@ a {
 
     #bills {
         display: inline-flex;
-
-
+        margin-bottom: 10px;
     }
 
     #table-data,

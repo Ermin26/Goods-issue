@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Holidays extends Model
 {
     protected $table = 'holidays';
-    protected $fillable = ['from', 'to','status', 'days', 'apply_date', 'employee_id'];
+    protected $fillable = ['from', 'to','status', 'days', 'apply_date', 'employee_id','user_name'];
 }

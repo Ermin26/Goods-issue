@@ -1,76 +1,264 @@
+body{
+    overflow:hidden;
+}
+#iconLi{
+    max-height: 50px;
+    width: 50px;
+    margin: 1px;
+}
+#notificationIcon{
+    display: inline-flex;
+    position: relative;
+    padding: 0;
+    align-items: center;
+    top: 4px;
+}
+#notificationIcon:hover{
+    cursor: pointer;
+}
+#notificationIcon >svg{
+    margin-top: 5px;
+}
+#notNumber{
+    position: relative;
+    top: -10px;
+    right: 8px;
+    background-color: red;
+    width: 14px;
+    border-radius: 50%;
+    text-align: center;
+}
+#notNum{
+    margin: 0;
+    padding: 1px;
+    width: 100%;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+}
 
+#notifications{
+    visibility:hidden;
+    position: absolute;
+    text-wrap: nowrap;
+    width: 320px;
+    margin-left: -260px;
+    margin-top: 0px;
+}
+#notifications a{
+    text-decoration: none;
+    color:black;
+}
 
+#notificationIcon:hover~#notifications, #notifications:hover{
+    cursor: pointer;
+    visibility: visible;
+    position: absolute;
+    width: fit-content;
+    text-wrap: nowrap;
+    margin-left: -260px;
+    margin-top: 0px;
+    list-style: none;
+    background-color: white;
+    text-align: start;
+    border: 1px solid black;
+}
+#notifications li:hover{
+    background-color: rgb(161, 161, 161);
+    box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
+}
+
+#userInfo{
+    justify-content: end;
+    padding: 0;
+    max-width: 100%;
+    margin: 0;
+    background-color: rgba(209, 210, 211);
+}
+.name, .role{
+    display: inline-flex;
+    max-width: fit-content;
+    margin: 0px 2px;
+}
+#section {
+    overflow: hidden;
+    background-color: rgb(27, 27, 94);
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+#section,#left,#middle,#right{
+    min-height: 86vh;
+    color: white;
+    text-align: center;
+}
 .holidayTable{
     table-layout: fixed;
 }
-#section{
-    margin: 0;
-}
-#section,#left,#middle,#right{
-    height: 86vh;
-    color: white;
-}
+
 #infoHolidays,form{
     color: white;
+    vertical-align: middle;
 }
 #infoHolidays tr:hover{
     background-color: darkblue;
 }
+#left{
+    max-height: 100vh;
+    overflow-y: auto;
+    max-width: 100%;
+    padding: 0;
+    scrollbar-width: thin;
+    scrollbar-color: blue transparent;
+}
+#middle {
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 0 5px 5px rgb(17, 17, 63);;
+}
+.pendingTable{
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color:  rgb(9, 9, 59) transparent;
+}
+#requestedTable{
+    border-collapse: collapse;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+#requestedTable th, #requestedTable tr, #requestedTable td{
+    text-align: center;
+    text-wrap: nowrap;
+    border: 1px solid white;
+}
+#requestedTable th{
+    padding: 4px 8px;
+}
+#requestedTable td{
+    padding: 6px 12px;
+}
+#calendar {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+#calendar th{
+    border: 1px solid white;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+}
+#calendar td {
+    padding: 5px;
+    border: 1px solid white;
+    color: white;
+    text-align: start;
+    height: 80px;
+    width: 80px;
+    aspect-ratio: 1/1;
+}
+#calendar td >span{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    top: -30px;
+}
+.vacation {
+    background-color: rgb(95, 189, 82);
+}form label{
+    color: white !important;
+}
 
-    #section {
-        overflow: hidden;
-        background-color: rgb(27, 27, 94);
-    }
+.container {
+    margin-bottom: 10vh;
+}
 
-    #middle {
-        max-height: 100vh;
-        padding: 10px;
-        overflow-y: auto;
-        margin-bottom: 15vh;
-    }
-    #middle table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 20px 0;
-    }
-    #middle th{
-        border: 1px solid white;
-        color: white;
-        text-align: center;
-        padding: 5px 10px;
-    }
-    #middle td {
-        padding: 5px;
-        border: 1px solid white;
-        color: white;
-        text-align: start;
-        height: 100px;
-        width: 100px;
-        aspect-ratio: 1/1;
-    }
-    .vacation {
-        background-color: rgb(95, 189, 82);
-    }
+#showUserOnVacation{
+    border-collapse: collapse;
+    color: white;
+}
 
-    form label{
-        color: white !important;
-    }
-    #left{
-        max-height: 100vh;
-        overflow-y: auto;
-        margin-bottom: 10vh;
-        padding: 0;
-    }
+#showUserOnVacation th, #showUserOnVacation td{
+    border: 1px solid white;
+}
+#showUserOnVacation th{
+    padding: 3px 6px;
+}
 
-    .container {
-        margin-bottom: 10vh;
-    }
-    #right{
-        max-height: 100vh;
-    }
+#showUserOnVacation td{
+    padding: 4px 8px;
+}
+/*
 
 
-@media (max-width: 1505px) {
+
+#middle {
+    max-height: 100vh;
+    padding: 10px;
+    overflow-y: auto;
+    margin-bottom: 15vh;
+}
+#requestedTable{
+    border-collapse: collapse;
+}
+#requestedTable th, #requestedTable tr, #requestedTable td{
+    text-align: center;
+    text-wrap: nowrap;
+    border: 1px solid white;
+}
+#requestedTable th{
+    padding: 4px 8px;
+}
+#requestedTable td{
+    padding: 6px 12px;
+}
+#calendar {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+#calendar th{
+    border: 1px solid white;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+}
+#calendar td {
+    padding: 5px;
+    border: 1px solid white;
+    color: white;
+    text-align: start;
+    height: 80px;
+    width: 80px;
+    aspect-ratio: 1/1;
+}
+#calendar td >span{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    top: -30px;
+}
+.vacation {
+    background-color: rgb(95, 189, 82);
+}
+
+form label{
+    color: white !important;
+}
+
+.container {
+    margin-bottom: 10vh;
+}
+#right{
+    max-height: 100vh;
+}
+*/
+
+@media (max-width: 1500px) {
     html {
         overflow-x: hidden;
         overflow-y: visible;
@@ -78,102 +266,29 @@
 
     #section {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 100%;
         height: 100%;
     }
-
-    #left {
-        width: 100%;
-        height: 100%;
+    #left, #middle {
+        width: 50%;
+        height: 100vh;
     }
 
     #right {
-        width: 100%;
-        height: auto;
-    }
-
-    #middle {
-        display: flex;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        justify-content: center;
-        align-items: center;
-    }
-    #middleCol{
-        max-height: 100%;
-    }
-
-    .container {
-        margin: 0;
-        column-gap: 0;
-        max-width: 100%;
-        max-height: 100%;
-
-    }
-
-    #reqTable {
-        margin-top: 50px;
-    }
-
-    #reqTable,
-    #approvedTable,
-    #rejectedTable {
-        display: flex;
-        max-width: 100%;
-        margin-top: 5;
-        padding: 0;
-        overflow: auto;
-    }
-
-    #tableReq,
-    #tableApproved,
-    #tableRejected {
-        overflow-x: auto;
-    }
-
-    #reqTableHead,
-    #approvedHead,
-    #rejectedHead {
-        overflow-x: auto;
+        width: 50%;
     }
 }
-
-@media (max-width: 900px) and (orientation: landscape) {
-    .container {
-        margin: 0;
-        max-width: 100% !important;
-        height: 100%;
-        margin-bottom: 10vh;
+@media(max-width: 992px){
+    #section{
+        flex-direction: column;
     }
-
-    #reqTable,
-    #approvedTable,
-    #rejectedTable {
-        display: flex;
+    #left, #middle, #right {
         width: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: auto;
+        height: 100vh;
     }
-
-    #tableReq,
-    #tableApproved,
-    #tableRejected {
-        overflow-x: auto;
-    }
-
-    #reqTableHead,
-    #approvedHead,
-    #rejectedHead {
-        overflow-x: auto;
-    }
-
-    #rejectedTable,
-    #tableRejected {
-        margin-bottom: 10vh;
+    #middle{
+        order: -1;
     }
 }

@@ -17,7 +17,7 @@
 <body>
     @include('navbar')
     @include('flash')
-    <div class="container text-center mb-5">
+    <div class="container text-center mt-5 mb-5">
 
             <div class="info mt-5 mb-5">
                 <h1 class="mb-3">Podatki o uporabniku</h1>

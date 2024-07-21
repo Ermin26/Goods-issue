@@ -18,9 +18,8 @@
 
 <body>
      @include('navbar')
-    @include('flash')
-        <div id="cols" class="row row-cols-2 w-100 ms-auto me-auto">
-
+     <div id="cols" class="row row-cols-2 w-100 ms-auto me-auto mt-5">
+            @include('flash')
             <div id="col2" class="col-4 p-0 ms-auto me-auto">
                 <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">
                     <thead>

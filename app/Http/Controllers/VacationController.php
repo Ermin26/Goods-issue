@@ -16,6 +16,7 @@ use App\Models\Holidays;
 
 class VacationController extends Controller{
     public function importVacations(){
+        if(Auth::user()->role == 'admin'){
         $mongoClient = new MongoClient(env('MONGODB_HOST'));
         $database = $mongoClient->selectDatabase('test');
         $collection = $database->selectCollection('vacations');
@@ -49,7 +50,7 @@ class VacationController extends Controller{
         }catch(ValidationException $e){
             return redirect()->back()->with('error', $e->getMessage());
         }
-        
+        }
     }
 
     private function importHolidays(){
@@ -65,7 +66,7 @@ class VacationController extends Controller{
                     if($vacation->user == $holiday->user){
                         $start = strtotime($data['startDate'][0]);
                         $end = strtotime($data['endDate'][0]);
-                        $applyDate = preg_replace('/\s+/', '',$data['startDate'][0]);
+                        $applyDate = preg_replace('/\s+/', '',$data['applyDate'][0]);
                         #dd($applyDate);
                         $apply = strtotime($applyDate);
                         $changeDate = date('Y-m-d', $start);
@@ -79,6 +80,7 @@ class VacationController extends Controller{
                             'days'=>$data['days'][0],
                             'apply_date'=>$applyed,
                             'employee_id'=>$vacation->employee_id,
+                            'user_name' => Auth::user()->name,
                         ]);
                     }
                 }
@@ -91,9 +93,10 @@ class VacationController extends Controller{
         $vacations = Vacation::all();
         $holidays = Holidays::all();
         $employees = Employee::where('status', 1)->where('working_status', 'zaposlen/a')->get();
-        #$this->importHolidays($vacations);
+        $pending_holidays = Holidays::where('status', 'pending')->get();
+        #dd($pending_holidays);
 
-        return view('holidays.holidays', compact('vacations','holidays', 'employees'));
+        return view('holidays.holidays', compact('vacations','holidays', 'employees', 'pending_holidays'));
     }
 
     public function updateVacations(Request $request){

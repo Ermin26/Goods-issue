@@ -16,7 +16,7 @@
 
 <body>
     @include('navbar')
-        <div class="container text-center">
+        <div class="container text-center mt-5">
             @include('flash')
                 <div class="text-center mt-3 mb-5">
                     <h1>Dodaj delavca</h1>

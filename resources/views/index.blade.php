@@ -12,8 +12,8 @@
 </head>
 <body>
     @include('navbar')
+    <section id="main">
     @include('flash')
-<section id="main">
     <form action="{{route('create.newBill')}}" method="POST">
         @csrf
         <section class="topSection">

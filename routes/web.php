@@ -7,6 +7,8 @@ use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CostsController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\EmployeeController;
+use App\Models\Vacation;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +29,7 @@ Route::post('/login', [LoginController::class, 'loginUser'])->name('login.login'
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/', [BillsController::class, 'getNumbersPerMonthAndPerYear'])->name('home');
+    Route::get('/importVacations', [VacationController::class, 'importVacations'])->name('importVacations');
 
     Route::prefix('all')->group(function(){
         Route::get('/',[BillsController::class, 'testAll'])->name('all');
@@ -54,6 +57,8 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('vacation')->group(function(){
         Route::get('/',[VacationController::class, 'vacationData'])->name('vacation');
         Route::post('/updateVacations', [VacationController::class, 'updateVacations'])->name('updateVacation');
+        Route::post('/approveHoliday', [VacationController::class, 'approveHoliday'])->name('approveHoliday');
+        Route::post('/rejectHoliday', [VacationController::class, 'rejectHoliday'])->name('rejectHoliday');
         #Route::get('/',function(){
         #    return view('holidays.holidays');
         #})->name('vacation');
