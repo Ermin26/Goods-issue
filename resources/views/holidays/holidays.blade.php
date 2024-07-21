@@ -243,6 +243,7 @@
             <script>
                 let vacations = @json($holidays);
                 let employees = @json($vacations);
+                let role = @json(Auth::user()->role);
                 const date = new Date();
                 let setMonth = date.getMonth() + 1;
                 let month = setMonth;  // Trenutni mesec
@@ -314,7 +315,7 @@
                                     if(employee.employee_id == vacation.employee_id){
                                         let fromDate = new Date(vacation.from);
                                         let toDate = new Date(vacation.to);
-                                        row.insertCell(0).innerHTML = employee.user;
+                                        row.insertCell(0).innerHTML = role != 'visitor' ? employee.user : "Ime delavca";
                                         row.insertCell(1).innerHTML = ('0' + fromDate.getDate()).slice(-2) + '.' + ('0' + (fromDate.getMonth()+1)).slice(-2) + '.' + fromDate.getFullYear();
                                         row.insertCell(2).innerHTML = ('0' + toDate.getDate()).slice(-2) + '.' + ('0' + (toDate.getMonth()+1)).slice(-2) + '.' + toDate.getFullYear();
                                         row.insertCell(3).innerHTML = vacation.days;
