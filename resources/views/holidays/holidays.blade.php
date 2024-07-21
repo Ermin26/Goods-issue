@@ -15,7 +15,7 @@
     @include('navbar')
         @include('flash')
             <section id="section" class="row p-0">
-                <section class="col col-lg-3" id="left">
+                <section id="left" class="col col-lg-3">
                 <div id="usersQtyHolidays" class="text-center ms-auto me-auto">
                     <div class="caption mt-2">
                         <h2 class="mb-3">Stanje dopusta</h2>
@@ -83,7 +83,7 @@
                     @endforeach
                 </div>
                 </section>
-                <section class="col col-lg-7" id="middle">
+                <section id="middle" class="col col-lg-7">
                 <div class="row mb-5" id="pending_holidays">
                     @if($pending_holidays)
                     <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
@@ -104,8 +104,10 @@
                         <tbody>
                             @foreach ($pending_holidays as $pending)
                                 <tr>
-                                    @foreach ($vacations as $vacation)
-                                        @if($vacation->employee_id === $pending->employee_id)
+                                    @php
+                                        $vacation = $vacations->firstWhere('employee_id', $pending->employee_id);
+                                    @endphp
+                                        @if($vacation)
                                         <td>{{$vacation->user}}</td>
                                         <td>{{\Carbon\Carbon::parse($pending->from)->format('d.m.Y')}}</td>
                                         <td>{{\Carbon\Carbon::parse($pending->to)->format('d.m.Y')}}</td>
@@ -125,7 +127,6 @@
                                             </form>
                                         </td>
                                         @endif
-                                    @endforeach
                                 </tr>
                             @endforeach
                         </tbody>
@@ -176,7 +177,7 @@
                 </div>
                 </section>
 
-                <section class="col col-lg-2" id="right">
+                <section id="right" class="col col-lg-2">
                 <div id="addUser" class="shadow mt-5 rounded-5 mb-5">
                     <caption>
                         <h3 class="text-center">
