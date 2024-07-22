@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Helpers;
+use App\Models\Employee;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
-
+use App\Models\Vacation;
+use App\Models\Holidays;
 
 class LoginController extends Controller{
 
@@ -28,10 +30,20 @@ class LoginController extends Controller{
         $user = User::where('name', $request->name)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
+            Auth::guard('web')->login($user);
             $request->session()->regenerate();
 
             return redirect()->route('home')->with('success', "Dobro došli ".auth()->user()->name);
+        }else{
+            $employee = Employee::where('user_name', $request->name)->first();
+            if($employee && Hash::check($request->password, $employee->password)){
+                Auth::guard('employee')->login($employee);
+                $request->session()->regenerate();
+                $userVacations = Vacation::where('user_name', $employee->employee_id)->get();
+                $userHolidays = Holidays::where('employee_id', $employee->employee_id)->get();
+                dd($userVacations);
+                return redirect()->route('employeeHome', compact('userVacations', 'userHolidays'));
+            }
         }
 
         return back()->with('error', "Napačni podatki za prijavo");

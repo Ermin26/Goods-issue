@@ -40,6 +40,11 @@
                             <span id="email-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Email že obstaja!</span>
                         </div>
                         <div class="mb-2">
+                            <label for="user_name">Uporabniško ime</label><br>
+                            <input type="text" name="user_name" id="user_name" required>
+                            <span id="user-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Uporabniško ime že obstaja</span>
+                        </div>
+                        <div class="mb-2">
                             <label for="password">Geslo</label><br>
                             <input type="password" name="password" id="password">
                         </div>
@@ -86,6 +91,7 @@
             <script>
                 $(document).ready(function() {
                     var existingEmails = @json($emails);
+                    var existingusername = @json($userName);
         
                     $('#email').on('keyup', function() {
                         var email = $(this).val();
@@ -96,6 +102,14 @@
                             $('#email-exists').hide();
                         }
                     });
+                    $('#user_name').on('keyup',function(){
+                        var username = $(this).val();
+                        if(existingusername.includes(username)){
+                            $('#user-exists').show();
+                        }else{
+                            $('#user-exists').hide();
+                        }
+                    })
                 });
             </script>
 </body>

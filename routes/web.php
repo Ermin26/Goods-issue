@@ -66,7 +66,7 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
         #Route::get('/',[EmployeeController::class, 'importEmployee'])->name('users');
-        Route::get('/add',[UsersController::class, 'checkEmails'])->name('users.add');
+        Route::get('/add',[EmployeeController::class, 'checkEmails'])->name('users.add');
         Route::get('/edit/{id}',[UsersController::class, 'findUser'])->name('users.editUser');
         Route::get('/employee/{id}',[EmployeeController::class, 'findEmployee'])->name('users.editEmployee');
         Route::post('/update/{id}',[UsersController::class, 'updateUser'])->name('users.update');

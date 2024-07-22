@@ -23,7 +23,7 @@ body{
     position: relative;
     top: -10px;
     right: 8px;
-    background-color: red;
+    background-color: white;
     width: 14px;
     border-radius: 50%;
     text-align: center;
@@ -122,7 +122,7 @@ body{
 .pendingTable{
     overflow-x: auto;
     scrollbar-width: thin;
-    scrollbar-color:  rgb(9, 9, 59) transparent;
+    scrollbar-color:  blue transparent;
 }
 #requestedTable{
     border-collapse: collapse;
@@ -192,76 +192,11 @@ body{
 #showUserOnVacation td{
     padding: 4px 8px;
 }
-/*
-
-
-
-#middle {
-    max-height: 100vh;
-    padding: 10px;
-    overflow-y: auto;
-    margin-bottom: 15vh;
-}
-#requestedTable{
-    border-collapse: collapse;
-}
-#requestedTable th, #requestedTable tr, #requestedTable td{
-    text-align: center;
-    text-wrap: nowrap;
-    border: 1px solid white;
-}
-#requestedTable th{
-    padding: 4px 8px;
-}
-#requestedTable td{
-    padding: 6px 12px;
-}
-#calendar {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 20px 0;
-}
-#calendar th{
-    border: 1px solid white;
-    color: white;
-    text-align: center;
-    padding: 5px 10px;
-}
-#calendar td {
-    padding: 5px;
-    border: 1px solid white;
-    color: white;
-    text-align: start;
-    height: 80px;
-    width: 80px;
-    aspect-ratio: 1/1;
-}
-#calendar td >span{
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
-    top: -30px;
-}
-.vacation {
-    background-color: rgb(95, 189, 82);
-}
-
-form label{
-    color: white !important;
-}
-
-.container {
-    margin-bottom: 10vh;
-}
-#right{
-    max-height: 100vh;
-}
-*/
-
 @media (max-width: 1500px) {
     html {
         overflow-x: hidden;
         overflow-y: visible;
+        scrollbar-width: thin;
     }
 
     #section {
@@ -272,8 +207,15 @@ form label{
         height: 100%;
     }
     #left, #middle {
-        width: 50%;
-        height: 100vh;
+        max-height: 90vh;
+    }
+    #left{
+        width: 40%;
+    }
+    #middle{
+        width: 60%;
+        scrollbar-width: thin;
+        scrollbar-color: blue transparent;
     }
 
     #right {

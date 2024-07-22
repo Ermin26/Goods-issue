@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'employee'=>[
+            'driver'=>'session',
+            'provider'=>'employee'
+        ]
     ],
 
     /*
@@ -64,6 +68,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'employees'=>[
+            'driver'=>'eloquent',
+            'model'=> App\Models\Employee::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -107,5 +115,6 @@ return [
     */
 
     'password_timeout' => 10800,
+
 
 ];

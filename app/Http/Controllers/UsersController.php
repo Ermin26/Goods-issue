@@ -14,10 +14,6 @@ use App\Models\Employee;
 class UsersController extends Controller{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function checkEmails(){
-        $emails = Employee::pluck('email')->toArray();
-        return view('users.add', compact('emails'));
-    }
     public function checkUsers(){
         $users = User::pluck('name')->toArray();
         return view('users.register', compact('users'));

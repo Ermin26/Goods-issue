@@ -13,6 +13,7 @@ use App\Models\Employee;
 
 
 class EmployeeController extends Controller{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function importEmployee(){
         $mongoClient = new MongoClient(env('MONGODB_HOST'));
         $database = $mongoClient->selectDatabase('test');
@@ -24,6 +25,7 @@ class EmployeeController extends Controller{
         try{
             foreach ($employees as $employee){
                 Employee::create([
+                    'user_name'=> $employee->username."12",
                     'name'=>$employee->username,
                     'last_name'=>$employee->lastname,
                     'email'=> isset($employee->email) ? $employee->email : null,
@@ -37,9 +39,16 @@ class EmployeeController extends Controller{
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function checkEmails(){
+        $emails = Employee::pluck('email')->toArray();
+        $userName = Employee::pluck('user_name')->toArray();
+        return view('users.add', compact('emails','userName'));
+    }
     public function addEmployee(Request $request){
-        if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator'){
+        if(Auth::user()->role !== 'visitor'){
             $request->validate([
+                'user_name' => 'required|string|max:255',
                 'name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
                 'email' => 'required|string|max:255|unique:employee',
@@ -48,6 +57,7 @@ class EmployeeController extends Controller{
                 'working_status' => 'required|string',
             ]);
             Employee::create([
+                'user_name' => $request->user_name,
                 'name' => $request->name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
@@ -61,7 +71,7 @@ class EmployeeController extends Controller{
     }
 
     public function findEmployee($id){
-        if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator'){
+        if(Auth::user()->role !== 'visitor'){
             $employee = Employee::findOrFail($id);
             if($employee){
                 return view('users.editEmployee', ['employee' => $employee]);
@@ -92,6 +102,7 @@ class EmployeeController extends Controller{
                 }
                 $status = $request->input('status') === 'active' ? 1 : 0;
                 $employee->update([
+                    'user_name' => $request->input('user_name'),
                     'name' => $request->input('name'),
                     'last_name' => $request->input('last_name'),
                     'email' => $request->input('email'),

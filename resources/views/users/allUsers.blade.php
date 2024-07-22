@@ -15,8 +15,8 @@
 
 <body>
     @include('navbar')
-        @include('flash')
-            <div class="containerr mt-5">
+    <div class="containerr mt-5">
+                @include('flash')
                 <div id="row" class="row row-cols-2 ms-auto me-auto w-100">
 
                     <div id="col" class="col1 col text-center">

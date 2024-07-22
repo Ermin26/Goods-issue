@@ -13,9 +13,9 @@
 
 <body>
     @include('navbar')
-        @include('flash')
-            <section id="section" class="row p-0">
-                <section id="left" class="col col-lg-3">
+        <section id="section" class="row p-0">
+            @include('flash')
+            <section id="left" class="col col-lg-3">
                 <div id="usersQtyHolidays" class="text-center ms-auto me-auto">
                     <div class="caption mt-2">
                         <h2 class="mb-3">Stanje dopusta</h2>
@@ -82,8 +82,8 @@
                         @endif
                     @endforeach
                 </div>
-                </section>
-                <section id="middle" class="col col-lg-7">
+            </section>
+            <section id="middle" class="col col-lg-7">
                 <div class="row mb-5" id="pending_holidays">
                     @if($pending_holidays)
                     <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
@@ -175,9 +175,9 @@
                         </tbody>
                     </table>
                 </div>
-                </section>
+            </section>
 
-                <section id="right" class="col col-lg-2">
+            <section id="right" class="col col-lg-2">
                 <div id="addUser" class="shadow mt-5 rounded-5 mb-5">
                     <caption>
                         <h3 class="text-center">
@@ -235,8 +235,8 @@
                     <h3>Uredi podatke o dopustu.</h3>
                     <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Submit</button>
                 </div>
-                </section>
             </section>
+        </section>
 
 
 
@@ -278,16 +278,14 @@
                             }
                         }
                     }
-                    let getTodayDate = date.toISOString().split('T')[0];
-                    let findedDate = document.querySelector(`[data-date="${getTodayDate}"]`)
-                    if(findedDate){
-                        findedDate.style.backgroundColor = "#474745";
-                    }
+                        prevNextMonthDays(month,year);
+                        findeTodayDate();
                     vacationTable.innerHTML = "";
                     document.getElementById('showUser').style.display = 'none';
                 }
                 document.addEventListener('DOMContentLoaded', function () {
                     markVacations(month,year); //
+                    infoHolidaysTable();
                 });
 
                 function markVacations(month, year){
@@ -309,7 +307,7 @@
                                 }
                             }
                             let row = vacationTable.insertRow();
-                            if(month == from.getMonth() + 1){
+                            if(month == new Date(startDate[0]).getMonth()+1 || month == new Date(endDate[0]).getMonth()+1){
                                 document.getElementById('showUser').style.display = 'block';
                                 for(employee of employees) {
                                     if(employee.employee_id == vacation.employee_id){
@@ -339,6 +337,57 @@
                     markVacations(month,year);
                 }
 
+                function prevNextMonthDays(month, year){
+                    let lastRow = calendar.rows[calendar.rows.length - 1];
+                    let firstRow = calendar.rows[1];
+
+                    let nextMonthDay = 1;
+                    let nextMonth = month + 1;
+                    let nextMonthYear = year;
+
+                    let lastMonthDay = date.getMonth();
+                    let lastDayOfMonth = new Date(year, lastMonthDay, 0).getDate();
+                    let prevMonth = month - 1;
+                    let prevYear = year;
+
+                    if (nextMonth > 12) {
+                        nextMonth = 1;
+                        nextMonthYear++;
+                    }
+                    else if(prevMonth < 1){
+                        prevMonth = 12;
+                        prevYear--;
+                    }
+                    let nextMonthFormatted = String(nextMonth).padStart(2, '0');
+                    let prevMonthFormatted = String(prevMonth).padStart(2, '0');
+
+                    for (let i = 0; i < 7; i++) {
+                        let cell = lastRow.cells[i];
+                        if (cell.innerHTML.trim() === "") {
+                            let nextDayFormatted = String(nextMonthDay).padStart(2, '0');
+                            cell.innerHTML = `<span class="text-light text-opacity-50">${nextMonthDay}</span>`;
+                            cell.setAttribute("data-date", `${nextMonthYear}-${nextMonthFormatted}-${nextDayFormatted}`);
+                            nextMonthDay++;
+                        }
+                    }
+                    for(let i = 6; i >= 0; i--){
+                        let cell = firstRow.cells[i];
+                        if(cell.innerHTML.trim() === ""){
+                            let prevDayFormatted = String(lastDayOfMonth).padStart(2,'0');
+                            cell.innerHTML = `<span class="text-light text-opacity-50">${lastDayOfMonth}</span>`;
+                            cell.setAttribute("data-date", `${prevYear}-${prevMonthFormatted}-${prevDayFormatted}`);
+                            lastDayOfMonth --;
+                        }
+                    }
+                }
+
+                function findeTodayDate(){
+                    let getTodayDate = date.toISOString().split('T')[0];
+                    let findedDate = document.querySelector(`[data-date="${getTodayDate}"]`)
+                    if(findedDate){
+                        findedDate.style.backgroundColor = "#474745";
+                    }
+                }
                 document.getElementById('addUser').style.display = 'none';
                 const lastYearHolidays = document.getElementById('lastYearHolidays');
                 const holidays = document.getElementById('holidays');
@@ -351,14 +400,16 @@
 
                 }
 
-                const myTable = document.getElementById('infoHolidays');
-                const rows = myTable.rows.length - 1;
+                function infoHolidaysTable(){
+                    const myTable = document.getElementById('infoHolidays');
+                    const rows = myTable.rows.length - 1;
 
-                for (let i = 1; i <= rows; i++) {
-                    let userLast = myTable.rows[i].cells[1].innerHTML;
-                    let userThis = myTable.rows[i].cells[2].innerHTML;
-                    let userUsed = myTable.rows[i].cells[3].innerHTML;
-                    myTable.rows[i].cells[4].innerHTML = parseInt(userLast) + parseInt(userThis) - parseInt(userUsed);
+                    for (let i = 1; i <= rows; i++) {
+                        let userLast = myTable.rows[i].cells[1].innerHTML;
+                        let userThis = myTable.rows[i].cells[2].innerHTML;
+                        let userUsed = myTable.rows[i].cells[3].innerHTML;
+                        myTable.rows[i].cells[4].innerHTML = parseInt(userLast) + parseInt(userThis) - parseInt(userUsed);
+                    }
                 }
 
                 function checkEmployee(){

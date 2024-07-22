@@ -18,7 +18,7 @@
 
     @include('navbar')
 
-        <div class="container text-center">
+        <div class="container text-center mt-5">
             @include('flash')
                 <div class="text-center mt-3 mb-2">
                     <h1> <strong class="text-primary">
@@ -44,6 +44,11 @@
                     <div class="mb-2">
                         <label for="email">E-naslov</label><br>
                         <input type="email" class="text-center" name="email" id="email"value="@if(Auth::user()->role !== 'visitor'){{$employee->email}}@else/@endif">
+                    </div>
+                    <div class="mb-2">
+                        <label for="user_name">Uporabniško ime</label><br>
+                        <input type="text" class="text-center" name="user_name" id="user_name"
+                            value="@if(Auth::user()->role !== 'visitor'){{$employee->user_name}}@else/@endif">
                     </div>
                     <div class="mb-2">
                         <label for="password">Geslo</label><br>
