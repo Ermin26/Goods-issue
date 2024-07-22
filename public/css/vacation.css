@@ -115,7 +115,10 @@ body{
 }
 #middle {
     padding: 10px;
+    max-height: 90vh;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: blue transparent;
     overflow-x: hidden;
     box-shadow: 0 0 5px 5px rgb(17, 17, 63);;
 }
@@ -223,6 +226,9 @@ body{
     }
 }
 @media(max-width: 992px){
+    .navbar-nav li:last-child{
+        margin-left: auto;
+    }
     #section{
         flex-direction: column;
     }

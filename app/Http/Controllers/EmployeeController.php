@@ -84,7 +84,7 @@ class EmployeeController extends Controller{
     }
 
     public function updateEmployee(Request $request, $id){
-        if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator'){
+        if(Auth::user()->role !== 'visitor'){
             $employee = Employee::findOrFail($id);
             ##dd("This is id ". $employee);
                 #dd($request->all());
@@ -97,11 +97,8 @@ class EmployeeController extends Controller{
                         'status' => 'required|string',
                         'working_status' => 'required|string',
                     ]);
-                } catch (\Illuminate\Validation\ValidationException $e) {
-                    dd('Validation errors:', $e->errors());
-                }
-                $status = $request->input('status') === 'active' ? 1 : 0;
-                $employee->update([
+                    $status = $request->input('status') === 'active' ? 1 : 0;
+                    $employee->update([
                     'user_name' => $request->input('user_name'),
                     'name' => $request->input('name'),
                     'last_name' => $request->input('last_name'),
@@ -110,9 +107,12 @@ class EmployeeController extends Controller{
                     'status' => $status,
                     'password' => Hash::make($request->input('password')),
                 ]);
-                
 
                 return redirect()->route('users')->with('success', 'Uspešno posodbljeni podatki!');
+                } catch (\Illuminate\Validation\ValidationException $e) {
+                    return redirect()->back()->with('error', $e->errors());
+                }
+
         }else{
             #return redirect()->back()->with('error', 'Nimate dovoljena za spreminjanje podatkov!');
             return redirect()->route('home')->with('error', 'Nimate dovoljena za spreminjanje podatkov!');
@@ -132,9 +132,5 @@ class EmployeeController extends Controller{
 
     }
 }
-
-
-
-
 
 ?>
