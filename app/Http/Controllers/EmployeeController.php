@@ -144,6 +144,43 @@ class EmployeeController extends Controller{
     
         return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills'));
     }
+
+    public function vacation(){
+        if(Auth::guard('employee')->user()){
+            $employee = Auth::guard('employee')->user()->id;
+            $vacation = Vacation::where('employee_id', $employee)->first();
+            return view('employees.vacation', compact('vacation'));
+        }else {
+            return redirect()->rout('login')->with('error', "Prijavite se.");
+        }
+    }
+
+    public function newHoliday(Request $request){
+        if(Auth::guard('employee')->user()){
+            try{
+                $request->validate([
+                    'from'=> 'required',
+                    'to'=> 'required',
+                    'days'=> 'integer|required',
+                ]);
+
+                Holidays::create([
+                    'from'=>$request->from,
+                    'to'=>$request->to,
+                    'days'=>$request->days,
+                    'employee_id'=>Auth::guard('employee')->user()->id,
+                ]);
+
+                return redirect()->route('employeeHome')->with('success', "Vloga za dopust uspešno oddana.");
+
+            }catch(ValidationException $e){
+                $errors = $e->validator->errors()->all();
+                return redirect()->back()->with('error', $errors);
+            }
+        }else{
+            return redirect()->rout('login')->with('error', "Prijavite se.");
+        }
+    }
 }
 
 ?>

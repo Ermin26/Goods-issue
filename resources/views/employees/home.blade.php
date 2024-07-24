@@ -89,31 +89,33 @@
         </section>
 
         <section id="holidays">
+            @if(count($userHolidays) > 0)
             <h2>Oddane vloge za dopust</h2>
-            <div class="tableData">
-                <table class="table table-responsive table-bordered border-1 border-light">
-                    <thead>
-                        <tr>
-                            <td>Od</td>
-                            <td>Do</td>
-                            <td>Status</td>
-                            <td>Uredi</td>
-                            <td>Izbriši</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($userHolidays as $holiday)
+                <div class="tableData">
+                    <table class="table table-responsive table-bordered border-1 border-light">
+                        <thead>
                             <tr>
-                                <td>{{\Carbon\Carbon::parse($holiday->from)->format('d.m.Y')}}</td>
-                                <td>{{\Carbon\Carbon::parse($holiday->to)->format('d.m.Y')}}</td>
-                                <td>{{$holiday->status}}</td>
-                                <td><button class="btn btn-sm btn-warning">Uredi</button></td>
-                                <td><button class="btn btn-sm btn-danger">Izbriši</button></td>
+                                <td>Od</td>
+                                <td>Do</td>
+                                <td>Status</td>
+                                <td>Uredi</td>
+                                <td>Izbriši</td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($userHolidays as $holiday)
+                                <tr>
+                                    <td>{{\Carbon\Carbon::parse($holiday->from)->format('d.m.Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($holiday->to)->format('d.m.Y')}}</td>
+                                    <td>{{$holiday->status}}</td>
+                                    <td><button class="btn btn-sm btn-warning">Uredi</button></td>
+                                    <td><button class="btn btn-sm btn-danger">Izbriši</button></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </section>
     </main>
 

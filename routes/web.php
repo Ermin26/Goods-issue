@@ -85,6 +85,9 @@ Route::middleware(['auth'])->group(function(){
 });
 Route::prefix('employee')->group(function(){
     Route::get('/', [EmployeeController::class,'employeeData'])->name('employeeHome');
+    Route::get('/vacation', [EmployeeController::class,'vacation'])->name('employeeVacation');
+    Route::get('/profile', [EmployeeController::class,'employeeData'])->name('employeeProfile');
+    Route::post('/vacation',[EmployeeController::class, 'newHoliday'])->name('newHoliday');
 });
 Route::fallback(function () {
     return view('error404');
