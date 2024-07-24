@@ -48,7 +48,8 @@ class VacationController extends Controller{
             $this->importHolidays($vacations);
             return redirect()->route('home')->with('success', "Uspešno uveženi podatki za dopuste.");
         }catch(ValidationException $e){
-            return redirect()->back()->with('error', $e->getMessage());
+            $errors = $e->validator->errors()->all();
+            return redirect()->back()->with('error', "Napaka pri posodabljanju podatkov. ".$errors);
         }
         }
     }

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/notification.css')}}">
     <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <title>Document</title>
+    <title>Novi račun</title>
 </head>
 <body>
     @include('navbar')

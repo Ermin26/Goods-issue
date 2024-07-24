@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use \Illuminate\Validation\ValidationException;
 use MongoDB\Client as MongoClient;
 use App\Models\Employee;
+use App\Models\Vacation;
+use App\Models\Holidays;
+use App\Models\Bills;
 
 
 class EmployeeController extends Controller{
@@ -110,7 +113,8 @@ class EmployeeController extends Controller{
 
                 return redirect()->route('users')->with('success', 'Uspešno posodbljeni podatki!');
                 } catch (\Illuminate\Validation\ValidationException $e) {
-                    return redirect()->back()->with('error', $e->errors());
+                    $errors = $e->validator->errors()->all();
+                    return redirect()->back()->with('error', $errors);
                 }
 
         }else{
@@ -130,6 +134,15 @@ class EmployeeController extends Controller{
             }
         }
 
+    }
+
+    public function employeeData(){
+        $employee = Auth::guard('employee')->user();
+        $userVacations = Vacation::where('employee_id', $employee->id)->get();
+        $userHolidays = Holidays::where('employee_id', $employee->id)->where('status', 'Pending')->get();
+        $unpayedBills = Bills::where('payed', 0)->where('buyer', $employee->name." ".$employee->last_name)->get();
+    
+        return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills'));
     }
 }
 

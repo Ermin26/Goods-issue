@@ -30,11 +30,9 @@ class LoginController extends Controller{
             $employee = Employee::where('user_name', $request->name)->first();
             if($employee && Hash::check($request->password, $employee->password) && $employee->status == 1){
                 Auth::guard('employee')->login($employee);
+                #dd(Auth::guard('employee'));
                 $request->session()->regenerate();
-                $userVacations = Vacation::where('employee_id', $employee->id)->get();
-                $userHolidays = Holidays::where('employee_id', $employee->id)->get();
-                dd("Uspešna prijava. Stran je v pripravi");
-                #return redirect()->route('employeeHome', compact('userVacations', 'userHolidays'));
+                return redirect()->route('employeeHome')->with('success', "Welcome");
             }
         }
 

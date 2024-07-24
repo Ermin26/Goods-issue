@@ -83,6 +83,9 @@ Route::middleware(['auth'])->group(function(){
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
+Route::prefix('employee')->group(function(){
+    Route::get('/', [EmployeeController::class,'employeeData'])->name('employeeHome');
+});
 Route::fallback(function () {
     return view('error404');
 });
