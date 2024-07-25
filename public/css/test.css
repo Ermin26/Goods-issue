@@ -9,6 +9,11 @@ body{
     height: 100%;
 }
 
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
 #employeeNav{
     display: flex;
     flex-direction: row;
@@ -55,6 +60,10 @@ main{
     height: calc(100dvh - 40px);
 }
 
+.alert{
+    margin-top: 14px;
+}
+
 #racuni{
     position: relative;
     margin: 20px 0;
@@ -81,7 +90,7 @@ h2{
     overflow-x: auto;
 }
 
-#vacation{
+#vacation, #profile, #updateForm{
     margin: 20px 0;
     padding: 10px 20px;
     display: flex;
@@ -92,21 +101,46 @@ h2{
     overflow-x: hidden;
 }
 
-#vacation form{
+form{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    max-width: 900px;
+    min-width: 300px;
     border: 1px solid black;
-    padding: 6px 16px;
+    padding: 16px 26px;
+    background-color: rgba(49, 47, 47, 0.904);
+    box-shadow: 0 0 5px 5px rgb(49,47,47);
 }
 
 .mb-3{
     display: flex;
     flex-direction: column;
+    max-width: 300px;
 }
 
 label{
     color: white;
     text-align: center;
     padding: 4px 8px;
+}
+
+input{
+    width: 200px;
+}
+
+button{
+    display: inline-flex;
+    width: fit-content;
+}
+
+
+#employeeNav form, #employeeNav button, .table form{
+    all: unset;
+}
+
+#employeeNav form:hover{
+    cursor: pointer;
 }

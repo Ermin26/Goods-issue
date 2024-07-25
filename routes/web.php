@@ -59,9 +59,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/updateVacations', [VacationController::class, 'updateVacations'])->name('updateVacation');
         Route::post('/approveHoliday', [VacationController::class, 'approveHoliday'])->name('approveHoliday');
         Route::post('/rejectHoliday', [VacationController::class, 'rejectHoliday'])->name('rejectHoliday');
-        #Route::get('/',function(){
-        #    return view('holidays.holidays');
-        #})->name('vacation');
+
     });
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
@@ -80,15 +78,22 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/newBill', [BillsController::class, 'newBill'])->name('create.newBill');
     Route::post('/createUser', [UsersController::class, 'storeUser'])->name('users.createUser');
 
+});
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware(['auth.employee'])->group(function(){
+    Route::prefix('employee')->group(function(){
+        Route::get('/', [EmployeeController::class,'employeeData'])->name('employeeHome');
+        Route::get('/vacation', [EmployeeController::class,'vacation'])->name('employeeVacation');
+        Route::get('/profile', [EmployeeController::class,'getProfile'])->name('profile');
+        Route::get('/editHoliday/{id}', [EmployeeController::class,'editHoliday'])->name('editHoliday');
+        Route::post('/vacation',[EmployeeController::class, 'newHoliday'])->name('newHoliday');
+        Route::post('/editProfile/{id}',[EmployeeController::class, 'updateProfile'])->name('editProfile');
+        Route::post('/updatedHoliday/{id}',[EmployeeController::class, 'updateHoliday'])->name('updateHoliday');
+        Route::delete('/deleteHoliday/{id}',[EmployeeController::class, 'deleteHoliday'])->name('deleteHoliday');
+    });
 });
-Route::prefix('employee')->group(function(){
-    Route::get('/', [EmployeeController::class,'employeeData'])->name('employeeHome');
-    Route::get('/vacation', [EmployeeController::class,'vacation'])->name('employeeVacation');
-    Route::get('/profile', [EmployeeController::class,'employeeData'])->name('employeeProfile');
-    Route::post('/vacation',[EmployeeController::class, 'newHoliday'])->name('newHoliday');
-});
+
 Route::fallback(function () {
     return view('error404');
 });

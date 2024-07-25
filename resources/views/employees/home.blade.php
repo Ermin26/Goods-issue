@@ -108,8 +108,13 @@
                                     <td>{{\Carbon\Carbon::parse($holiday->from)->format('d.m.Y')}}</td>
                                     <td>{{\Carbon\Carbon::parse($holiday->to)->format('d.m.Y')}}</td>
                                     <td>{{$holiday->status}}</td>
-                                    <td><button class="btn btn-sm btn-warning">Uredi</button></td>
-                                    <td><button class="btn btn-sm btn-danger">Izbriši</button></td>
+                                    <td><button class="btn btn-sm btn-warning"><a href="/employee/editHoliday/{{$holiday->id}}">Uredi</a></button></td>
+                                    <td>
+                                        <form action="{{route('deleteHoliday', $holiday->id)}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" value="submit" class="btn btn-sm btn-danger">Izbriši</button></td>
+                                        </form>
                                 </tr>
                             @endforeach
                         </tbody>

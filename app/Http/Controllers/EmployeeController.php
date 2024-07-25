@@ -137,12 +137,16 @@ class EmployeeController extends Controller{
     }
 
     public function employeeData(){
-        $employee = Auth::guard('employee')->user();
-        $userVacations = Vacation::where('employee_id', $employee->id)->get();
-        $userHolidays = Holidays::where('employee_id', $employee->id)->where('status', 'Pending')->get();
-        $unpayedBills = Bills::where('payed', 0)->where('buyer', $employee->name." ".$employee->last_name)->get();
+        if(Auth::guard('employee')->user()){
+            $employee = Auth::guard('employee')->user();
+            $userVacations = Vacation::where('employee_id', $employee->id)->get();
+            $userHolidays = Holidays::where('employee_id', $employee->id)->where('status', 'Pending')->get();
+            $unpayedBills = Bills::where('payed', 0)->where('buyer', $employee->name." ".$employee->last_name)->get();
     
-        return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills'));
+            return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills'));
+        }else{
+            return redirect()->route('login')->with('error', "Prijavite se za nadaljevanje.");
+        }
     }
 
     public function vacation(){
@@ -179,6 +183,97 @@ class EmployeeController extends Controller{
             }
         }else{
             return redirect()->rout('login')->with('error', "Prijavite se.");
+        }
+    }
+
+    public function getProfile(){
+        if(Auth::guard('employee')->user()){
+            $employee = Auth::guard('employee')->user();
+            $myProfile = Employee::where('id', $employee->id)->first();
+            $myVacations = Vacation::where('employee_id', $employee->id)->first();
+            $myHolidays = Holidays::where('employee_id', $employee->id)->first();
+            return view('employees.profile', compact('myVacations', 'myHolidays', 'myProfile'));
+        }else{
+            return redirect()->route('login')->with('error', "Prijavite se.");
+        }
+    }
+
+    public function updateProfile(Request $request, $id){
+        if(Auth::guard('employee')->user()){
+            try{
+                $request->validate([
+                    'username'=> 'string|required',
+                    'email'=> 'required',
+                    'password'=> 'required'
+                ]);
+                $password = $request->input('password');
+                $employeeData = Employee::findOrFail($id);
+                $employeeData->update([
+                    'user_name'=> $request->input('username'),
+                    'email'=> $request->input('email'),
+                    'password'=> Hash::make($password),
+                ]);
+
+                $employeeData->save();
+                return redirect()->route('profile')->with('success',"Podatki uspešno posodobljeni");
+            }catch(ValidationException $e){
+                $error = $e->validator->errors()->all();
+                return redirect()->back()->with('error', $error);
+            }
+        }else{
+            return redirect()->route('login')->with('error', "Prijavite se.");
+        }
+    }
+
+    public function editHoliday($id){
+        if(Auth::guard('employee')->user()){
+            $holiday = Holidays::findOrFail($id);
+            return view('employees.vacationUpdate', compact('holiday'));
+        }else{
+            return redirect()->route('login')->with('error', "Prijavite se.");
+        }
+    }
+
+    public function updateHoliday(Request $request,$id){
+        if(Auth::guard('employee')->user()){
+            try{
+                $request->validate([
+                    'from'=> 'required',
+                    'to'=> 'required',
+                    'days'=> 'required',
+                ]);
+
+                $holiday = Holidays::findOrFail($id);
+
+                $holiday->update([
+                    'from'=> $request->input('from'),
+                    'to'=> $request->input('to'),
+                    'days'=> $request->input('days'),
+                ]);
+
+                $holiday->save();
+                return redirect()->route('employeeHome')->with('success', "Uspešno posodobljena vloga za dopust.");
+            }catch(ValidationException $e){
+                $error = $e->validator->errors()->all();
+                return redirect()->back()->with('error', "Error: ", $error);
+            }
+        }else{
+            return redirect()->route('login')->with('error', "Prijavite se.");
+        }
+    }
+
+    public function deleteHoliday($id){
+        if(Auth::guard('employee')->user()){
+            try{
+                $holiday = Holidays::findOrFail($id);
+                $holiday->delete();
+                return redirect()->route('employeeHome')->with('success', 'Uspešno izbrisana vloga za dopust.');
+            }catch(ValidationException $e){
+                $error = $e->validator->errors()->all();
+                return redirect()->back()->with('error', "Error: ", $error);
+            }
+        }else{
+            return redirect()->route('login')->with('error', "Prijavite se.");
         }
     }
 }

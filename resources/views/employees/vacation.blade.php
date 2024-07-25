@@ -31,12 +31,8 @@
                     <label for="days">Število dni</label>
                     <input type="number" class="text-center" name="days" id="days" required>
                 </div>
-                <div class="mb-3">
-                    <label for="status">Status</label>
-                    <input type="text" class="text-center" name="status" id="status" value="Pending" readonly>
-                </div>
                 <div class="row">
-                    <button class="btn btn-primary d-flex flex-row ms-auto me-auto w-50 justify-content-center">Oddaj</button>
+                    <button class="btn btn-primary">Oddaj</button>
                 </div>
             </form>
         </section>

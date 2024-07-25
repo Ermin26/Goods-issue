@@ -6,10 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Employee;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Models\User;
-use App\Models\Vacation;
-use App\Models\Holidays;
+use \Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller{
 
@@ -32,7 +30,7 @@ class LoginController extends Controller{
                 Auth::guard('employee')->login($employee);
                 #dd(Auth::guard('employee'));
                 $request->session()->regenerate();
-                return redirect()->route('employeeHome')->with('success', "Welcome");
+                return redirect()->route('employeeHome')->with('success', "Dobro došli.");
             }
         }
 
@@ -40,9 +38,20 @@ class LoginController extends Controller{
     }
 
     public function logout(Request $request){
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect()->route('login')->with('success', "Nasvidanje.");
+        try {
+            // Check the current guard
+            if (Auth::guard('employee')->check()) {
+                Auth::guard('employee')->logout();
+            } else {
+                Auth::guard('web')->logout();
+            }
+    
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+    
+            return redirect()->route('login')->with('success', "Nasvidanje.");
+        } catch (ValidationException $e) {
+            return redirect()->back()->with('error', "Error: " . $e);
+        }
     }
 }
