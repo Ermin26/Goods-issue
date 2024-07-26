@@ -150,15 +150,16 @@
                 let emptyDiv = document.getElementById('empty');
 
                 document.getElementById('searchUser').addEventListener('submit', function(event) {
-                event.preventDefault();
+                    event.preventDefault();
 
-                let username = document.getElementById('username').value;
-                let product = document.getElementById('product').value;
+                    let username = document.getElementById('username').value;
+                    let product = document.getElementById('product').value;
                     allBillsTable.innerHTML ="";
                     notPayedTable.innerHTML ="";
                     btns.style.display = "none";
 
-                fetchData('{{ route('searchUser') }}', { username: username, product: product });});
+                    fetchData('{{ route('searchUser') }}', { username: username, product: product });
+                });
 
                 function fetchData(url, params) {
                     let tbody = document.querySelector('#tableProducts tbody');
@@ -202,7 +203,7 @@
                             showError(emptyDiv);
                         }
                     })
-                .catch(error => console.error('Error:', error));
+                    .catch(error => console.error('Error:', error));
                 }
 
                 function searchedNameAndProduct(data, tbody, allBillsTable, allBillsResults,notPayedTable, buyedProductsDiv,btns){

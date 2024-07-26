@@ -16,6 +16,10 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+            if(Auth::guard('employee')->check()){
+                session()->flash('error', "Dostop ni dovoljen");
+                return route('employeeHome');
+            }
             return route('login');
         }
     }

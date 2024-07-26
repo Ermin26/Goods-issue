@@ -7,6 +7,7 @@ use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CostsController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\EmployeeController;
+use App\Models\Employee;
 use App\Models\Vacation;
 
 /*
@@ -91,6 +92,7 @@ Route::middleware(['auth.employee'])->group(function(){
         Route::post('/editProfile/{id}',[EmployeeController::class, 'updateProfile'])->name('editProfile');
         Route::post('/updatedHoliday/{id}',[EmployeeController::class, 'updateHoliday'])->name('updateHoliday');
         Route::delete('/deleteHoliday/{id}',[EmployeeController::class, 'deleteHoliday'])->name('deleteHoliday');
+        Route::post('/myHolidays/{id}', [EmployeeController::class, 'myHolidays'])->name('myHolidays');
     });
 });
 

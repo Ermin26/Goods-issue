@@ -36,10 +36,93 @@
                 </div>
             </form>
         </section>
-
+        <section id="searchVacation">
+            <h3>Išči dopust</h3>
+            <form id="getVacations">
+                <div class="mb-3">
+                    <label for="monthYear">Mesec ali Leto</label>
+                    <input type="number" name="monthYear" min="1" id="monthYear">
+                </div>
+                <div class="mb-3">
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        <option value="">Status</option>
+                        <option value="Approved">Odobreno</option>
+                        <option value="Rejected">Zavrnenjo</option>
+                    </select>
+                </div>
+                <button class="btn btn-sm btn-primary">Išči</button>
+            </form>
+            <section id="showVacations">
+                <table id="myHolidays" class="table table-responsive table-bordered border-1 border-light">
+                    <thead>
+                        <tr>
+                            <th>Od</th>
+                            <th>Do</th>
+                            <th>Days</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </section>
+        </section>
     </main>
 
 
+    <script>
+
+        let id = @json($employee);
+        let myHolidays = document.getElementById('myHolidays');
+        myHolidays.style.display='none';
+        document.getElementById('getVacations').addEventListener('submit', function(event){
+            event.preventDefault();
+
+            let time = document.getElementById('monthYear');
+            let status = document.getElementById('status').value;
+            let url = "{{ route('myHolidays', ['id' => '__ID__']) }}".replace('__ID__', id);
+            fetchData(url,{time: time.value, status: status});
+        });
+
+        function fetchData(url, params){
+            let tbody = document.querySelector('#myHolidays tbody');
+            tbody.innerHTML = "";
+            myHolidays.style.display ='none';
+            fetch(url, {
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body:JSON.stringify(params)
+            })
+            .then(response=>response.json())
+            .then(data =>{
+                console.log(data)
+                showHolidays(data, tbody);
+            })
+            .catch(error=>console.error("Error: ", error));
+        };
+
+        function showHolidays(data, tbody){
+            data.holidays.forEach(array => {
+                let row = tbody.insertRow();
+                row.insertCell(0).innerHTML = array.from.split(' ')[0];
+                row.insertCell(1).innerHTML = array.to.split(' ')[0];
+                row.insertCell(2).innerHTML = array.days;
+                row.insertCell(3).innerHTML = array.status;
+                if(array.status == 'Approved'){
+                    row.cells[3].classList.add('bg-success')
+                }else if(array.status == 'Rejected'){
+                    row.cells[3].classList.add('bg-danger')
+
+                }
+            });
+            myHolidays.style.display="block";
+        }
+
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
             integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"

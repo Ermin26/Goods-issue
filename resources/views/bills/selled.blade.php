@@ -97,59 +97,7 @@
 
         }
 
-/*
-        function payedBills() {
 
-            document.getElementById('allUsers').style.display = 'none';
-            document.getElementById('niPlacano').style.display = 'none';
-            document.getElementById('caption').style.display = 'none';
-            document.getElementById('notPayedcaption').style.display = 'none';
-            document.getElementById('payedCaption').style.display = 'block';
-            document.getElementById('placano').style.display = 'block';
-            document.getElementById('placano').style.marginLeft = 'auto';
-            document.getElementById('placano').style.marginRight = 'auto';
-            let active = document.getElementById('placali')
-            active.classList.add('border-bottom', 'border-3', 'rounded-bottom', 'border-success')
-            document.getElementById('vsi').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-primary')
-            document.getElementById('nePlacali').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-danger')
-            let placano = document.getElementById('payedBills');
-            let rows = placano.rows.length - 1;
-            let totalPayed = 0;
-            for (let i = 1; i <= rows; i++) {
-                var x = document.getElementById('payed').rows[i].cells[3].innerText;
-                totalPayed += parseFloat(x, 10);
-            }
-            document.getElementById('skupajPlacano').innerHTML = "Total: " + " " + totalPayed.toFixed(2) + " €";
-
-        }
-        function notPayedBills() {
-            let active = document.getElementById('nePlacali')
-            active.classList.add('border-bottom', 'border-3', 'rounded-bottom', 'border-danger')
-            document.getElementById('placali').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-success')
-            document.getElementById('vsi').classList.remove('border-bottom', 'border-3', 'rounded-bottom', 'border-primary')
-            document.getElementById('placano').style.display = 'none';
-            document.getElementById('allUsers').style.display = 'none';
-            document.getElementById('caption').style.display = 'none';
-            document.getElementById('payedCaption').style.display = 'none';
-            document.getElementById('notPayedcaption').style.display = 'block';
-            document.getElementById('niPlacano').style.display = 'block';
-            document.getElementById('niPlacano').style.marginLeft = 'auto';
-            document.getElementById('niPlacano').style.marginRight = 'auto';
-
-            let all = document.getElementById('notpayed');
-            let rows = all.rows.length - 2;
-
-            let total = 0;
-            for (let i = 1; i <= rows; i++) {
-                var x = document.getElementById('notpayed').rows[i].cells[4].innerText;
-                total += parseFloat(x, 10);
-            }
-            document.getElementById('total').innerHTML = "<strong>" + total.toFixed(2) + " " + "€" + "</strong>";
-            document.getElementById('dolg').innerHTML = "Total to pay:" + " " + total.toFixed(2) + " " + "€";
-
-
-        }
-*/
         let mybutton = document.getElementById("myBtn");
         let bottom = document.getElementById("bottom");
 

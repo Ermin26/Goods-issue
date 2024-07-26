@@ -143,7 +143,7 @@ class EmployeeController extends Controller{
             $userHolidays = Holidays::where('employee_id', $employee->id)->where('status', 'Pending')->get();
             $unpayedBills = Bills::where('payed', 0)->where('buyer', $employee->name." ".$employee->last_name)->get();
     
-            return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills'));
+            return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills', 'employee'));
         }else{
             return redirect()->route('login')->with('error', "Prijavite se za nadaljevanje.");
         }
@@ -153,7 +153,7 @@ class EmployeeController extends Controller{
         if(Auth::guard('employee')->user()){
             $employee = Auth::guard('employee')->user()->id;
             $vacation = Vacation::where('employee_id', $employee)->first();
-            return view('employees.vacation', compact('vacation'));
+            return view('employees.vacation', compact('vacation', 'employee'));
         }else {
             return redirect()->rout('login')->with('error', "Prijavite se.");
         }
@@ -274,6 +274,50 @@ class EmployeeController extends Controller{
             }
         }else{
             return redirect()->route('login')->with('error', "Prijavite se.");
+        }
+    }
+
+    public function myHolidays(Request $request, $id){
+        if(Auth::guard(('employee'))->user()){
+            try{
+
+                $time = $request->input('time');
+                $status = $request->input('status');
+
+                if($time && !$status){
+                    if(strlen($time) > 0 && strlen($time) < 3 && intval($time) > 0 && intval($time) < 13){
+                        return response()->json([
+                            'time' => $time,
+                            'status' => "no status",
+                            'id'=> $id
+                        ]);
+                    }
+                }else if($status && !$time){
+                    return response()->json([
+                        'time' => 'noTime',
+                        'status' => $status,
+                        'id'=> $id
+                    ]);
+                }else if($status && strlen($time) > 0 && strlen($time) < 3 && intval($time) > 0 && intval($time) < 13){
+                    return response()->json([
+                        'time' => $time,
+                        'status' => $status,
+                        'id'=> $id
+                    ]);
+                }else{
+                    $data = Holidays::where('employee_id', $id)->get();
+                    return response()->json([
+                        'holidays'=>$data
+                    ]);
+                }
+
+
+            }catch(ValidationException $e){
+                $error = $e->validator->errors()->all();
+                return response()->json(['error', $error]);
+            }
+        }else{
+            return redirect()->back()->with('error', "Prijavite se.");
         }
     }
 }
