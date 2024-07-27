@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use MongoDB\Client as MongoClient;
 use App\Models\Bills;
 use App\Models\Products;
+use App\Models\Holidays;
 
 
 class BillsController extends Controller{
@@ -28,8 +29,9 @@ class BillsController extends Controller{
         $year = date("Y");
         $numYear = Bills::where('year', $year)->orderBy('num_per_year', 'DESC')->pluck('num_per_year')->first();
         $numMonth = Bills::where('year', $year)->where('month', $month)->orderBy('num_per_month', 'DESC')->pluck('num_per_month')->first();
+        $notifications = Holidays::where('status', 'Pending')->get();
         #$this->updateBillsTotal();
-        return view('index',['numYear'=>$numYear + 1,'numMonth'=>$numMonth + 1]);
+        return view('index',['numYear'=>$numYear + 1,'numMonth'=>$numMonth + 1,'notifications'=>$notifications]);
     }
 
     public function newBill(Request $request){
@@ -230,15 +232,16 @@ class BillsController extends Controller{
 
         $products = Products::all();
         
-        Log::info('Neto Not Payed (Controller): ' . $netoNotPayed);
-        return view('bills.selled', compact('bills','payed','notPayed', 'products', 'thisMonth', 'totalBills', 'totalPayed','totalNotPayed', 'netoPayed', 'netoNotPayed'));
+        $notifications = Holidays::where('status', 'Pending')->get();
+        return view('bills.selled', compact('bills','payed','notPayed', 'products', 'thisMonth', 'totalBills', 'totalPayed','totalNotPayed', 'netoPayed', 'netoNotPayed','notifications'));
     }
 
     public function findBill($id){
         $bill = Bills::findOrFail($id);
         $products = Products::where('bills_id', $id)->get();
+        $notifications = Holidays::where('status', 'Pending')->get();
         if($bill){
-            return view('bills.viewBill', compact('bill','products'));
+            return view('bills.viewBill', compact('bill','products','notifications'));
         };
 
         return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");
@@ -247,8 +250,9 @@ class BillsController extends Controller{
         $bill = Bills::findOrFail($id);
         $products = Products::where('bills_id', $id)->get();
         
+        $notifications = Holidays::where('status', 'Pending')->get();
         if($bill){
-            return view('bills.edit', compact('bill','products'));
+            return view('bills.edit', compact('bill','products','notifications'));
         };
 
         return redirect()->back()->with('error', "Napaka. Račun ne obstaja!");
@@ -361,50 +365,59 @@ class BillsController extends Controller{
     }
 
     public function searchUser(Request $request){
-            try{
-                $request->validate([
-                    'username' => 'nullable|string',
-                    'product' => 'nullable|string',
-                ]);
-                $username = $request->input('username');
-                $product = $request->input('product');
-                $bills=null;
-                $products=null;
-                $allProducts = null;
-                $productsSummary = null;
-                $numberOfBills = null;
-                if($username && $product){
-                    $bills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->get();
-                    $products = Products::where('bills_buyer', 'LIKE', "%{$username}%")->where('products.name', 'LIKE', "%{$product}%")->get();
-                    $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
-                    $numberOfBills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->count();
-                }else if($username && !$product){
-                    $bills = Bills::where('buyer','LIKE', "%{$username}%")->get();
-                    $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
-                    $products = null;
-                    $numberOfBills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->count();
-                }else if(!$username && $product){
-                        $products = Products::selectRaw('name, COUNT(*) as buyed_times')
-                            ->groupBy('name')
-                            ->where('products.name', 'LIKE', "%{$product}%")
-                            ->get();
-                }else{
-                    $productsSummary = Products::selectRaw('name, COUNT(*) as buyed_times')
+        try{
+            $request->validate([
+                'username' => 'nullable|string',
+                'product' => 'nullable|string',
+            ]);
+            $username = $request->input('username');
+            $product = $request->input('product');
+            $bills=null;
+            $products=null;
+            $allProducts = null;
+            $productsSummary = null;
+            $numberOfBills = null;
+            if($username && $product){
+                $bills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->get();
+                $products = Products::where('bills_buyer', 'LIKE', "%{$username}%")->where('products.name', 'LIKE', "%{$product}%")->get();
+                $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
+                $numberOfBills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->count();
+            }else if($username && !$product){
+                $bills = Bills::where('buyer','LIKE', "%{$username}%")->get();
+                $allProducts = Products::where('bills_buyer', 'LIKE', "%{$username}%")->get();
+                $products = null;
+                $numberOfBills = Bills::where('bills.buyer', 'LIKE', "%{$username}%")->count();
+            }else if(!$username && $product){
+                    $products = Products::selectRaw('name, COUNT(*) as buyed_times')
                         ->groupBy('name')
-                        ->orderBy('buyed_times', 'DESC')
+                        ->where('products.name', 'LIKE', "%{$product}%")
                         ->get();
-                }
-                return response()->json([
-                    'bills' => $bills,
-                    'products' => $products,
-                    'allProducts' => $allProducts,
-                    'productsSummary' => $productsSummary,
-                    'allBills'=>$numberOfBills
-                ]);
-            } catch (ValidationException $e) {
-                return response()->json(['error' => $e->getMessage()], 422);
-            } catch (\Exception $e) {
-                return response()->json(['error' => $e->getMessage()], 500);
+            }else{
+                $productsSummary = Products::selectRaw('name, COUNT(*) as buyed_times')
+                    ->groupBy('name')
+                    ->orderBy('buyed_times', 'DESC')
+                    ->get();
             }
+            return response()->json([
+                'bills' => $bills,
+                'products' => $products,
+                'allProducts' => $allProducts,
+                'productsSummary' => $productsSummary,
+                'allBills'=>$numberOfBills
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function searchUsers(){
+        if(Auth::check()){
+            $notifications = Holidays::where('status', 'Pending')->get();
+            return view('users.search', compact('notifications'));
+        }else{
+            return redirect()->back();
+        }
+    }
 }

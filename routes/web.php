@@ -7,8 +7,6 @@ use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CostsController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\EmployeeController;
-use App\Models\Employee;
-use App\Models\Vacation;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +46,7 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('/costs/{id}',[CostsController::class, 'deleteBill'])->name('costs.deleteBill');
 
     Route::prefix('/search')->group(function(){
-        Route::get('/',function(){
-            return view('users.search');
-            })->name('search');
+        Route::get('/',[BillsController::class,'searchUsers'])->name('search');
         Route::post('/user',[BillsController::class, 'searchUser'])->name('searchUser');
     });
 
@@ -58,8 +54,8 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('vacation')->group(function(){
         Route::get('/',[VacationController::class, 'vacationData'])->name('vacation');
         Route::post('/updateVacations', [VacationController::class, 'updateVacations'])->name('updateVacation');
-        Route::post('/approveHoliday', [VacationController::class, 'approveHoliday'])->name('approveHoliday');
-        Route::post('/rejectHoliday', [VacationController::class, 'rejectHoliday'])->name('rejectHoliday');
+        Route::post('/approveHoliday/{id}', [VacationController::class, 'approveHoliday'])->name('approveHoliday');
+        Route::post('/rejectHoliday/{id}', [VacationController::class, 'rejectHoliday'])->name('rejectHoliday');
 
     });
     Route::prefix('users')->group(function(){

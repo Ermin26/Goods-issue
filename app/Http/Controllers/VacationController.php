@@ -95,9 +95,10 @@ class VacationController extends Controller{
         $holidays = Holidays::all();
         $employees = Employee::where('status', 1)->where('working_status', 'zaposlen/a')->get();
         $pending_holidays = Holidays::where('status', 'pending')->get();
+        $notifications = Holidays::where('status', 'Pending')->get();
         #dd($pending_holidays);
 
-        return view('holidays.holidays', compact('vacations','holidays', 'employees', 'pending_holidays'));
+        return view('holidays.holidays', compact('vacations','holidays', 'employees', 'pending_holidays','notifications'));
     }
 
     public function updateVacations(Request $request){
@@ -125,6 +126,35 @@ class VacationController extends Controller{
             }
         }else{
             return redirect()->back()->with('error', "Nimate dovoljena za spreminjanje podatkov.");
+        }
+    }
+
+    public function approveHoliday($id){
+        if(Auth::user()->role == 'admin'){
+            $holiday = Holidays::findOrFail($id);
+            $holiday->update([
+                'status' => 'Approved',
+                'user_name'=> Auth::user()->name,
+            ]);
+
+            $holiday->save();
+            return redirect()->back()->with('success','Dopust uspešno odobren.');
+        }else{
+            return redirect()->back()->with('error', "Dostop zavrnjen!");
+        }
+    }
+    public function rejectHoliday($id){
+        if(Auth::user()->role == 'admin'){
+            $holiday = Holidays::findOrFail($id);
+            $holiday->update([
+                'status' => 'Rejected',
+                'user_name'=> Auth::user()->name,
+            ]);
+
+            $holiday->save();
+            return redirect()->back()->with('success','Dopust uspešno zavrnjen.');
+        }else{
+            return redirect()->back()->with('error', "Dostop zavrnjen!");
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Costs;
+use App\Models\Holidays;
 use \Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use MongoDB\Client as MongoClient;
@@ -39,7 +40,8 @@ class CostsController extends Controller{
         $bills = Costs::all();
         #$payedBills = DB::table('bills')->join('products', 'bills_id', '=', 'bills.id' )->select('products.total')->where('bills.payed', '=', '1')->get();
         $payedBills = DB::table('bills')->join('products', 'bills_id', '=', 'bills.id' )->where('bills.payed', '=', '1')->sum('products.total');
-        return view('bills.costs', ['bills'=>$bills, 'payedBills'=>$payedBills]);
+        $notifications = Holidays::where('status', 'Pending')->get();
+        return view('bills.costs', ['bills'=>$bills, 'payedBills'=>$payedBills, 'notifications'=>$notifications]);
     }
 
     public function addCosts(Request $request){

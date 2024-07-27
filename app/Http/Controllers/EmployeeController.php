@@ -46,7 +46,9 @@ class EmployeeController extends Controller{
     public function checkEmails(){
         $emails = Employee::pluck('email')->toArray();
         $userName = Employee::pluck('user_name')->toArray();
-        return view('users.add', compact('emails','userName'));
+        $notifications = Holidays::where('status', 'Pending')->get();
+        
+        return view('users.add', compact('emails','userName','notifications'));
     }
     public function addEmployee(Request $request){
         if(Auth::user()->role !== 'visitor'){
@@ -89,19 +91,17 @@ class EmployeeController extends Controller{
     public function updateEmployee(Request $request, $id){
         if(Auth::user()->role !== 'visitor'){
             $employee = Employee::findOrFail($id);
-            ##dd("This is id ". $employee);
-                #dd($request->all());
-                try {
-                    $request->validate([
-                        'name' => 'required|string|max:255',
-                        'last_name' => 'required|string|max:255',
-                        'email' => 'required|string|max:255',
-                        'password' => 'required|string|max:255',
-                        'status' => 'required|string',
-                        'working_status' => 'required|string',
-                    ]);
-                    $status = $request->input('status') === 'active' ? 1 : 0;
-                    $employee->update([
+            try {
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'email' => 'required|string|max:255',
+                    'password' => 'required|string|max:255',
+                    'status' => 'required|string',
+                    'working_status' => 'required|string',
+                ]);
+                $status = $request->input('status') === 'active' ? 1 : 0;
+                $employee->update([
                     'user_name' => $request->input('user_name'),
                     'name' => $request->input('name'),
                     'last_name' => $request->input('last_name'),
@@ -112,10 +112,10 @@ class EmployeeController extends Controller{
                 ]);
 
                 return redirect()->route('users')->with('success', 'Uspešno posodbljeni podatki!');
-                } catch (\Illuminate\Validation\ValidationException $e) {
-                    $errors = $e->validator->errors()->all();
-                    return redirect()->back()->with('error', $errors);
-                }
+            } catch (ValidationException $e) {
+                $errors = $e->validator->errors()->all();
+                return redirect()->back()->with('error', $errors);
+            }
 
         }else{
             #return redirect()->back()->with('error', 'Nimate dovoljena za spreminjanje podatkov!');
@@ -281,36 +281,75 @@ class EmployeeController extends Controller{
         if(Auth::guard(('employee'))->user()){
             try{
 
-                $time = $request->input('time');
+                $month = $request->input('month');
+                $year = $request->input('year');
                 $status = $request->input('status');
 
-                if($time && !$status){
-                    if(strlen($time) > 0 && strlen($time) < 3 && intval($time) > 0 && intval($time) < 13){
+                switch(true){
+                    case !is_null($month) && is_null($year) && is_null($status):
+                        $data = Holidays::whereMonth('from', $month)->where('employee_id', $id)->get();
                         return response()->json([
-                            'time' => $time,
-                            'status' => "no status",
-                            'id'=> $id
+                            'holidays' => $data,
                         ]);
-                    }
-                }else if($status && !$time){
-                    return response()->json([
-                        'time' => 'noTime',
-                        'status' => $status,
-                        'id'=> $id
-                    ]);
-                }else if($status && strlen($time) > 0 && strlen($time) < 3 && intval($time) > 0 && intval($time) < 13){
-                    return response()->json([
-                        'time' => $time,
-                        'status' => $status,
-                        'id'=> $id
-                    ]);
-                }else{
-                    $data = Holidays::where('employee_id', $id)->get();
-                    return response()->json([
-                        'holidays'=>$data
-                    ]);
-                }
+                        break;
+                    case !is_null($year) && is_null($status) && is_null($month):
+                        if(strlen($year) == 4){
+                            $data = Holidays::whereYear('from', $year)->where('employee_id', $id)->get();
+                            return response()->json([
+                                'holidays' => $data,
+                            ]);
+                        }else{
+                            return response()->json([
+                                'holidays' => "",
+                            ]);
+                        }
+                        break;
+                    case !is_null($status) && is_null($month) && is_null($year):
+                        $data = Holidays::where('status', $status)->where('employee_id', $id)->get();
+                        return response()->json([
+                            'holidays' => $data,
+                        ]);
+                        break;
+                    case !is_null($month) && !is_null($year) && is_null($status);
+                        if(strlen($year) == 4){
+                            $data = Holidays::whereMonth('from', $month)->whereYear('from', $year)->where('employee_id', $id)->get();
+                            return response()->json([
+                                'holidays' => $data,
+                            ]);
+                        }else{
+                            $data = Holidays::whereMonth('from', $month)->where('employee_id', $id)->get();
+                            return response()->json([
+                                'holidays' => $data,
+                        ]);
+                        }
+                        break;
 
+                    case !is_null($month) && is_null($year) && !is_null($status);
+                        $data = Holidays::whereMonth('from', $month)->where('status', $status)->where('employee_id', $id)->get();
+                        return response()->json([
+                            'holidays' => $data,
+                        ]);
+                        break;
+                    case is_null($month) && !is_null($year) && !is_null($status);
+                        $data = Holidays::whereYear('from', $year)->where('status', $status)->where('employee_id', $id)->get();
+                        return response()->json([
+                            'holidays' => $data,
+                        ]);
+                        break;
+                    case !is_null($month) && !is_null($year) && !is_null($status);
+                        $data = Holidays::whereMonth('from', $month)->whereYear('from', $year)->where('status', $status)->where('employee_id', $id)->get();
+                        return response()->json([
+                            'holidays' => $data,
+                        ]);
+                        break;
+
+                    default:
+                        $data = Holidays::where('employee_id', $id)->get();
+                        return response()->json([
+                            'holidays' => $data,
+                        ]);
+                        break;
+                }
 
             }catch(ValidationException $e){
                 $error = $e->validator->errors()->all();

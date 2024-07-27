@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Employee;
+use App\Models\Holidays;
 
 
 class UsersController extends Controller{
@@ -16,7 +17,8 @@ class UsersController extends Controller{
 
     public function checkUsers(){
         $users = User::pluck('name')->toArray();
-        return view('users.register', compact('users'));
+        $notifications = Holidays::where('status', 'Pending')->get();
+        return view('users.register', compact('users', 'notifications'));
     }
 
     public function storeUser(Request $request){
@@ -43,8 +45,9 @@ class UsersController extends Controller{
     public function findAllUsers(Request $request){
         $users = User::all();
         $employees = Employee::orderBy('status', 'DESC')->get();
+        $notifications = Holidays::where('status', 'Pending')->get();
         if($users){
-            return view('users.allUsers', ['users' => $users, 'employees' => $employees]);
+            return view('users.allUsers', ['users' => $users, 'employees' => $employees, 'notifications' => $notifications]);
         }else{
             return view('home')->with('error', "User not found!");
         }
@@ -53,8 +56,9 @@ class UsersController extends Controller{
     public function findUser($id){
         if(Auth::user()->role === 'admin'){
             $user = User::findOrFail($id);
-            if($user){
-                return view('users.editUser', ['user' => $user]);
+            $notifications = Holidays::where('status', 'Pending')->get();
+        if($user){
+                return view('users.editUser', ['user' => $user, 'notifications' => $notifications]);
             }else{
                 return redirect()->route('users.users')->with('error', "Uporabnik ne obstaja!");
                 }

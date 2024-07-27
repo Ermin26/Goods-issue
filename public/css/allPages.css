@@ -51,7 +51,7 @@ header {
 #notificationIcon >svg{
     margin-top: 5px;
 }
-#notNumber{
+.numLength{
     position: relative;
     top: -10px;
     right: 8px;
@@ -60,7 +60,7 @@ header {
     border-radius: 50%;
     text-align: center;
 }
-#notNum{
+.num{
     margin: 0;
     padding: 1px;
     width: 100%;
@@ -75,13 +75,24 @@ header {
     visibility:hidden;
     position: absolute;
     text-wrap: nowrap;
-    width: 320px;
+    width: 300px;
     margin-left: -260px;
     margin-top: 0px;
+    background-color: inherit;
+    color: white;
+    padding: 0;
+}
+
+#notifications li{
+    margin: 0;
+    width: 100%;
+    padding: 4px;
 }
 #notifications a{
+    display: inline-flex;
     text-decoration: none;
     color:black;
+    width: 100%;
 }
 
 #notificationIcon:hover~#notifications, #notifications:hover{
@@ -90,8 +101,9 @@ header {
     position: absolute;
     width: fit-content;
     text-wrap: nowrap;
+    width: 300px;
     margin-left: -260px;
-    margin-top: 0px;
+    margin-top: -5px;
     list-style: none;
     background-color: white;
     text-align: start;

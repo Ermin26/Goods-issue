@@ -85,7 +85,7 @@
             </section>
             <section id="middle" class="col col-lg-7">
                 <div class="row mb-5" id="pending_holidays">
-                    @if($pending_holidays)
+                    @if($pending_holidays && count($pending_holidays) > 0)
                     <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
                     <div class="pendingTable">
                     <table id="requestedTable">
@@ -108,20 +108,21 @@
                                         $vacation = $vacations->firstWhere('employee_id', $pending->employee_id);
                                     @endphp
                                         @if($vacation)
-                                        <td>{{$vacation->user}}</td>
+                                        <td>{{$vacation->user}}
+                                        </td>
                                         <td>{{\Carbon\Carbon::parse($pending->from)->format('d.m.Y')}}</td>
                                         <td>{{\Carbon\Carbon::parse($pending->to)->format('d.m.Y')}}</td>
                                         <td>{{$pending->days}}</td>
                                         <td>{{\Carbon\Carbon::parse($pending->apply_date)->format('d.m.Y')}}</td>
                                         <td>{{$vacation->holidays + $vacation->last_year - $vacation->used_holidays}}</td>
                                         <td>
-                                            <form action="{{route('approveHoliday', $holiday->employee_id)}}" method="post">
+                                            <form action="{{route('approveHoliday', $pending->id)}}" method="post">
                                                 @csrf
                                                 <button class="btn btn-sm btn-success">Odobri</button>
                                             </form>
                                         </td>
                                         <td>
-                                            <form action="{{route('rejectHoliday',$holiday->employee_id)}}" method="post">
+                                            <form action="{{route('rejectHoliday',$pending->id)}}" method="post">
                                                 @csrf
                                                 <button class="btn btn-sm btn-danger">Zavrni</button>
                                             </form>

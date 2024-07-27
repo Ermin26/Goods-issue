@@ -23,6 +23,7 @@ a{
     margin: 0;
     padding: 0;
     background-color: rgb(27, 26, 26);
+    z-index: 999;
 }
 
 #employeeNav ul{
@@ -103,6 +104,9 @@ h2,h3{
 
 #searchVacation{
     padding: 10px 0;
+}
+#showVacations{
+    margin: 20px 0;
 }
 
 form{

@@ -37,11 +37,18 @@
             </form>
         </section>
         <section id="searchVacation">
+            <div id="error" class="w-100">
+                <h1 class="text-center bg-danger text-light p-4" style="display: none">Ni podatkov za izbrani kriterij.</h1>
+            </div>
             <h3>Išči dopust</h3>
             <form id="getVacations">
                 <div class="mb-3">
-                    <label for="monthYear">Mesec ali Leto</label>
-                    <input type="number" name="monthYear" min="1" id="monthYear">
+                    <label for="month">Mesec</label>
+                    <input type="number" name="month" min="1" max="12" id="month">
+                </div>
+                <div class="mb-3">
+                    <label for="year">Leto</label>
+                    <input type="number" name="year" min="1" id="year">
                 </div>
                 <div class="mb-3">
                     <label for="status">Status</label>
@@ -79,10 +86,11 @@
         document.getElementById('getVacations').addEventListener('submit', function(event){
             event.preventDefault();
 
-            let time = document.getElementById('monthYear');
+            let month = document.getElementById('month').value;
+            let year = document.getElementById('year').value;
             let status = document.getElementById('status').value;
             let url = "{{ route('myHolidays', ['id' => '__ID__']) }}".replace('__ID__', id);
-            fetchData(url,{time: time.value, status: status});
+            fetchData(url,{month: month, year: year, status: status});
         });
 
         function fetchData(url, params){
@@ -99,28 +107,36 @@
             })
             .then(response=>response.json())
             .then(data =>{
-                console.log(data)
                 showHolidays(data, tbody);
             })
             .catch(error=>console.error("Error: ", error));
         };
 
         function showHolidays(data, tbody){
-            data.holidays.forEach(array => {
-                let row = tbody.insertRow();
-                row.insertCell(0).innerHTML = array.from.split(' ')[0];
-                row.insertCell(1).innerHTML = array.to.split(' ')[0];
-                row.insertCell(2).innerHTML = array.days;
-                row.insertCell(3).innerHTML = array.status;
-                if(array.status == 'Approved'){
-                    row.cells[3].classList.add('bg-success')
-                }else if(array.status == 'Rejected'){
-                    row.cells[3].classList.add('bg-danger')
-
-                }
-            });
-            myHolidays.style.display="block";
+            if(data && data.holidays.length > 0){
+                data.holidays.forEach(array => {
+                    let row = tbody.insertRow();
+                    row.insertCell(0).innerHTML = array.from.split(' ')[0];
+                    row.insertCell(1).innerHTML = array.to.split(' ')[0];
+                    row.insertCell(2).innerHTML = array.days;
+                    row.insertCell(3).innerHTML = array.status;
+                    if(array.status == 'Approved'){
+                        row.cells[3].classList.add('bg-success')
+                    }else if(array.status == 'Rejected'){
+                        row.cells[3].classList.add('bg-danger')
+                    }
+                });
+                myHolidays.style.display="block";
+            }else{
+                document.getElementById('error').innerHTML = "";
+                let h1 = document.createElement('h1');
+                h1.innerHTML = "Ni podatkov."
+                h1.classList.add('text-center', 'bg-danger', 'p-2', 'text-light');
+                document.getElementById('error').appendChild(h1);
+            }
         }
+
+
 
     </script>
 
