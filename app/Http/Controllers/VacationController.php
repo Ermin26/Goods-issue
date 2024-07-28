@@ -1,14 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use MongoDB\Client as MongoClient;
 use App\Models\Vacation;
 use App\Models\Employee;
@@ -131,28 +127,84 @@ class VacationController extends Controller{
 
     public function approveHoliday($id){
         if(Auth::user()->role == 'admin'){
-            $holiday = Holidays::findOrFail($id);
-            $holiday->update([
-                'status' => 'Approved',
-                'user_name'=> Auth::user()->name,
-            ]);
+            $holiday = Holidays::where('id',$id)->where('status', "Pending")->first();
+            if($holiday){
+                $employee = Employee::where('id', $holiday->employee_id)->first();
 
-            $holiday->save();
-            return redirect()->back()->with('success','Dopust uspešno odobren.');
+                $holiday->update([
+                    'status' => 'Approved',
+                    'user_name'=> Auth::user()->name,
+                ]);
+
+                $holiday->save();
+
+                $vacation = Vacation::where('employee_id', $employee->id)->first();
+
+                $vacation->update([
+                    'used_holidays'=> $vacation->used_holidays + $holiday->days,
+                ]);
+                $vacation->save();
+                try{
+                    $changeDate = strtotime($holiday->from);
+                    $changeDate2 = strtotime($holiday->to);
+                    $from = date('d.m.Y',$changeDate);
+                    $to = date('d.m.Y',$changeDate2);
+                    Mail::raw("Pozdravljeni ".$employee->name.", Vaš dopust ".$from." - ".$to." je odobren. Lep pozdrav, ".Auth::user()->name.".",function($message) use ($employee){
+                        $message->to($employee->email)
+                                ->subject("Dopust");
+                    });
+                    Mail::raw("Obvestilo: Dopust za zaposlenega ".$employee->name." je bil odobren. Od: ".$from." Do: ".$to.". Lep pozdrav, ".Auth::user()->name.".", function ($message) {
+                        $message->to("mb2.providio@gmail.com")
+                                ->subject("Obvestilo o dopustu");
+                                #->cc("rataj.tvprodaja@gmail.com");
+                    });
+                }catch(ValidationException $e){
+                    $errors = $e->validator->errors()->all();
+                    return redirect()->route('vacation')->with('error ', $errors);
+                };
+                return redirect()->back()->with('success','Dopust uspešno odobren.');
+            }else{
+                return redirect()->back()->with('error', "Dopust je že odobren,");
+            }
         }else{
             return redirect()->back()->with('error', "Dostop zavrnjen!");
         }
     }
     public function rejectHoliday($id){
         if(Auth::user()->role == 'admin'){
-            $holiday = Holidays::findOrFail($id);
-            $holiday->update([
-                'status' => 'Rejected',
-                'user_name'=> Auth::user()->name,
-            ]);
+            $holiday = Holidays::where('id',$id)->where('status', "Pending")->first();
+            if($holiday){
+                $employee = Employee::where('id', $holiday->employee_id)->first();
+                
+                $holiday->update([
+                    'status' => 'Approved',
+                    'user_name'=> Auth::user()->name,
+                ]);
 
-            $holiday->save();
-            return redirect()->back()->with('success','Dopust uspešno zavrnjen.');
+                $holiday->save();
+
+                try{
+                    $changeDate = strtotime($holiday->from);
+                    $changeDate2 = strtotime($holiday->to);
+                    $from = date('d.m.Y',$changeDate);
+                    $to = date('d.m.Y',$changeDate2);
+                    Mail::raw("Pozdravljeni ".$employee->name.", Vaš dopust ".$from." - ".$to." žal ni odobren. Lep pozdrav, ".Auth::user()->name.".",function($message) use ($employee){
+                        $message->to($employee->email)
+                                ->subject("Dopust");
+                    });
+                    Mail::raw("Obvestilo: Dopust za zaposlenega ".$employee->name." Od: ".$from." Do: ".$to." ni odobren. Lep pozdrav, ".Auth::user()->name.".", function ($message) {
+                        $message->to("mb2.providio@gmail.com")
+                                ->subject("Obvestilo o dopustu");
+                                #->cc("rataj.tvprodaja@gmail.com");
+                    });
+                }catch(ValidationException $e){
+                    $errors = $e->validator->errors()->all();
+                    return redirect()->route('vacation')->with('error ', $errors);
+                };
+                return redirect()->back()->with('success','Dopust zavrnjen.');
+            }else{
+                return redirect()->back()->with('error', "Dopust je že zavrnjen,");
+            }
         }else{
             return redirect()->back()->with('error', "Dostop zavrnjen!");
         }

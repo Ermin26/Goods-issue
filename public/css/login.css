@@ -52,6 +52,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        max-width: 600px;
         width: 100%;
         margin-left: auto;
         margin-right: auto;
@@ -112,9 +113,11 @@
         box-sizing: border-box;
         margin-left: auto;
         margin-right: auto;
-        width: 80%;
+        max-width: 600px;
+        width: 100%;
         height: 65vh;
         font-size: 1.5em;
+        text-align: center;
     }
 
     #fieldsGroup {
@@ -202,5 +205,12 @@
         margin-left: auto;
         margin-right: auto;
 
+    }
+
+    form{
+        border: 1px solid black;
+        padding: 16px 8px;
+        margin: 14px 0;
+        box-shadow: 0 0 5px 5px rgba(32, 32, 32, 0.432);
     }
 }

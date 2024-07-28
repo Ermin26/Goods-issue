@@ -54,7 +54,7 @@
                                         <ul id="notifications">
                                             @foreach ($notifications as $notification)
                                                 <li>
-                                                    <a href="/vacations">
+                                                    <a href="/vacation">
                                                        Delavec oddal vlogo za dopust.
                                                     </a>
                                                 </li>

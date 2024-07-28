@@ -137,14 +137,19 @@ class EmployeeController extends Controller{
     }
 
     public function employeeData(){
-        if(Auth::guard('employee')->user()){
-            $employee = Auth::guard('employee')->user();
-            $userVacations = Vacation::where('employee_id', $employee->id)->get();
-            $userHolidays = Holidays::where('employee_id', $employee->id)->where('status', 'Pending')->get();
-            $unpayedBills = Bills::where('payed', 0)->where('buyer', $employee->name." ".$employee->last_name)->get();
-    
-            return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills', 'employee'));
-        }else{
+        try{
+            if(Auth::guard('employee')->user()){
+                $employee = Auth::guard('employee')->user();
+                $userVacations = Vacation::where('employee_id', $employee->id)->get();
+                $userHolidays = Holidays::where('employee_id', $employee->id)->where('status', 'Pending')->get();
+                $unpayedBills = Bills::where('payed', 0)->where('buyer', $employee->name." ".$employee->last_name)->get();
+            
+                return view('employees.home',compact('userVacations', 'userHolidays','unpayedBills', 'employee'));
+            }else{
+                return redirect()->route('login')->with('error', "Prijavite se za nadaljevanje.");
+            }
+        }catch(ValidationException $e){
+            $errors = $e->validator->errors()->all();
             return redirect()->route('login')->with('error', "Prijavite se za nadaljevanje.");
         }
     }
