@@ -35,7 +35,7 @@ class UsersController extends Controller{
                 'password' => Hash::make($request->password),
             ]);
 
-            return redirect()->route('users.register')->with('success', 'Uspječno dodan uporabnik!');
+            return redirect()->route('users')->with('success', 'Uspječno dodan uporabnik!');
         }else{
             return redirect()->back()->with('error', 'Nimate dovoljena za dodavanje uporabnika!');
 

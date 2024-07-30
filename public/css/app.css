@@ -115,7 +115,7 @@ input[name="num_per_year"]{
 }
 input[name="num_per_month"]{
     margin-left: 16px;
-    max-width: 30px;
+    max-width: 44px;
     width:fit-content !important;
 }
 

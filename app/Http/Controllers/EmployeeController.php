@@ -69,7 +69,7 @@ class EmployeeController extends Controller{
                 'working_status'=> $request->working_status,
                 'password' => Hash::make($request->password),
             ]);
-            return redirect()->route('users.add')->with('success', 'Uspječno dodan delavec!');
+            return redirect()->route('users')->with('success', 'Uspječno dodan delavec!');
         }else{
             return redirect()->back()->with('error', 'Nimate dovoljena za dodavanje uporabnika!');
         }
@@ -78,8 +78,9 @@ class EmployeeController extends Controller{
     public function findEmployee($id){
         if(Auth::user()->role !== 'visitor'){
             $employee = Employee::findOrFail($id);
+            $notifications = Holidays::where('status', 'Pending')->get();
             if($employee){
-                return view('users.editEmployee', ['employee' => $employee]);
+                return view('users.editEmployee', compact('employee', 'notifications'));
             }else{
                 return redirect()->route('users.users')->with('error', "Delavec ne obstaja!");
                 }
@@ -133,7 +134,6 @@ class EmployeeController extends Controller{
                 return redirect()->route('users')->with('error', 'Delavec ne obstaja!');
             }
         }
-
     }
 
     public function employeeData(){

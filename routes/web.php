@@ -29,6 +29,9 @@ Route::post('/login', [LoginController::class, 'loginUser'])->name('login.login'
 Route::middleware(['auth'])->group(function(){
     Route::get('/', [BillsController::class, 'getNumbersPerMonthAndPerYear'])->name('home');
     Route::get('/importVacations', [VacationController::class, 'importVacations'])->name('importVacations');
+    Route::get('/importEmployee', [EmployeeController::class, 'importEmployee'])->name('importEmployee');
+    Route::get('/importCosts', [CostsController::class, 'importCosts'])->name('importCosts');
+    Route::get('/importBills', [BillsController::class, 'importBills'])->name('importBills');
 
     Route::prefix('all')->group(function(){
         Route::get('/',[BillsController::class, 'testAll'])->name('all');

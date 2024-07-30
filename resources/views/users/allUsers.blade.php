@@ -44,13 +44,13 @@
                                             </td>
                                                 <td>
                                                         @if(Auth::user()->role === 'admin')
-                                                            <a href="/users/edit/{{$user->id}}"><button class="btn btn-warning">Uredi</button></a>
+                                                            <a href="users/edit/{{$user->id}}"><button class="btn btn-warning">Uredi</button></a>
                                                         @else
                                                             <a href="/users" disabled><button class="btn btn-warning" disabled>Uredi</button></a>
                                                         @endif
                                                 </td>
                                                 <td>
-                                                    <form action="/users/{{$user->id}}/?_method=DELETE" method="post">
+                                                    <form action="{{route('users.destroy', $user->id)}}" method="post">
                                                         @csrf
                                                         @method('DELETE')
                                                             @if(Auth::user()->role === 'admin')
@@ -101,7 +101,7 @@
                                                             <a href="#"><button class="btn btn-warning" disabled>Uredi</button></a>
                                                         @endif
                                                     </td>
-                                                    <td><form action="users/employee/delete/{{$employee->id}}/?_method=DELETE" method="post">
+                                                    <td><form action="{{route('users.deleteEmployee', $employee->id)}}" method="post">
                                                         @csrf
                                                         @method('DELETE')
                                                         @if(Auth::check())

@@ -22,20 +22,20 @@
             <div class="info mt-5 mb-5">
                 <h1 class="mb-3">Podatki o uporabniku</h1>
             </div>
-            <div id="formField" class="col-8 ms-auto me-auto">
+            <div id="formField" class=" ms-auto me-auto">
                 <form action="{{route('users.createUser')}}" method="post">
                     @csrf
-                    <div class="mb-2 d-flex flex-column col-4 ms-auto me-auto">
+                    <div class="mb-2 d-flex flex-column ms-auto me-auto">
                         <label for="username">Ime:</label>
                         <input type="text" name="name" id="username">
                         <span id="user-exists" style="display:none; color:red; background-color:rgb(24, 23, 23)">Uporabnik že obstaja!</span>
                     </div>
-                    <div class="mb-2 d-flex flex-column col-4 ms-auto me-auto">
+                    <div class="mb-2 d-flex flex-column ms-auto me-auto">
 
                         <label for="password">Geslo:</label>
                         <input class="" type="password" name="password" id="password">
                     </div>
-                    <div class="mb-2 col-4 ms-auto me-auto">
+                    <div class="mb-2 ms-auto me-auto">
                         <label for="role">Role:</label>
                         <select class="form-select form-select-sm ms-auto me-auto" id="role"
                             aria-label=".form-select-sm example" name="role">

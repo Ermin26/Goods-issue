@@ -135,50 +135,54 @@ class BillsController extends Controller{
             // Če datum ne ustreza nobenemu od formatov
             return null;
         }
-        try{
-            foreach ($bills as $bill){
+        if(Auth::user()->name == 'Ermin'){
+            try{
+                foreach ($bills as $bill){
 
-                $trimSold = preg_replace('/\s+/', '',$bill->soldDate);
-                $trimPay = preg_replace('/\s+/', '',$bill->payDate);
-                $solded = str_replace('.', '/', $trimSold);
-                $payed = str_replace('.', '/', $trimPay);
-                $soldDate = convertDate($solded);
-                $payDate = convertDate($payed);
-                $sold = $soldDate;
-                $pay = $payDate;
+                    $trimSold = preg_replace('/\s+/', '',$bill->soldDate);
+                    $trimPay = preg_replace('/\s+/', '',$bill->payDate);
+                    $solded = str_replace('.', '/', $trimSold);
+                    $payed = str_replace('.', '/', $trimPay);
+                    $soldDate = convertDate($solded);
+                    $payDate = convertDate($payed);
+                    $sold = $soldDate;
+                    $pay = $payDate;
 
-                $importBill = Bills::create([
-                    'published' => $bill->izdal,
-                    'buyer' => $bill->buyer,
-                    'sold_date' => $sold,
-                    'kt' => $bill->kt,
-                    'year' => $bill->year,
-                    'month' => $bill->month,
-                    'num_per_year' => $bill->numPerYear,
-                    'num_per_month' => $bill->numPerMonth,
-                    'pay_date' => $pay,
-                    'payed' => $bill->pay === 'true' ? 1 : 0,
-                ]);
-                foreach ($bill['products'] as $document){
-                    Products::create([
-                        'name' => $document['name'][0],
-                        'qty' => $document['qty'][0],
-                        'price' => preg_replace('/[^\d.]/' ,'',$document['price'][0]),
-                        'firstOfWeek'=> $document['firstOfWeek'][0] === 'true' ? 1 : 0,
-                        'total' => $document['total'][0],
-                        'bills_id' => $importBill->id,
-                        'bills_buyer' => $importBill->buyer,
+                    $importBill = Bills::create([
+                        'published' => $bill->izdal,
+                        'buyer' => $bill->buyer,
+                        'sold_date' => $sold,
+                        'kt' => $bill->kt,
+                        'year' => $bill->year,
+                        'month' => $bill->month,
+                        'num_per_year' => $bill->numPerYear,
+                        'num_per_month' => $bill->numPerMonth,
+                        'pay_date' => $pay,
+                        'payed' => $bill->pay === 'true' ? 1 : 0,
                     ]);
-                }
-                $billFind = Bills::find($importBill->id);
-                $product = Products::where('bills_id',$importBill->id)->sum('total');
-                $billFind->total += $product;
+                    foreach ($bill['products'] as $document){
+                        Products::create([
+                            'name' => $document['name'][0],
+                            'qty' => $document['qty'][0],
+                            'price' => preg_replace('/[^\d.]/' ,'',$document['price'][0]),
+                            'firstOfWeek'=> $document['firstOfWeek'][0] === 'true' ? 1 : 0,
+                            'total' => $document['total'][0],
+                            'bills_id' => $importBill->id,
+                            'bills_buyer' => $importBill->buyer,
+                        ]);
+                    }
+                    $billFind = Bills::find($importBill->id);
+                    $product = Products::where('bills_id',$importBill->id)->sum('total');
+                    $billFind->total += $product;
 
-                $billFind->save();
+                    $billFind->save();
+                }
+                return redirect()->route('home')->with('success', "Uspešno importani računi.");
+            }catch(ValidationException $e){
+                return redirect()->back()->with('error','Error inserting data: ', $e->errors());
             }
-            return view('bills.selled', ['bills' => $bills]);
-        }catch(ValidationException $e){
-            return redirect()->back()->with('error','Error inserting data: ', $e->errors());
+        }else{
+            return redirect()->back()->with('error', "Dostop zavrnjen!");
         }
     }
 

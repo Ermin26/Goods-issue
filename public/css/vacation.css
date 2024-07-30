@@ -88,14 +88,21 @@ body{
     max-width: 100%;
     margin: 0;
     overflow: hidden;
+    min-height: 100dvh;
 }
-#section,#left,#middle,#right{
+#left,#middle,#right{
     min-height: 86vh;
     color: white;
     text-align: center;
 }
 .holidayTable{
     table-layout: fixed;
+    background-color: rgb(27, 27, 94);
+}
+
+.holidayTable tr:hover{
+    color: white;
+    background-color: darkblue;
 }
 
 #infoHolidays,form{
@@ -307,9 +314,7 @@ body{
     }
 }
 @media(max-width: 992px){
-    .navbar-nav li:last-child{
-        margin-left: auto;
-    }
+    
     #section{
         flex-direction: column;
     }

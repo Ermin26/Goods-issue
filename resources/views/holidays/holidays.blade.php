@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 
 <head>
     <meta charset="UTF-8">
@@ -55,11 +55,11 @@
                     </table>
                 </div>
                 <!-- USED HOLIDAYS, TABLES FOR EVERY USER-->
-                <div class="table-responsive mt-5 mb-5">
+                <div class="table-responsive mt-5 mb-5" style="display: none">
                     @foreach ($employees as $employee)
                     @if($employee->status == 1)
                     <caption><strong>{{Auth::user()->role !== 'visitor' ? $employee->name." ".$employee->last_name : "Ime delavca"}}</strong></caption>
-                    <table class="mb-5 table table-bordered table-hover holidayTable bg-secondary text-light">
+                    <table class="mb-5 table table-bordered holidayTable text-light">
                         <thead>
                             <th scope="col" class="ps-0 pe-0 align-middle">Od</th>
                             <th scope="col" class="ps-0 pe-0 align-middle">Do</th>
@@ -223,9 +223,9 @@
                             </div>
                                 <div class="submit m-2 p-2">
                                     @if(Auth::user()->role !== 'visitor')
-                                        <button class="btn btn-success">Submit</button>
+                                        <button class="btn btn-success">Potrdi</button>
                                     @else
-                                        <button class="btn btn-success" disabled>Submit</button>
+                                        <button class="btn btn-success" disabled>Potrdi</button>
                                     @endif
                                 </div>
 
@@ -234,7 +234,7 @@
                 </div>
                 <div id="div" class="mt-5 mb-5 text-center">
                     <h3>Uredi podatke o dopustu.</h3>
-                    <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Submit</button>
+                    <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Uredi</button>
                 </div>
             </section>
         </section>
@@ -252,6 +252,8 @@
                 let vacationTable = document.querySelector('#showUserOnVacation tbody');
 
                 function generateCalendar(month,year){
+                    console.log('month: ',month);
+                    let lastMonthDay = month - 1;
                     let monthName = new Date(0, month - 1).toLocaleString('default',{month: 'long'})
                     document.getElementById('month').innerText = monthName;
                     document.getElementById('year').innerText = year;
@@ -279,7 +281,7 @@
                             }
                         }
                     }
-                        prevNextMonthDays(month,year);
+                        prevNextMonthDays(month,year,lastMonthDay);
                         findeTodayDate();
                     vacationTable.innerHTML = "";
                     document.getElementById('showUser').style.display = 'none';
@@ -338,7 +340,7 @@
                     markVacations(month,year);
                 }
 
-                function prevNextMonthDays(month, year){
+                function prevNextMonthDays(month, year, lastMonthDay){
                     let lastRow = calendar.rows[calendar.rows.length - 1];
                     let firstRow = calendar.rows[1];
 
@@ -346,8 +348,6 @@
                     let nextMonth = month + 1;
                     let nextMonthYear = year;
 
-                    let lastMonthDay = date.getMonth();
-                    let lastDayOfMonth = new Date(year, lastMonthDay, 0).getDate();
                     let prevMonth = month - 1;
                     let prevYear = year;
 
@@ -361,6 +361,7 @@
                     }
                     let nextMonthFormatted = String(nextMonth).padStart(2, '0');
                     let prevMonthFormatted = String(prevMonth).padStart(2, '0');
+                    let lastDayOfMonth = new Date(year, lastMonthDay, 0).getDate();
 
                     for (let i = 0; i < 7; i++) {
                         let cell = lastRow.cells[i];
@@ -404,7 +405,6 @@
                 function infoHolidaysTable(){
                     const myTable = document.getElementById('infoHolidays');
                     const rows = myTable.rows.length - 1;
-
                     for (let i = 1; i <= rows; i++) {
                         let userLast = myTable.rows[i].cells[1].innerHTML;
                         let userThis = myTable.rows[i].cells[2].innerHTML;

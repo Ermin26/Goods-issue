@@ -36,7 +36,7 @@ class VacationController extends Controller{
                             'holidays'=>$vacation->holidays,
                             'used_holidays'=>$vacation->usedHolidays,
                             'overtime'=>$vacation->overtime,
-                            'employee_id' => "$employee->id"
+                            'employee_id' =>$employee->id
                         ]);
                     }
                 }

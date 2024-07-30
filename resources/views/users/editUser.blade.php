@@ -9,6 +9,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/register.css')}}">
     <title>
         {{$user->name}}
     </title>
@@ -22,17 +23,17 @@
                 <h1 class="mb-3">Uredi podatke za {{$user->name}}
                 </h1>
             </div>
-            <div class="col-8 text-center ms-auto me-auto">
+            <div id="editUserFormDiv" class="text-center ">
                 <form class="border border-2 p-4" action="{{route('users.update', $user->id)}}" method="post">
                     @csrf
-                    <div class="mb-2 bg-warning col-4 d-flex flex-column text-center ms-auto me-auto">
+                    <div class="mb-2 d-flex flex-column text-center ms-auto me-auto text-center p-2">
                         <label for="name">Uporabniško ime:</label>
-                        <input type="text" name="name" id="name" value="{{$user->name}}">
+                        <input type="text" class="text-center" name="name" id="name" value="{{$user->name}}">
                     </div>
 
-                    <div class="mb-2 bg-warning col-4 d-flex flex-column ms-auto me-auto">
+                    <div class="mb-2 d-flex flex-column ms-auto me-auto p-2">
                         <label for="role">Role:</label>
-                        <select class="form-select form-select-sm ms-auto me-auto" id="role"
+                        <select class="form-select form-select-sm ms-auto me-auto text-center" id="role"
                             aria-label=".form-select-sm example" name="role">
                             <option selected>
                                 {{$user->role}}

@@ -16,8 +16,8 @@
 <body>
      @include('navbar')
 
-     @include('flash')
-    <section class="topSection border-bottom border-3 border-dark mt-5">
+     <section class="topSection border-bottom border-3 border-dark mt-5">
+        @include('flash')
         <div class="row row-cols-2 d-flex flex-row-reverse flex-wrap-reverse" id="row">
             <div class="col-12 col-md-7 p-0" id="search">
                     <form class="text-center" id="searchUser">

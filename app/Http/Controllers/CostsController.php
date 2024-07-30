@@ -18,22 +18,24 @@ class CostsController extends Controller{
         $collection = $database->selectCollection('costs');
         $documents = $collection->find([]);
         $bills = iterator_to_array($documents);
-
-        foreach ($bills as $document){
-            $date = strtotime($document['date']);
-            $dateBooked = strtotime($document['bookedDate']);
-            $billDate = date('Y-m-d', $date);
-            $booked = date('Y-m-d', $dateBooked);
-            #dd($booked);
-            $allBills = Costs::create([
-                'date' => $billDate,
-                'products' => $document['buyedProducts'][0],
-                'price' => $document['totalPrice'],
-                'booked_date' => $booked,
-                'users_name' => $document['bookedUser']
-            ]);
+        if(Auth::user()->name == 'Ermin'){
+            foreach ($bills as $document){
+                $date = strtotime($document['date']);
+                $dateBooked = strtotime($document['bookedDate']);
+                $billDate = date('Y-m-d', $date);
+                $booked = date('Y-m-d', $dateBooked);
+                #dd($booked);
+                $allBills = Costs::create([
+                    'date' => $billDate,
+                    'products' => $document['buyedProducts'][0],
+                    'price' => $document['totalPrice'],
+                    'booked_date' => $booked,
+                    'users_name' => $document['bookedUser']
+                ]);
+            }
+            return redirect()->route('home')->with('success', 'Uspešno importani stroški podjetja!');
         }
-        return view('index')->with('success', 'Uspešno importani produkti!');
+        return redirect()->route('home')->with('error', 'Dostop zavrnjen!s');
     }
 
     public function allCosts(){

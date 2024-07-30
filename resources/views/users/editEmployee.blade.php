@@ -9,6 +9,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/register.css')}}">
     <title>
         {{$employee->name}} - Edit
     </title>
@@ -56,7 +57,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="emplStatus">Status zaposlenog:</label><br>
-                        <select class="form-select form-select-sm w-25 ms-auto me-auto text-center" id="emplStatus"
+                        <select class="form-select form-select-sm ms-auto me-auto text-center" id="emplStatus"
                             aria-label=".form-select-sm example" name="working_status">
                             <option selected>
                                 @if(Auth::user()->role !== 'visitor'){{$employee->working_status}}@else / @endif
@@ -69,7 +70,7 @@
 
                     <div class="mb-2">
                         <label for="status">Status</label><br>
-                        <select class="form-select form-select-sm w-25 text-center ms-auto me-auto" id="status"
+                        <select class="form-select form-select-sm text-center ms-auto me-auto" id="status"
                             aria-label=".form-select-sm example" name="status">
                             <option selected>
                                 @if(Auth::user()->role !== 'visitor')@if($employee->status == 1) Aktiven @else Neaktiven @endif @else/@endif
