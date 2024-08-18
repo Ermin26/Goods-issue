@@ -27,18 +27,18 @@
                     @csrf
                     <div class="mb-2 d-flex flex-column ms-auto me-auto">
                         <label for="username">Ime:</label>
-                        <input type="text" name="name" id="username">
+                        <input type="text" name="name" id="username" autocomplete="off" required>
                         <span id="user-exists" style="display:none; color:red; background-color:rgb(24, 23, 23)">Uporabnik že obstaja!</span>
                     </div>
                     <div class="mb-2 d-flex flex-column ms-auto me-auto">
 
                         <label for="password">Geslo:</label>
-                        <input class="" type="password" name="password" id="password">
+                        <input class="" type="password" name="password" id="password" required>
                     </div>
                     <div class="mb-2 ms-auto me-auto">
                         <label for="role">Role:</label>
                         <select class="form-select form-select-sm ms-auto me-auto" id="role"
-                            aria-label=".form-select-sm example" name="role">
+                            aria-label=".form-select-sm example" name="role" required>
                             <option selected>Select role</option>
                             <option value="admin">Admin</option>
                             <option value="moderator">Moderator</option>

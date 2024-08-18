@@ -391,12 +391,12 @@ ul input{
         overflow: visible !important;
     }
     #main {
-        position: static !important;
+        position: fixed !important;
         top: 0;
         width: 100%;
         height: auto;
         overflow: visible;
-        margin-bottom: 0;
+        margin-top: 5px;
     }
     #topSection{
         position: fixed !important;

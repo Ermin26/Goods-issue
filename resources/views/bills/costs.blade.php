@@ -129,8 +129,9 @@
                                         @endif
                                         </td>
                                         <td>
-                                            <form action="/costs/{{$bill->id}}/?_method=DELETE" method="post">
+                                            <form action="{{route('costs.deleteBill', $bill->id)}}" method="post">
                                                 @csrf
+                                                @method('DELETE')
                                                 @if(Auth::user()->role !== 'visitor')
                                                     <button class="btn btn-danger btn-sm">Izbriši</button>
                                                 @else

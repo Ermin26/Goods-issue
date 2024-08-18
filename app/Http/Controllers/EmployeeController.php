@@ -44,7 +44,7 @@ class EmployeeController extends Controller{
     }
 
     public function checkEmails(){
-        $emails = Employee::pluck('email')->toArray();
+        $emails = Employee::whereNotNull('email')->where('email', '!=', '')->pluck('email')->toArray();
         $userName = Employee::pluck('user_name')->toArray();
         $notifications = Holidays::where('status', 'Pending')->get();
         

@@ -26,23 +26,23 @@
                         @csrf
                         <div class="mb-2">
                             <label for="username">Ime</label><br>
-                            <input type="text" name="name" id="username">
+                            <input type="text" name="name" id="username" autocomplete="off">
                         </div>
 
                         <div class="mb-2">
                             <label for="lastname">Priimek</label><br>
-                            <input type="text" name="last_name" id="lastname">
+                            <input type="text" name="last_name" id="lastname" autocomplete="off">
                         </div>
 
                         <div class="mb-2">
                             <label for="email">E-naslov</label><br>
-                            <input type="email" name="email" id="email"><br>
-                            <span id="email-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Email že obstaja!</span>
+                            <input type="email" name="email" id="email" autocomplete="off"><br>
+                            <span class="m-2 p-1" id="email-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Email že obstaja!</span>
                         </div>
                         <div class="mb-2">
                             <label for="user_name">Uporabniško ime</label><br>
-                            <input type="text" name="user_name" id="user_name" required>
-                            <span id="user-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Uporabniško ime že obstaja</span>
+                            <input type="text" name="user_name" id="user_name" autocomplete="off" required><br>
+                            <span class="m-2 p-1" id="user-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Uporabniško ime že obstaja</span>
                         </div>
                         <div class="mb-2">
                             <label for="password">Geslo</label><br>
@@ -95,7 +95,7 @@
         
                     $('#email').on('keyup', function() {
                         var email = $(this).val();
-        
+                        console.log(existingEmails);
                         if (existingEmails.includes(email)) {
                             $('#email-exists').show();
                         } else {
