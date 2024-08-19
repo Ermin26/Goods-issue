@@ -120,6 +120,34 @@ body{
     scrollbar-width: thin;
     scrollbar-color: blue transparent;
 }
+
+.vacationForm{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+#userUsedHolidays{
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#userUsedHolidays .mb-3{
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    max-width: 400px;
+}
+#selectYear, #selectUser{
+    margin: 2px;
+    padding: 2px 6px;
+    text-align: center;
+}
 #middle {
     padding: 10px;
     max-height: 90vh;

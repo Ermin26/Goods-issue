@@ -82,6 +82,22 @@
                         @endif
                     @endforeach
                 </div>
+                <div class="vacationForm">
+                    <form id="userUsedHolidays">
+                        <div class="mb-3">
+                            <label for="selectYear">Leto</label>
+                            <select name="selectYear" id="selectYear">
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="selectUser">Delavec</label>
+                            <input type="text" name="selectUser" id="selectUser">
+                        </div>
+                    </form>
+                </div>
+                <div id="vacationResults">
+
+                </div>
             </section>
             <section id="middle" class="col col-lg-7">
                 <div class="row mb-5" id="pending_holidays">
