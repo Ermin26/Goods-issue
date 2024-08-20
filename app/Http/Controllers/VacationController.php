@@ -219,18 +219,23 @@ class VacationController extends Controller{
 
             $year = $request->input('selectedYear');
             $user = $request->input('selectedUser');
-
+            $holidays = null;
             if($user && $year){
-                $userId = Vacation::where('user', 'LIKE', "%{$user}%")->select('employee_id')->first();
-                $holidays = Holidays::where('employee_id', $userId)->whereYear('from', $year)->get();
+                $userId = Vacation::where('user', 'LIKE', "%{$user}%")->pluck('employee_id')->first();
+                $holidays = Holidays::whereYear('from', $year)->where('employee_id', $userId)->get();
 
             }else if($user && !$year){
-                $userId = Vacation::where('user', 'LIKE', "%{$user}%")->select('employee_id')->first();
+                $userId = Vacation::where('user', 'LIKE', "%{$user}%")->pluck('employee_id')->first();
                 $holidays = Holidays::where('employee_id', $userId)->get();
             }else if(!$user && $year){
-                $holidays = Holidays::whereYear('from', $year)->get();
+                $holidays = Holidays::whereYear('holidays.from', $year)
+                    ->join('vacation', 'holidays.employee_id', '=', 'vacation.employee_id')
+                    ->select('holidays.*', 'vacation.user')
+                    ->get();
             }else{
-
+                $holidays = Holidays::join('vacation', 'holidays.employee_id', '=', 'vacation.employee_id')
+                    ->select('holidays.*', 'vacation.user')
+                    ->get();
             }
 
             return response()->json([

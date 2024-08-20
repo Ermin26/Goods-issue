@@ -87,6 +87,8 @@
                         <div class="mb-3">
                             <label for="selectedYear">Leto</label>
                             <select name="selectedYear" id="selectedYear">
+                                <option value="">Izberi leto</option>
+                                <option value="2024">2024</option>
                             </select>
                         </div>
                         <div class="mb-3">
