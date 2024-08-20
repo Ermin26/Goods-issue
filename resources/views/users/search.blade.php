@@ -75,11 +75,11 @@
             </div>
         </div>
     </section>
-            <div id="empty" class="text-center">
-                <h2 class="text-center mt-3">Upišite ime delavca ali produkta!</h2>
-            </div>
+    <div id="empty" class="text-center">
+        <h2 class="text-center mt-3">Upišite ime delavca ali produkta!</h2>
+    </div>
 
-            <div id="allBills" style="display: none">
+    <div id="allBills" style="display: none">
                     <div class="head text-center">
                         <h1 id="searched">
                             <strong>Vsi računi uporabnika</strong> <br>
@@ -103,9 +103,9 @@
                             </tbody>
                         </table>
                     </div>
-            </div>
+    </div>
             <!--UNPAYED BILLS-->
-            <div id="unPayedBills" class="text-center" style="display: none">
+    <div id="unPayedBills" class="text-center" style="display: none">
                 <div class="mt-4 mb-3">
                     <h1 id="unPayedH1" class="text-danger">Neplačani računi <br>
                         <strong id="notPayedUserName" class="text-primary">
@@ -129,7 +129,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
             integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"

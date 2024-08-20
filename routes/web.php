@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/updateVacations', [VacationController::class, 'updateVacations'])->name('updateVacation');
         Route::post('/approveHoliday/{id}', [VacationController::class, 'approveHoliday'])->name('approveHoliday');
         Route::post('/rejectHoliday/{id}', [VacationController::class, 'rejectHoliday'])->name('rejectHoliday');
-
+        Route::post('/userUsedHolidays', [VacationController::class, 'userUsedHolidays'])->name('userUsedHolidays');
     });
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');

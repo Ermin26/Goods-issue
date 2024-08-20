@@ -210,4 +210,38 @@ class VacationController extends Controller{
         }
     }
 
+    public function userUsedHolidays(Request $request){
+        try{
+            $request->validate([
+                'selectedYear' => 'nullable|integer',
+                'selectedUser' => 'nullable|String',
+            ]);
+
+            $year = $request->input('selectedYear');
+            $user = $request->input('selectedUser');
+
+            if($user && $year){
+                $userId = Vacation::where('user', 'LIKE', "%{$user}%")->select('employee_id')->first();
+                $holidays = Holidays::where('employee_id', $userId)->whereYear('from', $year)->get();
+
+            }else if($user && !$year){
+                $userId = Vacation::where('user', 'LIKE', "%{$user}%")->select('employee_id')->first();
+                $holidays = Holidays::where('employee_id', $userId)->get();
+            }else if(!$user && $year){
+                $holidays = Holidays::whereYear('from', $year)->get();
+            }else{
+
+            }
+
+            return response()->json([
+                'user' => $user,
+                'holidays' => $holidays
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }

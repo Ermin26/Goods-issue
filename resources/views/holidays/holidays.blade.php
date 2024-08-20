@@ -85,14 +85,15 @@
                 <div class="vacationForm">
                     <form id="userUsedHolidays">
                         <div class="mb-3">
-                            <label for="selectYear">Leto</label>
-                            <select name="selectYear" id="selectYear">
+                            <label for="selectedYear">Leto</label>
+                            <select name="selectedYear" id="selectedYear">
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="selectUser">Delavec</label>
-                            <input type="text" name="selectUser" id="selectUser">
+                            <label for="selectedUser">Delavec</label>
+                            <input type="text" name="selectedUser" id="selectedUser">
                         </div>
+                        <button class="btn btn-info btn-sm p-2">Potrdi</button>
                     </form>
                 </div>
                 <div id="vacationResults">
@@ -267,8 +268,28 @@
                 let year = date.getFullYear();
                 let vacationTable = document.querySelector('#showUserOnVacation tbody');
 
+                document.getElementById('userUsedHolidays').addEventListener('submit',function(event){
+                    event.preventDefault();
+                    let selectedYear = document.getElementById('selectedYear').value;
+                    let selectedUser = document.getElementById('selectedUser').value;
+                    fetchData('{{route('userUsedHolidays')}}', {selectedYear:selectedYear,selectedUser:selectedUser});
+                })
+
+                function fetchData(url,params){
+                    fetch(url,{
+                        method: 'POST',
+                        headers:{
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(params)
+                    })
+                    .then(response => response.json())
+                    .then(data=>{
+                        console.log(data);
+                    })
+                }
                 function generateCalendar(month,year){
-                    console.log('month: ',month);
                     let lastMonthDay = month - 1;
                     let monthName = new Date(0, month - 1).toLocaleString('default',{month: 'long'})
                     document.getElementById('month').innerText = monthName;
@@ -342,7 +363,6 @@
                         }
                     });
                 };
-
 
                 function changeMonth(direction){
                     month += direction;
