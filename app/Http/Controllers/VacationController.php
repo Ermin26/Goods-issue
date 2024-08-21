@@ -9,6 +9,7 @@ use MongoDB\Client as MongoClient;
 use App\Models\Vacation;
 use App\Models\Employee;
 use App\Models\Holidays;
+use Psy\CodeCleaner\FunctionContextPass;
 
 class VacationController extends Controller{
     public function importVacations(){
@@ -92,9 +93,14 @@ class VacationController extends Controller{
         $employees = Employee::where('status', 1)->where('working_status', 'zaposlen/a')->get();
         $pending_holidays = Holidays::where('status', 'pending')->get();
         $notifications = Holidays::where('status', 'Pending')->get();
-        #dd($pending_holidays);
+        $years = Holidays::selectRaw('YEAR(holidays.from) as year')
+        ->distinct()
+        ->orderBy('year', 'ASC')
+        ->pluck('year');
+        
 
-        return view('holidays.holidays', compact('vacations','holidays', 'employees', 'pending_holidays','notifications'));
+
+        return view('holidays.holidays', compact('vacations','holidays', 'employees', 'pending_holidays','notifications', 'years'));
     }
 
     public function updateVacations(Request $request){
@@ -222,24 +228,98 @@ class VacationController extends Controller{
             $holidays = null;
             if($user && $year){
                 $userId = Vacation::where('user', 'LIKE', "%{$user}%")->pluck('employee_id')->first();
-                $holidays = Holidays::whereYear('from', $year)->where('employee_id', $userId)->get();
+                $holidays = Holidays::whereYear('holidays.from', $year)->where('holidays.employee_id','=', $userId)
+                            ->join('vacation','holidays.employee_id', '=','vacation.employee_id')
+                            ->select('holidays.*', 'vacation.user')
+                            ->orderBy('holidays.to', 'DESC')
+                            ->get()
+                            ->groupBy('user')
+                            ->map(function($group){
+                                return [
+                                    'user' => $group->first()->user,
+                                    'holidays' => $group->map(function($holiday){
+                                        return [
+                                            'from' => $holiday->from,
+                                            'to' => $holiday->to,
+                                            'days' => $holiday->days,
+                                            'status' => $holiday->status,
+                                        ];
+                                    })->toArray(),
+                                ];
+                            })
+                            ->values()
+                            ->toArray();
 
             }else if($user && !$year){
                 $userId = Vacation::where('user', 'LIKE', "%{$user}%")->pluck('employee_id')->first();
-                $holidays = Holidays::where('employee_id', $userId)->get();
+                $holidays = Holidays::where('holidays.employee_id','=', $userId)
+                ->join('vacation','holidays.employee_id', '=','vacation.employee_id')
+                ->select('holidays.*', 'vacation.user')
+                ->orderBy('holidays.to', 'DESC')
+                ->get()
+                ->groupBy('user')
+                ->map(function($group){
+                    return [
+                        'user' => $group->first()->user,
+                        'holidays' => $group->map(function($holiday){
+                            return [
+                                'from' => $holiday->from,
+                                'to' => $holiday->to,
+                                'days' => $holiday->days,
+                                'status' => $holiday->status,
+                            ];
+                        })->toArray(),
+                    ];
+                })
+                ->values()
+                ->toArray();
             }else if(!$user && $year){
-                $holidays = Holidays::whereYear('holidays.from', $year)
-                    ->join('vacation', 'holidays.employee_id', '=', 'vacation.employee_id')
-                    ->select('holidays.*', 'vacation.user')
-                    ->get();
+                $holidays = Vacation::join('holidays','vacation.employee_id','=' ,'holidays.employee_id')
+                            ->whereYear('holidays.from', $year)
+                            ->select('vacation.user', 'holidays.*')
+                            ->orderBy('holidays.to', 'DESC')
+                            ->get()
+                            ->groupBy('user')
+                            ->map(Function($group){
+                                return [
+                                    'user' => $group->first()->user,
+                                    'holidays' => $group->map(function($holiday){
+                                        return [
+                                            'from' => $holiday->from,
+                                            'to' => $holiday->to,
+                                            'days' => $holiday->days,
+                                            'status' => $holiday->status,
+                                        ];
+                                    })->toArray(),
+                                ];
+                            })
+                            ->values()
+                            ->toArray();
+                
             }else{
-                $holidays = Holidays::join('vacation', 'holidays.employee_id', '=', 'vacation.employee_id')
-                    ->select('holidays.*', 'vacation.user')
-                    ->get();
+                $holidays = Vacation::join('holidays','vacation.employee_id','=' ,'holidays.employee_id')
+                            ->select('vacation.user', 'holidays.*')
+                            ->orderBy('holidays.from', 'DESC')
+                            ->get()
+                            ->groupBy('user')
+                            ->map(Function($group){
+                                return [
+                                    'user' => $group->first()->user,
+                                    'holidays' => $group->map(function($holiday){
+                                        return [
+                                            'from' => $holiday->from,
+                                            'to' => $holiday->to,
+                                            'days' => $holiday->days,
+                                            'status' => $holiday->status,
+                                        ];
+                                    })->toArray(),
+                                ];
+                            })
+                            ->values()
+                            ->toArray();
             }
 
             return response()->json([
-                'user' => $user,
                 'holidays' => $holidays
             ]);
         } catch (ValidationException $e) {

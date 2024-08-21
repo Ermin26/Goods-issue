@@ -113,7 +113,7 @@ body{
     background-color: darkblue;
 }
 #left{
-    max-height: 100vh;
+    max-height: 90vh;
     overflow-y: auto;
     max-width: 100%;
     padding: 0;
@@ -172,6 +172,21 @@ body{
     text-align: center;
     text-wrap: nowrap;
     border: 1px solid white;
+}
+.resultTable tr{
+    border-bottom: 1px solid white;
+}
+.rowBtns{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+#clearBtn, #searchBtn{
+    margin: 2px 6px;
 }
 #requestedTable th{
     padding: 4px 8px;

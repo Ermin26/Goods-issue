@@ -224,13 +224,13 @@ class BillsController extends Controller{
         if($path == 'all'){
             $bills = Bills::orderBy('year', 'DESC')
             ->orderBy('num_per_year', 'DESC')
-            ->paginate(10); //Eloquent ORM
+            ->paginate(15); //Eloquent ORM
         }
         else if($path == 'all/payed'){
-            $payed = Bills::where('payed', '1')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
+            $payed = Bills::where('payed', '1')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(15);
         }else if($path == 'all/notpayed'){
             #dd($netoNotPayed);
-            $notPayed = Bills::where('payed', '0')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(10);
+            $notPayed = Bills::where('payed', '0')->orderBy('year', 'DESC')->orderBy('num_per_year', 'DESC')->paginate(15);
             
         }
 

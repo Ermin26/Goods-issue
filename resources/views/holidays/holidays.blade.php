@@ -55,50 +55,43 @@
                     </table>
                 </div>
                 <!-- USED HOLIDAYS, TABLES FOR EVERY USER-->
-                <div class="table-responsive mt-5 mb-5" style="display: none">
-                    @foreach ($employees as $employee)
-                    @if($employee->status == 1)
-                    <caption><strong>{{Auth::user()->role !== 'visitor' ? $employee->name." ".$employee->last_name : "Ime delavca"}}</strong></caption>
-                    <table class="mb-5 table table-bordered holidayTable text-light">
-                        <thead>
-                            <th scope="col" class="ps-0 pe-0 align-middle">Od</th>
-                            <th scope="col" class="ps-0 pe-0 align-middle">Do</th>
-                            <th scope="col" class="ps-0 pe-0 align-middle">Status</th>
-                            <th scope="col" class="ps-0 pe-0 align-middle">Dni</th>
-                        </thead>
-                        <tbody>
-                            @foreach($holidays as $holiday)
-                            <tr>
-                                @if($employee->id == $holiday->employee_id)
-                                <td scope="col" class="ps-0 pe-0 align-middle"><strong>{{\Carbon\Carbon::parse($holiday->from)->format('d.m.Y')}}</strong></td>
-                                <td scope="col" class="ps-0 pe-0 align-middle"><strong>{{\Carbon\Carbon::parse($holiday->to)->format('d.m.Y')}}</strong></td>
-                                <td scope="col" class="ps-0 pe-0 align-middle"><strong>{{$holiday->status}}</strong></td>
-                                <td scope="col" class="ps-0 pe-0 align-middle"><strong>{{$holiday->days}}</strong></td>
-                                @endif
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                        @endif
-                    @endforeach
-                </div>
-                <div class="vacationForm">
-                    <form id="userUsedHolidays">
+                <div class="vacationForm row row-cols-2 flex-row border-bottom border-1 border-light p-2">
+                    <form id="userUsedHolidays" class="col">
                         <div class="mb-3">
                             <label for="selectedYear">Leto</label>
                             <select name="selectedYear" id="selectedYear">
                                 <option value="">Izberi leto</option>
-                                <option value="2024">2024</option>
+                                @foreach($years as $year)
+                                    <option value="{{$year}}">{{$year}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="selectedUser">Delavec</label>
-                            <input type="text" name="selectedUser" id="selectedUser">
+                            <select type="text" name="selectedUser" id="selectedUser">
+                                <option value="">Izberi delavca</option>
+                                @foreach($employees as $employee)
+                                    @if(Auth::user()->role !== 'visitor')
+                                        <option value="{{$employee->name.' '.$employee->last_name}}">{{$employee->name.' '.$employee->last_name}}</option>
+                                    @else
+                                        <option value="/">/</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
-                        <button class="btn btn-info btn-sm p-2">Potrdi</button>
+                        <div class="rowBtns">
+                            <button id="searchBtn" class="btn btn-primary btn-sm p-2 text-light d-inline-flex text-center">Potrdi</button>
+                            <div id="clearBtn" class="btn btn-secondary btn-sm p-2" style="display: none" onclick="clearData()">Počisti</div>
+                        </div>
                     </form>
+                    <div class="formInfo col text-start bg-secondary p-2">
+                        <small class="pt-2">* Pusti prazno če želite pridobiti podatke o vseh dopustih.</small><br>
+                        <small class="pt-2">* Izberi samo leto če želite pridobiti podatke o vseh dopustih za izbrano leto.</small><br>
+                        <small class="pt-2">* Izberi delavca, če želite pridobiti podatke o vseh dopustih izbranega delavca.</small><br>
+                        <small class="pt-2">* Izberi delavca in leto, če želite pridobiti podatke o vseh dopustih izbranega delavca za izbrano leto.</small>
+                    </div>
                 </div>
-                <div id="vacationResults">
+                <div id="vacationResults" class="mb-5">
 
                 </div>
             </section>
@@ -261,6 +254,8 @@
 
 
             <script>
+                let clearBtn = document.getElementById('clearBtn');
+                let showResults = document.getElementById('vacationResults');
                 let vacations = @json($holidays);
                 let employees = @json($vacations);
                 let role = @json(Auth::user()->role);
@@ -288,9 +283,64 @@
                     })
                     .then(response => response.json())
                     .then(data=>{
-                        console.log(data);
+                        showResults.innerHTML = "";
+                        data.holidays.forEach(function(user){
+                            let h3 = document.createElement('h3');
+                            h3.classList.add('mt-4')
+                            h3.innerHTML = user.user;
+                            let table = document.createElement('table');
+                            table.classList.add('resultTable', 'table', 'table-responsive', 'text-light', 'border-1', 'border-dark', 'text-center', 'mb-5')
+                            let thead = document.createElement('thead');
+                            let tbody = document.createElement('tbody');
+                            let row = thead.insertRow();
+                            row.insertCell(0).innerHTML = "Od";
+                            row.insertCell(1).innerHTML = "Do";
+                            row.insertCell(2).innerHTML = "Dni";
+                            row.insertCell(3).innerHTML = "Status";
+                            table.appendChild(thead);
+                            table.appendChild(tbody);
+                            user.holidays.forEach(function(holiday){
+                                let rows = tbody.insertRow();
+                                let formatFrom = holiday.from;
+                                let formatTo = holiday.to;
+                                let newFromDate = new Date(formatFrom);
+                                let newToDate = new Date(formatTo);
+                                let yearFrom = newFromDate.getFullYear(newFromDate);
+                                let yearTo = newToDate.getFullYear(newToDate);
+                                let monthFrom = String(newFromDate.getMonth() + 1).padStart(2,'0');
+                                let monthTo = String(newToDate.getMonth() + 1).padStart(2,'0');
+                                let dayFrom = String(newFromDate.getDate()).padStart(2,'0');
+                                let dayTo = String(newToDate.getDate()).padStart(2,'0');
+
+                                let formatedFrom = `${dayFrom}.${monthFrom}.${yearFrom}`;
+                                let formatedTo = `${dayTo}.${monthTo}.${yearTo}`;
+
+                                rows.insertCell(0).innerHTML = formatedFrom;
+                                rows.insertCell(1).innerHTML = formatedTo;
+                                rows.insertCell(2).innerHTML = holiday.days;
+                                if(holiday.status == 'Approved'){
+                                    rows.insertCell(3).innerHTML = "Odobreno";
+                                    rows.cells[3].style.backgroundColor = "Green"
+                                }else if (holiday.status == 'Rejected'){
+                                    rows.insertCell(3).innerHTML = "Zavrnjeno";
+                                    rows.cells[3].style.backgroundColor = "Red"
+                                }else{
+                                    rows.insertCell(3).innerHTML = "Preverjanje";
+                                    rows.cells[3].style.backgroundColor = "#d0d000"
+                                }
+                            })
+                            showResults.appendChild(h3);
+                            showResults.appendChild(table);
+                            clearBtn.style.display = "flex"
+                        })
                     })
                 }
+
+                function clearData(){
+                    showResults.innerHTML = "";
+                    clearBtn.style.display = "none";
+                }
+
                 function generateCalendar(month,year){
                     let lastMonthDay = month - 1;
                     let monthName = new Date(0, month - 1).toLocaleString('default',{month: 'long'})
