@@ -62,7 +62,9 @@
                             <select name="selectedYear" id="selectedYear">
                                 <option value="">Izberi leto</option>
                                 @foreach($years as $year)
-                                    <option value="{{$year}}">{{$year}}</option>
+                                    @if($year !== 0)
+                                        <option value="{{$year}}">{{$year}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -96,55 +98,55 @@
                 </div>
             </section>
             <section id="middle" class="col col-lg-7">
-                <div class="row mb-5" id="pending_holidays">
+                <div class="row" id="pending_holidays">
                     @if($pending_holidays && count($pending_holidays) > 0)
-                    <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
-                    <div class="pendingTable">
-                    <table id="requestedTable">
-                        <thead>
-                            <tr>
-                                <th>Delavec</th>
-                                <th>Od</th>
-                                <th>Do</th>
-                                <th>Dni</th>
-                                <th>Oddano</th>
-                                <th>LD</th>
-                                <th>Odobri</th>
-                                <th>Zavrni</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pending_holidays as $pending)
-                                <tr>
-                                    @php
-                                        $vacation = $vacations->firstWhere('employee_id', $pending->employee_id);
-                                    @endphp
-                                        @if($vacation)
-                                        <td>{{$vacation->user}}
-                                        </td>
-                                        <td>{{\Carbon\Carbon::parse($pending->from)->format('d.m.Y')}}</td>
-                                        <td>{{\Carbon\Carbon::parse($pending->to)->format('d.m.Y')}}</td>
-                                        <td>{{$pending->days}}</td>
-                                        <td>{{\Carbon\Carbon::parse($pending->apply_date)->format('d.m.Y')}}</td>
-                                        <td>{{$vacation->holidays + $vacation->last_year - $vacation->used_holidays}}</td>
-                                        <td>
-                                            <form action="{{route('approveHoliday', $pending->id)}}" method="post">
-                                                @csrf
-                                                <button class="btn btn-sm btn-success">Odobri</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form action="{{route('rejectHoliday',$pending->id)}}" method="post">
-                                                @csrf
-                                                <button class="btn btn-sm btn-danger">Zavrni</button>
-                                            </form>
-                                        </td>
-                                        @endif
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    </div>
+                        <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
+                        <div class="pendingTable">
+                            <table id="requestedTable">
+                                <thead>
+                                    <tr>
+                                        <th>Delavec</th>
+                                        <th>Od</th>
+                                        <th>Do</th>
+                                        <th>Dni</th>
+                                        <th>Oddano</th>
+                                        <th>LD</th>
+                                        <th>Odobri</th>
+                                        <th>Zavrni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pending_holidays as $pending)
+                                        <tr>
+                                            @php
+                                                $vacation = $vacations->firstWhere('employee_id', $pending->employee_id);
+                                            @endphp
+                                                @if($vacation)
+                                                <td>{{$vacation->user}}
+                                                </td>
+                                                <td>{{\Carbon\Carbon::parse($pending->from)->format('d.m.Y')}}</td>
+                                                <td>{{\Carbon\Carbon::parse($pending->to)->format('d.m.Y')}}</td>
+                                                <td>{{$pending->days}}</td>
+                                                <td>{{\Carbon\Carbon::parse($pending->apply_date)->format('d.m.Y')}}</td>
+                                                <td>{{$vacation->holidays + $vacation->last_year - $vacation->used_holidays}}</td>
+                                                <td>
+                                                    <form action="{{route('approveHoliday', $pending->id)}}" method="post">
+                                                        @csrf
+                                                        <button class="btn btn-sm btn-success">Odobri</button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <form action="{{route('rejectHoliday',$pending->id)}}" method="post">
+                                                        @csrf
+                                                        <button class="btn btn-sm btn-danger">Zavrni</button>
+                                                    </form>
+                                                </td>
+                                                @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     @endif
                 </div>
                 <div class="row row-cols-2 w-100">
@@ -190,49 +192,50 @@
                 </div>
             </section>
 
-            <section id="right" class="col col-lg-2">
-                <div id="addUser" class="shadow mt-5 rounded-5 mb-5">
-                    <caption>
-                        <h3 class="text-center">
-                            Uredi podatke o dopustu
-                        </h3>
-                    </caption>
-                    <div class="holidaysEdit mt-3 d-flex flex-column text-center">
-                        <form action="{{route('updateVacation')}}" method="post">
-                            @csrf
-                            <div class="mb-2 d-flex flex-column">
-                                <label for="user" class="">Ime delavca</label>
-                                <select name="user" id="user" class="text-center" onchange="checkEmployee()">
-                                    <option selected>Izberi delavca</option>
-                                    @foreach($employees as $employee)
-                                        @if(Auth::user()->role !== 'visitor')
-                                            <option value="{{$employee->name.' '.$employee->last_name}}">{{$employee->name.' '.$employee->last_name}}</option>
-                                            @else
-                                            <option value="/">/</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-2 d-flex flex-column">
-                                <label for="lastYearHolidays">Lanski dopust</label>
-                                <input type="number" name="last_year"
-                                    class="text-center" id="lastYearHolidays" value="" min="0">
-                            </div>
-                            <div class="mb-2 d-flex flex-column">
-                                <label for="holidays">Letni dopust</label>
-                                <input type="number" name="holidays" class="text-center"
-                                    id="holidays" value="" min="0">
-                            </div>
-                            <div class="mb-2 d-flex flex-column">
-                                <label for="usedHolidays">Iskoriščen dopust</label>
-                                <input type="number" name="used_holidays" class="text-center"
-                                    id="usedHolidays" value="" min="0">
-                            </div>
-                            <div class="mb-2 d-flex flex-column">
-                                <label for="overtime">Nadure</label>
-                                <input class="text-center" type="text" name="overtime"
-                                    id="overtime" value="0">
-                            </div>
+            <section id="right" class="col col-lg-2 mb-4">
+                <div id="firstForm">
+                    <div id="addUser" class="shadow mt-5 rounded-5 mb-5">
+                        <caption>
+                            <h3 class="text-center">
+                                Uredi podatke o dopustu
+                            </h3>
+                        </caption>
+                        <div class="holidaysEdit mt-3 d-flex flex-column text-center">
+                            <form action="{{route('updateVacation')}}" method="post">
+                                @csrf
+                                <div class="mb-2 d-flex flex-column">
+                                    <label for="user" class="">Ime delavca</label>
+                                    <select name="user" id="user" class="text-center" onchange="checkEmployee()">
+                                        <option selected>Izberi delavca</option>
+                                        @foreach($employees as $employee)
+                                            @if(Auth::user()->role !== 'visitor')
+                                                <option value="{{$employee->name.' '.$employee->last_name}}">{{$employee->name.' '.$employee->last_name}}</option>
+                                                @else
+                                                <option value="/">/</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-2 d-flex flex-column">
+                                    <label for="lastYearHolidays">Lanski dopust</label>
+                                    <input type="number" name="last_year"
+                                        class="text-center" id="lastYearHolidays" value="" min="0">
+                                </div>
+                                <div class="mb-2 d-flex flex-column">
+                                    <label for="holidays">Letni dopust</label>
+                                    <input type="number" name="holidays" class="text-center"
+                                        id="holidays" value="" min="0">
+                                </div>
+                                <div class="mb-2 d-flex flex-column">
+                                    <label for="usedHolidays">Iskoriščen dopust</label>
+                                    <input type="number" name="used_holidays" class="text-center"
+                                        id="usedHolidays" value="" min="0">
+                                </div>
+                                <div class="mb-2 d-flex flex-column">
+                                    <label for="overtime">Nadure</label>
+                                    <input class="text-center" type="text" name="overtime"
+                                        id="overtime" value="0">
+                                </div>
                                 <div class="submit m-2 p-2">
                                     @if(Auth::user()->role !== 'visitor')
                                         <button class="btn btn-success">Potrdi</button>
@@ -240,14 +243,28 @@
                                         <button class="btn btn-success" disabled>Potrdi</button>
                                     @endif
                                 </div>
-
-                        </form>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="div" class="mt-5 mb-5 text-center">
+                        <h3>Uredi podatke o dopustu.</h3>
+                        <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Uredi</button>
                     </div>
                 </div>
-                <div id="div" class="mt-5 mb-5 text-center">
-                    <h3>Uredi podatke o dopustu.</h3>
-                    <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Uredi</button>
-                </div>
+                @if(Auth::user()->role == 'admin')
+                    <div id="secondForm">
+                        <h4 class="p-4">Pošlji sporočilo vsem delavcem</h4>
+                        <form id="sendMsg">
+                            <div class="mb-3">
+                                <label for="msgInfo">Zadeva</label>
+                                <input type="text" id="msgInfo" name="msgInfo">
+                                <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" "></textarea>
+                                <span id="msgSpan">Sporočilo</span>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Pošlji</button>
+                        </form>
+                    </div>
+                @endif
             </section>
         </section>
 
@@ -339,6 +356,29 @@
                 function clearData(){
                     showResults.innerHTML = "";
                     clearBtn.style.display = "none";
+                }
+
+
+                document.getElementById('sendMsg').addEventListener('submit', function(event){
+                    event.preventDefault();
+                    let msgInfo = document.getElementById('msgInfo').value;
+                    let msg = document.getElementById('msg').value;
+                    //sendMsg('route(addRoute)', {msgInfo: msgInfo, msg: msg});
+                })
+
+                function sendMsg(url, params){
+                    fetch(url,{
+                        method: 'POST',
+                        headers:{
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(params)
+                    })
+                    .then(response => response.json())
+                    .then(data =>{
+                        console.log(data);
+                    })
                 }
 
                 function generateCalendar(month,year){
@@ -514,6 +554,13 @@
                     }
                 }
 
+                document.getElementById('msg').addEventListener('input', function() {
+                    if (this.value.trim() !== "") {
+                        this.classList.add('not-empty');
+                    } else {
+                        this.classList.remove('not-empty');
+                    }
+                });
             </script>
 
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

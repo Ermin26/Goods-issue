@@ -91,9 +91,16 @@ body{
     min-height: 100dvh;
 }
 #left,#middle,#right{
-    min-height: 86vh;
+    min-height: calc(100vh - 89px);
     color: white;
     text-align: center;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: blue transparent;
+
+}
+#right{
+    max-height: 100vh;
 }
 .holidayTable{
     table-layout: fixed;
@@ -113,12 +120,10 @@ body{
     background-color: darkblue;
 }
 #left{
-    max-height: 90vh;
+    max-height: 100vh;
     overflow-y: auto;
     max-width: 100%;
     padding: 0;
-    scrollbar-width: thin;
-    scrollbar-color: blue transparent;
 }
 
 .vacationForm{
@@ -150,12 +155,9 @@ body{
 }
 #middle {
     padding: 10px;
-    max-height: 90vh;
+    max-height: 100vh;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: blue transparent;
     overflow-x: hidden;
-    box-shadow: 0 0 5px 5px rgb(17, 17, 63);;
 }
 .pendingTable{
     overflow-x: auto;
@@ -225,6 +227,46 @@ body{
 }form label{
     color: white !important;
 }
+
+#secondForm{
+    margin-bottom: 10vh;
+}
+
+#secondForm form > .mb-3{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#secondForm textarea{
+    margin-top: 16px;
+    padding: 12px;
+}
+
+#msgSpan{
+    display: inline-flex;
+    position: absolute;
+    color: black;
+    top: 70px;
+    left: 0;
+    margin: 4px;
+    padding: 4px 8px;
+    transition: all 0.5s ease-in-out;
+}
+
+#secondForm textarea:focus + #msgSpan,
+#secondForm textarea:not(:placeholder-shown) + #msgSpan{
+    top: 50px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 4px;
+    transform:scale(0.7);
+}
+
+#sendMsg button{
+    padding: 6px 12px;
+}
+
 
 .container {
     margin-bottom: 10vh;
@@ -353,8 +395,13 @@ body{
     }
 
     #right {
-        width: 50%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
     }
+
 }
 @media(max-width: 992px){
     
