@@ -7,6 +7,7 @@ use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CostsController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\EmployeeController;
+use App\Models\Vacation;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/approveHoliday/{id}', [VacationController::class, 'approveHoliday'])->name('approveHoliday');
         Route::post('/rejectHoliday/{id}', [VacationController::class, 'rejectHoliday'])->name('rejectHoliday');
         Route::post('/userUsedHolidays', [VacationController::class, 'userUsedHolidays'])->name('userUsedHolidays');
+        Route::post('/sendMsg',[VacationController::class, 'sendMsg'])->name('sendMsg');
     });
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');

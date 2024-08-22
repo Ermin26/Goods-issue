@@ -242,8 +242,11 @@ body{
     margin-top: 16px;
     padding: 12px;
 }
+#msgInfo{
+    padding: 12px;
+}
 
-#msgSpan{
+#msgSpan, #msgInfoSpan{
     display: inline-flex;
     position: absolute;
     color: black;
@@ -254,13 +257,23 @@ body{
     transition: all 0.5s ease-in-out;
 }
 
+#msgInfoSpan{
+    top: 5px;
+}
+
 #secondForm textarea:focus + #msgSpan,
-#secondForm textarea:not(:placeholder-shown) + #msgSpan{
+#secondForm textarea:not(:placeholder-shown) + #msgSpan,
+#msgInfo:focus + #msgInfoSpan,
+#msgInfo:not(:placeholder-shown) + #msgInfoSpan{
     top: 50px;
     background-color: white;
     border: 2px solid black;
     border-radius: 4px;
     transform:scale(0.7);
+}
+
+#msgInfo:focus + #msgInfoSpan, #msgInfo:not(:placeholder-shown) + #msgInfoSpan{
+    top: -22px;
 }
 
 #sendMsg button{

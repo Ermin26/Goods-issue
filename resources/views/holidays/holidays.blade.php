@@ -253,11 +253,13 @@
                 </div>
                 @if(Auth::user()->role == 'admin')
                     <div id="secondForm">
-                        <h4 class="p-4">Pošlji sporočilo vsem delavcem</h4>
+                        <div id="resultMsg" class="text-center justify-content-center p-2" style="display: none;">
+                        </div>
+                        <h4 class="p-4">Pošlji email vsem delavcem</h4>
                         <form id="sendMsg">
                             <div class="mb-3">
-                                <label for="msgInfo">Zadeva</label>
-                                <input type="text" id="msgInfo" name="msgInfo">
+                                <input type="text" id="msgInfo" name="msgInfo" placeholder=" ">
+                                <span id="msgInfoSpan">Zadeva</span>
                                 <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" "></textarea>
                                 <span id="msgSpan">Sporočilo</span>
                             </div>
@@ -273,6 +275,7 @@
             <script>
                 let clearBtn = document.getElementById('clearBtn');
                 let showResults = document.getElementById('vacationResults');
+                let resultMsg = document.getElementById('resultMsg');
                 let vacations = @json($holidays);
                 let employees = @json($vacations);
                 let role = @json(Auth::user()->role);
@@ -359,11 +362,11 @@
                 }
 
 
-                document.getElementById('sendMsg').addEventListener('submit', function(event){
-                    event.preventDefault();
+                document.getElementById('sendMsg').addEventListener('submit', function(e){
+                    e.preventDefault();
                     let msgInfo = document.getElementById('msgInfo').value;
                     let msg = document.getElementById('msg').value;
-                    //sendMsg('route(addRoute)', {msgInfo: msgInfo, msg: msg});
+                    sendMsg('{{route('sendMsg')}}', {msgInfo: msgInfo, msg: msg});
                 })
 
                 function sendMsg(url, params){
@@ -375,9 +378,34 @@
                         },
                         body: JSON.stringify(params)
                     })
-                    .then(response => response.json())
-                    .then(data =>{
-                        console.log(data);
+                    .then(response =>{
+                        if(!response.ok){
+                            let h3 = document.createElement('h3');
+                            h3.innerHTML = response.status;
+                            resultMsg.appendChild(h3);
+                            resultMsg.style.display = "flex";
+                            resultMsg.classList.add('bg-success')
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data=>{
+                        document.getElementById('msgInfo').value = "";
+                        document.getElementById('msg').value = "";
+                        let h3 = document.createElement('h3');
+                        h3.innerHTML = data.msg;
+                        resultMsg.appendChild(h3);
+                        resultMsg.style.display = "flex";
+                        //resultMsg.style.backgroundColor = "green";
+                        resultMsg.classList.add('bg-success')
+                    })
+                    .catch(error=>{
+                        let h3 = document.createElement('h3');
+                        h3.innerHTML = response.status;
+                        resultMsg.appendChild(h3);
+                        resultMsg.style.display = "flex";
+                        resultMsg.classList.add('bg-success')
+                        console.error('Error: ', error);
                     })
                 }
 

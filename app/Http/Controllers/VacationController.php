@@ -97,8 +97,6 @@ class VacationController extends Controller{
         ->distinct()
         ->orderBy('year', 'ASC')
         ->pluck('year');
-        
-
 
         return view('holidays.holidays', compact('vacations','holidays', 'employees', 'pending_holidays','notifications', 'years'));
     }
@@ -322,6 +320,35 @@ class VacationController extends Controller{
             return response()->json([
                 'holidays' => $holidays
             ]);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function sendMsg(Request $request){
+        try{
+
+            $employees = Employee::where('status', '=', '1')
+                ->whereNotNull('email')
+                ->where('email', '!=', '')
+                ->pluck('email')
+                ->toArray();
+
+            $msgInfo = $request->input('msgInfo');
+            $msg = $request->input('msg');
+            foreach($employees as $email){
+                Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $email){
+                    $message->to($email)
+                            ->subject($msgInfo);
+                });
+            };
+
+            return response()->json([
+                'msg' => "Uspešno poslano sporočilo.",
+            ]);
+
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         } catch (\Exception $e) {
