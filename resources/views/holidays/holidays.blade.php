@@ -55,7 +55,13 @@
                     </table>
                 </div>
                 <!-- USED HOLIDAYS, TABLES FOR EVERY USER-->
-                <div class="vacationForm row row-cols-2 flex-row border-bottom border-1 border-light p-2">
+                <div class="vacationForm border-bottom border-1 border-light p-2">
+                    <div class="formInfo col text-start bg-secondary p-2">
+                        <small class="pt-2">* Pusti prazno če želite pridobiti podatke o vseh dopustih.</small><br>
+                        <small class="pt-2">* Izberi samo leto če želite pridobiti podatke o vseh dopustih za izbrano leto.</small><br>
+                        <small class="pt-2">* Izberi delavca, če želite pridobiti podatke o vseh dopustih izbranega delavca.</small><br>
+                        <small class="pt-2">* Izberi delavca in leto, če želite pridobiti podatke o vseh dopustih izbranega delavca za izbrano leto.</small>
+                    </div>
                     <form id="userUsedHolidays" class="col">
                         <div class="mb-3">
                             <label for="selectedYear">Leto</label>
@@ -86,14 +92,8 @@
                             <div id="clearBtn" class="btn btn-secondary btn-sm p-2" style="display: none" onclick="clearData()">Počisti</div>
                         </div>
                     </form>
-                    <div class="formInfo col text-start bg-secondary p-2">
-                        <small class="pt-2">* Pusti prazno če želite pridobiti podatke o vseh dopustih.</small><br>
-                        <small class="pt-2">* Izberi samo leto če želite pridobiti podatke o vseh dopustih za izbrano leto.</small><br>
-                        <small class="pt-2">* Izberi delavca, če želite pridobiti podatke o vseh dopustih izbranega delavca.</small><br>
-                        <small class="pt-2">* Izberi delavca in leto, če želite pridobiti podatke o vseh dopustih izbranega delavca za izbrano leto.</small>
-                    </div>
                 </div>
-                <div id="vacationResults" class="mb-5">
+                <div id="vacationResults">
 
                 </div>
             </section>
@@ -194,7 +194,7 @@
 
             <section id="right" class="col col-lg-2 mb-4">
                 <div id="firstForm">
-                    <div id="addUser" class="shadow mt-5 rounded-5 mb-5">
+                    <div id="addUser" class="mt-5 mb-5">
                         <caption>
                             <h3 class="text-center">
                                 Uredi podatke o dopustu

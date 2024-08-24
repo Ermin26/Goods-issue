@@ -126,6 +126,10 @@ body{
     padding: 0;
 }
 
+#vacationResults{
+    margin-bottom: 6rem;
+}
+
 .vacationForm{
     width: 100%;
     display: flex;
@@ -140,6 +144,8 @@ body{
     justify-content: center;
     align-items: center;
     text-align: center;
+    overflow-x: hidden;
+    margin-top: 20px;
 }
 
 #userUsedHolidays .mb-3{
@@ -381,6 +387,8 @@ body{
     background-color: rgb(161, 161, 161);
     box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
 }
+
+
 @media (max-width: 1500px) {
     html {
         overflow-x: hidden;
@@ -395,9 +403,7 @@ body{
         width: 100%;
         height: 100%;
     }
-    #left, #middle {
-        max-height: 90vh;
-    }
+
     #left{
         width: 40%;
     }
@@ -405,6 +411,10 @@ body{
         width: 60%;
         scrollbar-width: thin;
         scrollbar-color: blue transparent;
+    }
+
+    .vacationForm{
+        flex-direction: row;
     }
 
     #right {
@@ -416,20 +426,46 @@ body{
     }
 
 }
+
+@media(max-width: 1200px){
+    .vacationForm{
+        flex-direction: column;
+    }
+}
+
 @media(max-width: 992px){
-    
+
     #section{
         flex-direction: column;
     }
     #left, #middle, #right {
         width: 100%;
-        height: 100vh;
+        min-height: unset;
+        height: auto;
     }
+
     .alert{
         order: -1;
         margin-top: 40px;
     }
     #middle{
         order: -1;
+    }
+
+    .vacationForm{
+        flex-direction: row;
+    }
+
+    #userUsedHolidays{
+        order: -1;
+    }
+}
+
+@media(max-width: 680px){
+    .vacationForm, #right{
+        flex-direction: column;
+    }
+    #userUsedHolidays{
+        order: unset;
     }
 }
