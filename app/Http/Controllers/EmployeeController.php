@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Mail;
 use MongoDB\Client as MongoClient;
 use App\Models\Employee;
 use App\Models\Vacation;
@@ -174,11 +175,17 @@ class EmployeeController extends Controller{
                 ]);
 
                 Holidays::create([
-                    'from'=>$request->from,
-                    'to'=>$request->to,
-                    'days'=>$request->days,
+                    'from'=>$request->input('from'),
+                    'to'=>$request->input('to'),
+                    'days'=>$request->input('days'),
                     'employee_id'=>Auth::guard('employee')->user()->id,
                 ]);
+
+                Mail::raw("Delavec ".Auth::guard('employee')->user()->name. " " . Auth::guard('employee')->user()->last_name. " je oddal/a vlogo za dopust." ,function($message){
+                    $message->to("mb.providio@gmail.com")
+                            ->subject("Dopust")
+                            ->cc("rataj.tvprodaja@gmail.com");
+                });
 
                 return redirect()->route('employeeHome')->with('success', "Vloga za dopust uspešno oddana.");
 
@@ -257,6 +264,12 @@ class EmployeeController extends Controller{
                 ]);
 
                 $holiday->save();
+
+                Mail::raw("Delavec ".Auth::guard('employee')->user()->name. " " . Auth::guard('employee')->user()->last_name. " je posodobil/a vlogo za dopust." ,function($message){
+                    $message->to("mb.providio@gmail.com")
+                            ->subject("Posodobitev dopusta")
+                            ->cc("rataj.tvprodaja@gmail.com");
+                });
                 return redirect()->route('employeeHome')->with('success', "Uspešno posodobljena vloga za dopust.");
             }catch(ValidationException $e){
                 $error = $e->validator->errors()->all();
@@ -272,6 +285,11 @@ class EmployeeController extends Controller{
             try{
                 $holiday = Holidays::findOrFail($id);
                 $holiday->delete();
+                Mail::raw("Delavec ".Auth::guard('employee')->user()->name. " " . Auth::guard('employee')->user()->last_name. " je preklical/a vlogo za dopust." ,function($message){
+                    $message->to("mb.providio@gmail.com")
+                            ->subject("Preklic dopusta")
+                            ->cc("rataj.tvprodaja@gmail.com");
+                });
                 return redirect()->route('employeeHome')->with('success', 'Uspešno izbrisana vloga za dopust.');
             }catch(ValidationException $e){
                 $error = $e->validator->errors()->all();

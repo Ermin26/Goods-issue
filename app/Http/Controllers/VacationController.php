@@ -159,8 +159,8 @@ class VacationController extends Controller{
                     });
                     Mail::raw("Obvestilo: Dopust za zaposlenega ".$employee->name." je bil odobren. Od: ".$from." Do: ".$to.". Lep pozdrav, ".Auth::user()->name.".", function ($message) {
                         $message->to("mb2.providio@gmail.com")
-                                ->subject("Obvestilo o dopustu");
-                                #->cc("rataj.tvprodaja@gmail.com");
+                                ->subject("Obvestilo o dopustu")
+                                ->cc("rataj.tvprodaja@gmail.com");
                     });
                 }catch(ValidationException $e){
                     $errors = $e->validator->errors()->all();
@@ -179,7 +179,7 @@ class VacationController extends Controller{
             $holiday = Holidays::where('id',$id)->where('status', "Pending")->first();
             if($holiday){
                 $employee = Employee::where('id', $holiday->employee_id)->first();
-                
+
                 $holiday->update([
                     'status' => 'Approved',
                     'user_name'=> Auth::user()->name,
@@ -198,8 +198,8 @@ class VacationController extends Controller{
                     });
                     Mail::raw("Obvestilo: Dopust za zaposlenega ".$employee->name." Od: ".$from." Do: ".$to." ni odobren. Lep pozdrav, ".Auth::user()->name.".", function ($message) {
                         $message->to("mb2.providio@gmail.com")
-                                ->subject("Obvestilo o dopustu");
-                                #->cc("rataj.tvprodaja@gmail.com");
+                                ->subject("Obvestilo o dopustu")
+                                ->cc("rataj.tvprodaja@gmail.com");
                     });
                 }catch(ValidationException $e){
                     $errors = $e->validator->errors()->all();
@@ -341,7 +341,8 @@ class VacationController extends Controller{
             foreach($employees as $email){
                 Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $email){
                     $message->to($email)
-                            ->subject($msgInfo);
+                            ->subject($msgInfo)
+                            ->cc("rataj.tvprodaja@gmail.com");
                 });
             };
 

@@ -25,14 +25,14 @@
                             <label for="user">Delavec</label>
                             <input type="text" class="form-control w-100 border-2 border-dark" name="username" id="username"
                                 placeholder="Ime delavca">
-                            <small>%name% vključeno</small>
+                            <small>%ime% vključeno</small>
                         </div>
 
                         <div class="form-group mt-3 me-auto">
                             <label for="product">Produkt</label>
                             <input type="text" class="form-control w-100 border-2 border-dark" name="product"
-                                id="product" placeholder="Not required">
-                            <small>%name% vključeno</small>
+                                id="product" placeholder="Produkt">
+                            <small>%product% vključeno</small>
                         </div>
 
                         <div class="footer mb-4">
@@ -40,7 +40,7 @@
                         </div>
                     </form>
             </div>
-            <div class="col-12 col-md-5 infos text-start ms-auto me-auto">
+            <div class="col-12 col-md-5 infos text-start ms-auto me-auto p-4">
                 <div class="searchInfo">
                     <small>-Vpiši samo ime delavca če želiš pridobit vse račune.</small><br>
                     <small>-Vpiši ime delavca in ime produkta če želiš pridobit vse račune in tudi kolikokrat je delavec kupil iskani produkt.</small><br>
