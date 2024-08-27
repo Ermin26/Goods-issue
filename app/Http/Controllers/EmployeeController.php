@@ -14,7 +14,6 @@ use App\Models\Employee;
 use App\Models\Vacation;
 use App\Models\Holidays;
 use App\Models\Bills;
-use Illuminate\Support\Facades\Mail;
 
 
 class EmployeeController extends Controller{
