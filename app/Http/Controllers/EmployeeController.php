@@ -96,7 +96,8 @@ class EmployeeController extends Controller{
                 $request->validate([
                     'name' => 'required|string|max:255',
                     'last_name' => 'required|string|max:255',
-                    'email' => 'required|string|max:255',
+                    'email' => 'nullable|string|max:255',
+                    'user_name' => 'required|string|max:255',
                     'password' => 'required|string|max:255',
                     'status' => 'required|string',
                     'working_status' => 'required|string',
@@ -158,7 +159,11 @@ class EmployeeController extends Controller{
         if(Auth::guard('employee')->user()){
             $employee = Auth::guard('employee')->user()->id;
             $vacation = Vacation::where('employee_id', $employee)->first();
-            return view('employees.vacation', compact('vacation', 'employee'));
+            $years = Holidays::selectRaw('YEAR(holidays.from) as year')
+                    ->distinct()
+                    ->orderBy('year', 'ASC')
+                    ->pluck('year');
+            return view('employees.vacation', compact('vacation', 'employee', 'years'));
         }else {
             return redirect()->rout('login')->with('error', "Prijavite se.");
         }

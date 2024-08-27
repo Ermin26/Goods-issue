@@ -13,68 +13,77 @@
     @include('employees.nav')
 
     <main>
-        <section id="vacation">
-            <div class="holidaysInfo">
-                <h3 class="text-center text-light p-2">Lanski dopust {{$vacation->last_year}}<br>Letni dopust {{$vacation->holidays}}</h3>
-            </div>
-            <form action="{{route('newHoliday')}}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label for="from">Prvi dan dopusta</label>
-                    <input type="date" class="text-center" name="from" id="from">
+        @if($vacation)
+            <section id="vacation">
+                <div class="holidaysInfo">
+                    <h3 class="text-center text-light p-2">Lanski dopust {{$vacation->last_year}}<br>Letni dopust {{$vacation->holidays}}</h3>
                 </div>
-                <div class="mb-3">
-                    <label for="to">Zadnji dan dopusta</label>
-                    <input type="date" class="text-center" name="to" id="to">
-                </div>
-                <div class="mb-3">
-                    <label for="days">Število dni</label>
-                    <input type="number" class="text-center" name="days" id="days" required>
-                </div>
-                <div class="row">
-                    <button class="btn btn-primary">Oddaj</button>
-                </div>
-            </form>
-        </section>
-        <section id="searchVacation">
-            <div id="error" class="w-100">
-                <h1 class="text-center bg-danger text-light p-4" style="display: none">Ni podatkov za izbrani kriterij.</h1>
-            </div>
-            <h3>Išči dopust</h3>
-            <form id="getVacations">
-                <div class="mb-3">
-                    <label for="month">Mesec</label>
-                    <input type="number" name="month" min="1" max="12" id="month">
-                </div>
-                <div class="mb-3">
-                    <label for="year">Leto</label>
-                    <input type="number" name="year" min="1" id="year">
-                </div>
-                <div class="mb-3">
-                    <label for="status">Status</label>
-                    <select name="status" id="status">
-                        <option value="">Status</option>
-                        <option value="Approved">Odobreno</option>
-                        <option value="Rejected">Zavrnenjo</option>
-                    </select>
-                </div>
-                <button class="btn btn-sm btn-primary">Išči</button>
-            </form>
-            <section id="showVacations">
-                <table id="myHolidays" class="table table-responsive table-bordered border-1 border-light">
-                    <thead>
-                        <tr>
-                            <th>Od</th>
-                            <th>Do</th>
-                            <th>Days</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <form action="{{route('newHoliday')}}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="from">Prvi dan dopusta</label>
+                        <input type="date" class="text-center" name="from" id="from">
+                    </div>
+                    <div class="mb-3">
+                        <label for="to">Zadnji dan dopusta</label>
+                        <input type="date" class="text-center" name="to" id="to">
+                    </div>
+                    <div class="mb-3">
+                        <label for="days">Število dni</label>
+                        <input type="number" class="text-center" name="days" id="days" required>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary">Oddaj</button>
+                    </div>
+                </form>
             </section>
-        </section>
+            <section id="searchVacation">
+                <div id="error" class="w-100">
+                    <h1 class="text-center bg-danger text-light p-4" style="display: none">Ni podatkov za izbrani kriterij.</h1>
+                </div>
+                <h3>Išči dopust</h3>
+                <form id="getVacations">
+                    <div class="mb-3">
+                        <label for="month">Mesec</label>
+                        <input type="number" name="month" min="1" max="12" id="month">
+                    </div>
+                    <div class="mb-3">
+                        <label for="year">Leto</label>
+                        <select name="year" id="year">
+                            <option value="">Izberi leto</option>
+                            @foreach ($years as $year)
+                                @if($year != '0')
+                                    <option value="{{$year}}">{{$year}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="">Status</option>
+                            <option value="Approved">Odobreno</option>
+                            <option value="Rejected">Zavrnenjo</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-sm btn-primary">Išči</button>
+                </form>
+                <section id="showVacations">
+                    <table id="myHolidays" class="table table-responsive table-bordered border-1 border-light">
+                        <thead>
+                            <tr>
+                                <th>Od</th>
+                                <th>Do</th>
+                                <th>Days</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        @endif
     </main>
 
 

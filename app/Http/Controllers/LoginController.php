@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -22,13 +23,12 @@ class LoginController extends Controller{
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::guard('web')->login($user);
             $request->session()->regenerate();
+            return redirect()->intended('/')->with('success', "Dobro došli ".auth()->user()->name);
 
-            return redirect()->route('home')->with('success', "Dobro došli ".auth()->user()->name);
         }else{
             $employee = Employee::where('user_name', $request->name)->first();
             if($employee && Hash::check($request->password, $employee->password) && $employee->status == 1){
                 Auth::guard('employee')->login($employee);
-                #dd(Auth::guard('employee'));
                 $request->session()->regenerate();
                 return redirect()->route('employeeHome')->with('success', "Dobro došli.");
             }
