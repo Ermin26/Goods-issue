@@ -22,13 +22,13 @@
     <div class="caption" id="caption">
         @include('flash')
         @if(request()->is('all'))
-            <h1><strong class="fs-1 text-primary">Vsi računi</strong></h1>
-            <h2><strong class="fs-2 text-info">Mesec <?php echo date("F") ?> :
+            <h2><strong class="text-primary">Vsi računi</strong></h2>
+            <h3><strong class="text-info">Mesec <?php echo date("F") ?> :
                     {{$thisMonth}}
-                </strong></h2>
-            <h2><strong class="fs-2 text-primary">Število vseh računov:
+                </strong></h3>
+            <h3><strong class="text-primary">Število vseh računov:
                     {{$totalBills}}
-            </strong></h2>
+            </strong></h3>
         @elseif (request()->is('all/payed'))
         <h2>Total:<span id="spanPayed"></span></h2>
         <h3>Število plačanih računov: <span class="text-success">{{$totalPayed}}</span></h3>
