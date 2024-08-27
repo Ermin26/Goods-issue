@@ -94,6 +94,7 @@ Route::middleware(['auth.employee'])->group(function(){
         Route::post('/updatedHoliday/{id}',[EmployeeController::class, 'updateHoliday'])->name('updateHoliday');
         Route::delete('/deleteHoliday/{id}',[EmployeeController::class, 'deleteHoliday'])->name('deleteHoliday');
         Route::post('/myHolidays/{id}', [EmployeeController::class, 'myHolidays'])->name('myHolidays');
+        Route::Post('/studentSendEmail/{id}', [EmployeeController::class, 'studentSendEmail'])->name('studentSendEmail');
     });
 });
 

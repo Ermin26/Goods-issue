@@ -13,7 +13,7 @@
     @include('employees.nav')
 
     <main>
-        @if($vacation)
+        @if($vacation && $employee->working_status == 'zaposlen/a')
             <section id="vacation">
                 <div class="holidaysInfo">
                     <h3 class="text-center text-light p-2">Lanski dopust {{$vacation->last_year}}<br>Letni dopust {{$vacation->holidays}}</h3>
@@ -63,7 +63,7 @@
                         <select name="status" id="status">
                             <option value="">Status</option>
                             <option value="Approved">Odobreno</option>
-                            <option value="Rejected">Zavrnenjo</option>
+                            <option value="Rejected">Zavrnjeno</option>
                         </select>
                     </div>
                     <button class="btn btn-sm btn-primary">Išči</button>
@@ -83,6 +83,19 @@
                     </table>
                 </section>
             </section>
+        @elseif($employee->working_status == 'študent')
+        <section id="studentSection">
+            <form id="studentForm" action="{{route('studentSendEmail', $employee->id)}}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <input type="text" id="msgInfo" name="msgInfo" placeholder=" " required>
+                    <span id="msgInfoSpan">Zadeva</span>
+                    <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" " required></textarea>
+                    <span id="msgSpan">Sporočilo</span>
+                </div>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Pošlji</button>
+            </form>
+        </section>
         @endif
     </main>
 
@@ -145,7 +158,13 @@
             }
         }
 
-
+        document.getElementById('msg').addEventListener('input', function() {
+                    if (this.value.trim() !== "") {
+                        this.classList.add('not-empty');
+                    } else {
+                        this.classList.remove('not-empty');
+                    }
+                });
 
     </script>
 
