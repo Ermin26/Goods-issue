@@ -114,10 +114,38 @@ header {
     box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
 }
 
+#alertSection{
+    position: relative;
+    margin: 0;
+    top: 10px;
+    padding: 4px 12px;
+}
 
-@media (max-width: 992px){
-    
-    
+.alert{
+    max-width: 400px;
+    max-height: 50px;
+    padding: 4px 8px;
+    margin: 4px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.alert span{
+    display: flex;
+    padding: 2px;
+    width: 26px;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    transition: all 0.4s ease-in-out;
+}
+
+.alert-success span:hover{
+    background-color: #25c57bc2;
+}
+.alert-danger span:hover{
+    background-color: #cf2533a9;
 }
 
 @media (max-width: 767px){

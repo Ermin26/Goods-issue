@@ -209,3 +209,36 @@ button{
 #employeeNav form:hover{
     cursor: pointer;
 }
+
+#alertSection{
+    margin: 0;
+    margin-top: 50px;
+    padding: 4px 12px;
+}
+
+.alert{
+    max-width: 400px;
+    max-height: 50px;
+    padding: 4px 8px;
+    margin: 4px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.alert span{
+    display: flex;
+    padding: 2px;
+    width: 26px;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    transition: all 0.4s ease-in-out;
+}
+
+.alert-success span:hover{
+    background-color: #25c57bc2;
+}
+.alert-danger span:hover{
+    background-color: #cf2533a9;
+}

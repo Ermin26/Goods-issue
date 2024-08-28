@@ -142,7 +142,7 @@ class EmployeeController extends Controller{
         try{
             if(Auth::guard('employee')->user()){
                 $employee = Auth::guard('employee')->user();
-                dd($employee);
+                #dd($employee);
                 $userVacations = Vacation::where('employee_id', $employee->id)->get();
                 $userHolidays = Holidays::where('employee_id', $employee->id)->where('status', 'Pending')->get();
                 $unpayedBills = Bills::where('payed', 0)->where('buyer', $employee->name." ".$employee->last_name)->get();

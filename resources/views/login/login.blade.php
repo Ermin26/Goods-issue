@@ -15,11 +15,8 @@
 
 <body>
     @include('navbar')
-
-        <div class="d-flex justify-content-center mt-5">
-            @include('flash')
-        </div>
-        <div id="container" class="container mt-1 d-flex justify-content-center">
+    @include('flash')
+        <div id="container" class="container mt-5 d-flex justify-content-center">
             <div class="row mt-2">
                 <div class="col text-center">
                     <div class="card">

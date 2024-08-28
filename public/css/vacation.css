@@ -1,5 +1,6 @@
 body{
     overflow:hidden;
+    background-color: rgb(27, 27, 94);
 }
 #iconLi{
     max-height: 50px;
@@ -83,10 +84,12 @@ body{
     margin: 0px 2px;
 }
 #section {
+    position: relative;
     overflow: hidden;
     background-color: rgb(27, 27, 94);
     max-width: 100%;
     margin: 0;
+    top: 50px;
     overflow: hidden;
     min-height: 100dvh;
 }
@@ -388,6 +391,10 @@ body{
     box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
 }
 
+#alertSection{
+    top: 40px;
+    margin-bottom: 20px;
+}
 
 @media (max-width: 1500px) {
     html {
@@ -446,7 +453,7 @@ body{
 
     .alert{
         order: -1;
-        margin-top: 40px;
+        margin-top: 50px;
     }
     #middle{
         order: -1;

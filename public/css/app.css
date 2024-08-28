@@ -200,11 +200,6 @@ ul input{
     color: black;
     width: auto;
 }
-/*
-.table th:not(:first-child){
-    width: 120px;
-}
-*/
 
 #productsTable th:first-child{
     min-width: 100px;
@@ -282,97 +277,6 @@ ul input{
         margin-left: auto;
     }
 }
-/*
-
-@media (max-width: 550px) {
-    #izdal {
-        margin-top: 0px;
-    }
-
-    #hiderow {
-        display: inline-flex;
-        flex-direction: row;
-        transform: translate(50px, 330px);
-        -webkit-transform: translate(50px, 330px);
-        -moz-transform: translate(50px, 330px);
-        -ms-transform: translate(50px, 330px);
-        -o-transform: translate(50px, 330px);
-    }
-
-    #dates {
-        padding: 0px;
-        margin-left: -50px;
-    }
-
-    #dates-left {
-        padding: 0px;
-        margin-left: 50px;
-    }
-
-    #info {
-        margin: 0;
-        padding: 0;
-    }
-
-    #info-ul {
-        padding: 0px;
-    }
-
-    #info-ul li {
-        margin-left: 25px;
-    }
-
-
-}
-
-@media (max-width: 450px) {
-    .containerr {
-        overflow-x: auto;
-    }
-
-    #izdal {
-        margin-top: 0px;
-    }
-
-    #hiderow {
-        display: inline-flex;
-        flex-direction: row;
-        transform: translate(50px, 440px);
-        -webkit-transform: translate(50px, 440px);
-        -moz-transform: translate(50px, 440px);
-        -ms-transform: translate(50px, 440px);
-        -o-transform: translate(50px, 440px);
-    }
-
-    #dates {
-        display: inline-flex;
-        flex-direction: column;
-        margin-left: auto;
-        margin-right: auto;
-
-    }
-
-    #info {
-        margin: 0;
-        padding: 0;
-        margin-left: auto;
-        margin-right: auto;
-
-    }
-
-    #info-ul {
-        margin: 0px;
-    }
-
-    #info-ul li {
-        margin-top: 2px;
-        margin-left: 7px;
-    }
-
-}
-
-*/
-
 @page{
     size: auto;
 }
@@ -414,7 +318,7 @@ ul input{
     #zaključi,
     #placaj,
     #hideOnPrint,
-    #hiderow,.alert,#navbar,#userInfo,.name,.role, #rowDelete, #successAlert, #errorAlert, .btnSection, .printBtn{
+    #hiderow,.alert,#alertSection,#navbar,#userInfo,.name,.role, #rowDelete, #successAlert, #errorAlert, .btnSection, .printBtn{
         display:none !important;
     }
     #navbar {
