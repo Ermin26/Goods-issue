@@ -2,11 +2,18 @@ html {
     overflow: hidden;
 }
 
+#billInfo{
+    position: relative;
+    top: 80px;
+}
+
+#userBill{
+    margin-top: 60px;
+}
 
 .hide {
     display: none;
 }
-
 
 
 #hide {
@@ -336,11 +343,12 @@ ul {
 
     .hide {
         display: block;
+        color: black !important;
     }
 
     #hideOnPrint,
     #containerr,
-    #navbar,#successAlert, #errorAlert {
+    #navbar,#successAlert, #errorAlert,#userBill {
         display: none;
     }
 

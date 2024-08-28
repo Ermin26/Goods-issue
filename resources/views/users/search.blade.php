@@ -90,11 +90,11 @@
                         <table id="table" class="table table-dark table-hover mt-3 text-center">
                             <thead id="table-data">
                                 <th class="col">Produkt</th>
-                                <th class="col">Količona</th>
+                                <th class="col">Količina</th>
                                 <th class="col">Total</th>
                                 <th class="col">Mesec</th>
                                 <th class="col">Teden</th>
-                                <th class="col">Brezplačen</th>
+                                <th class="col">Brezplačno</th>
                                 <th class="col">Plačano</th>
                                 <th class="col">Izdano</th>
                                 <th class="col">Izdal</th>

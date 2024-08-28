@@ -16,10 +16,8 @@
 </head>
 
 <body>
-
     @include('navbar')
-    
-    <div id="hideOnPrint" class="text-center">
+    <div id="userBill" class="text-center">
             @include('flash')
                 <h1 class="mt-3 text-center">
                     @if(Auth::user()->role != 'visitor')
@@ -30,97 +28,95 @@
                             <br>
                     @endif
                 </h1>
-        </div>
-        <div class="mt-3" id="containerr">
+    </div>
+    <div class="mt-3" id="containerr">
+        <table id="user" class="table table-dark table-hover mt-3">
+            <thead class="table-data fs-4 text-center">
+                <th>Produkt</th>
+                <th>Količina</th>
+                <th>Brezplačen</th>
+                <th>Neto</th>
+                <th>Skupaj</th>
+                <th>Plačano</th>
+                <th>Teden</th>
+                <th>Prodano</th>
+                <th>Plačeno</th>
+                <th>Izdal</th>
+                <th>Uredi</th>
+                <th>Izbriši</th>
+                <th>Re-Print</th>
+            </thead>
+            <tbody class="text-center">
+                <tr>
+                    <td>
+                        @foreach($products as $product)
+                        {{$product->name}}<br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach($products as $product)
+                        {{$product->qty}}<br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach($products as $product)
+                            @if($product->firstOfWeek =='1')
+                                <img src="{{asset('img/payed.jpg')}}" alt="Free"><br>
+                            @else
+                                <img src="{{asset('img/notPay.jpg')}}" alt="Not Free"><br>
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach($products as $product)
+                            {{$product->total}} &euro;
+                        @endforeach
+                    </td>
+                    <td>{{$bill->total}} &euro;</td>
+                    <td>
+                        @foreach($products as $product)
+                            @if($bill->payed =='1' )
+                                <img src="{{asset('img/payed.jpg')}}" alt="Payed"><br>
+                            @else
+                                <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"><br>
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>
+                        {{$bill->kt}}
+                    </td>
+                    <td>
+                        {{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}
+                    </td>
+                    <td>
+                        {{$bill->pay_date !== null ? \Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y') : " "}}
+                    </td>
+                    <td>
+                        {{Auth::user()->role == 'visitor' ? "/" : "$bill->published"}}
+                    </td>
+                    <td>
+                        <a href="/all/edit/{{$bill->id}}"><button class="btn btn-warning btn-sm">
+                                EDIT
+                            </button>
+                        </a>
 
-            <table id="user" class="table table-dark table-hover mt-3">
-                <thead class="table-data fs-4 text-center">
-                    <th>Produkt</th>
-                    <th>Količina</th>
-                    <th>Brezplačen</th>
-                    <th>Neto</th>
-                    <th>Skupaj</th>
-                    <th>Plačano</th>
-                    <th>Teden</th>
-                    <th>Prodano</th>
-                    <th>Plačeno</th>
-                    <th>Izdal</th>
-                    <th>Uredi</th>
-                    <th>Izbriši</th>
-                    <th>Re-Print</th>
-                </thead>
-                <tbody class="text-center">
+                    </td>
 
-                    <tr>
-                    
-                        <td>
-                                @foreach($products as $product)
-                                {{$product->name}}<br>
-                                @endforeach
-                            </td>
-                            <td>
-                                @foreach($products as $product)
-                                {{$product->qty}}<br>
-                                @endforeach
-                            </td>
-                            <td>
-                                @foreach($products as $product)
-                                @if($product->firstOfWeek =='1')
-                                    <img src="{{asset('img/payed.jpg')}}" alt="Free"><br>
-                                @else
-                                    <img src="{{asset('img/notPay.jpg')}}" alt="Not Free"><br>
-                                @endif
-                                @endforeach
-                            </td>
-                            <td>
-                                @foreach($products as $product)
-                                    {{$product->total}} &euro;
-                                @endforeach
-                            </td>
-                            <td>{{$bill->total}} &euro;</td>
-                            <td>
-                                @foreach($products as $product)
-                                    @if($bill->payed =='1' )
-                                        <img src="{{asset('img/payed.jpg')}}" alt="Payed"><br>
-                                    @else
-                                        <img src="{{asset('img/notPay.jpg')}}" alt="Not Payed"><br>
-                                    @endif
-                                @endforeach
-                            </td>
-                            <td>
-                                {{$bill->kt}}
-                            </td>
-                            <td>
-                                {{\Carbon\Carbon::parse($bill->sold_date)->format('d.m.Y')}}
-                            </td>
-                            <td>
-                                {{$bill->pay_date !== null ? \Carbon\Carbon::parse($bill->pay_date)->format('d.m.Y') : " "}}
-                            </td>
-                            <td>
-                                {{Auth::user()->role == 'visitor' ? "/" : "$bill->published"}}
-                            </td>
-                                    <td>
-                                        <a href="/all/edit/{{$bill->id}}"><button class="btn btn-warning btn-sm">
-                                                EDIT
-                                            </button>
-                                        </a>
-
-                                    </td>
-
-                                    <td>
-                                        <form action="/all/delete/{{$bill->id}}/?_method=DELETE" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-sm" {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>DELETE</button>
-                                        </form>
-                                    </td>
-                                    <td><button class="btn btn-success btn-sm" id="hideOnPrint"
-                                            onclick=window.print() {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>Print</button></td>
-                        </tr>
-                </tbody>
-            </table>
-
-        </div>
+                    <td>
+                        <form action="/all/delete/{{$bill->id}}/?_method=DELETE" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm" {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>DELETE</button>
+                        </form>
+                    </td>
+                    <td>
+                        <button class="btn btn-success btn-sm" id="hideOnPrint"
+                            onclick=window.print() {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>Print</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="hide">
 
