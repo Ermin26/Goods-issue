@@ -173,10 +173,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
                     </tbody>
                 </table>
-
                 <div id="showUser" style="display: none">
                     <table id="showUserOnVacation">
                         <thead>
@@ -253,8 +251,7 @@
                         <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Uredi</button>
                     </div>
                 </div>
-                @if(Auth::user()->role == 'admin')
-                    <div id="secondForm">
+                    <div id="secondForm" {{Auth::user()->role == 'admin' ? "style=display:flex;" : "style=display:none;"}}>
                         <div id="resultMsg" class="text-center justify-content-center p-2" style="display: none;">
                         </div>
                         <h4 class="p-4">Pošlji email vsem delavcem</h4>
@@ -268,7 +265,6 @@
                             <button type="submit" class="btn btn-outline-primary btn-sm">Pošlji</button>
                         </form>
                     </div>
-                @endif
             </section>
         </section>
 

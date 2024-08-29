@@ -36,6 +36,8 @@
 }
 #table img{
     margin: 4px 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 .btns button{
     margin: 0 4px;
@@ -50,6 +52,7 @@
 #notPayedTable{
     max-width: 100;
 }
+
 
 @media (max-width:800px) {
     #row {
@@ -104,27 +107,39 @@
         text-align: center;
     }
 }
-
+@page{
+    size: auto;
+}
 @media print {
+    *{
+        margin: 0;
+        padding: 0;
+    }
 
     #search,
     #allBills,
     #navbar,
     #h1Results,
     #edit,
-    #editLink, #successAlert, #errorAlert, #userInfom .topSection, .infos, #searchBtns, .btn, #qtyBuyedProducts {
+    #editLink, #successAlert, #errorAlert, .topSection, .infos, #searchBtns, .btn, #qtyBuyedProducts {
+        all: unset;
         display: none;
+        border: none;
     }
 
     #allBills {
-        transform: translate(00px, -65px);
-        -webkit-transform: translate(00px, -65px);
-        -moz-transform: translate(00px, -65px);
-        -ms-transform: translate(00px, -65px);
-        -o-transform: translate(00px, -65px);
+        all: unset;
+        /*transform: translate(00px, -65px);*/
+        position: relative;
+        top: 0 !important;
+        margin: 0;
+        padding: 0;
     }
 
     #data {
+        all: unset;
+        position: relative;
+        top: 20px;
         background-color: transparent;
         color: black;
         overflow: hidden;
@@ -132,11 +147,12 @@
 
 
     #unPayedBills {
-        transform: translate(00px, -100px);
-        -webkit-transform: translate(00px, -90px);
-        -moz-transform: translate(00px, -90px);
-        -ms-transform: translate(00px, -90px);
-        -o-transform: translate(00px, -90px);
+        all: unset;
+        /*transform: translate(00px, -100px);*/
+        position: relative;
+        top: 0 !important;
+        margin: 0;
+        padding: 0;
         background-color: transparent;
         color: black;
     }

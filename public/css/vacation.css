@@ -89,7 +89,7 @@ body{
     background-color: rgb(27, 27, 94);
     max-width: 100%;
     margin: 0;
-    top: 50px;
+    top: 100px;
     overflow: hidden;
     min-height: 100dvh;
 }
@@ -239,6 +239,8 @@ body{
 
 #secondForm{
     margin-bottom: 10vh;
+    display: flex;
+    flex-direction: column;
 }
 
 #secondForm form > .mb-3{

@@ -123,7 +123,7 @@ header {
 
 .alert{
     max-width: 400px;
-    max-height: 50px;
+    max-height: fit-content;
     padding: 4px 8px;
     margin: 4px !important;
     margin-left: auto !important;
