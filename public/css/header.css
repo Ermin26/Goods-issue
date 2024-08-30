@@ -2,25 +2,22 @@
     margin: 0;
     padding: 0;
 }
-header {
-    margin-bottom: 50px;
-}
-#navbar{
-    position: fixed;
+
+header{
+    position: sticky;
     top: 0;
-    height: 62px;
-    width: 100%;
-    padding: 0;
+    z-index: 1000;
 }
 
+.navbar-nav{
+    align-items: center;
+}
 #userInfo{
-    position: fixed;
     justify-content: end;
-    top: 62px;
     width: 100%;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    padding: 2px;
     margin-right: 10px;
     background-color: rgba(209, 210, 211);
 }
@@ -30,9 +27,6 @@ header {
     font-weight: 700;
 }
 
-.navbar-nav{
-    align-items: center;
-}
 #iconLi{
     max-height: 50px;
     width: 50px;
@@ -114,12 +108,6 @@ header {
     box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
 }
 
-#alertSection{
-    position: relative;
-    margin: 0;
-    top: 10px;
-    padding: 4px 12px;
-}
 
 .alert{
     max-width: 400px;
@@ -149,11 +137,11 @@ header {
 }
 
 @media (max-width: 767px){
-    #userInfo{
-        top: 59px;
-    }
     .navbar-nav{
         align-items: start;
+    }
+    .navbar-nav li:last-child{
+        margin-left: auto;
     }
     #notificationIcon:hover~#notifications, #notifications:hover{
         text-wrap: wrap;

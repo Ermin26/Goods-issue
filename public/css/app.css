@@ -20,20 +20,6 @@ body {
     overflow-x: hidden;
 }
 
-header{
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    margin-bottom: 50px;
-}
-
-.container-fluid {
-    position: fixed;
-    margin: 10px 0;
-    top: 0;
-    max-width: 100%;
-}
-
 #main {
     width: 100%;
     margin: 0;
@@ -118,7 +104,6 @@ input[name="num_per_month"]{
     max-width: 44px;
     width:fit-content !important;
 }
-
 
 .dates{
     display: flex;
@@ -270,12 +255,7 @@ ul input{
 }
 
 @media (max-width: 767px) {
-    .navbar-nav{
-        margin: 5px 0;
-    }
-    .navbar-nav li:last-child{
-        margin-left: auto;
-    }
+    
 }
 @page{
     size: auto;

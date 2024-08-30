@@ -11,16 +11,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
-        <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+        <link rel="stylesheet" href="{{asset('css/header.css')}}">
         <link rel="stylesheet" href="{{asset('css/costs.css')}}">
     <title>Costs</title>
 </head>
 
 <body>
      @include('navbar')
-     <div id="cols" class="row row-cols-2 w-100 ms-auto me-auto mt-5">
-            @include('flash')
-            <div id="col2" class="col-4 p-0 ms-auto me-auto">
+     @include('flash')
+     <div id="cols" class="row row-cols-2 w-100 ms-auto me-auto">
+            <div id="col2" class="col-3 p-0 ms-auto me-auto">
                 <table id="cashTable" class="table table-dark p-2 ms-auto me-auto text-center align-middle">
                     <thead>
                         <tr>

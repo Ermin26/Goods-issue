@@ -10,11 +10,6 @@ body{
     margin: 4px 0;
 }
 
-.container-fluid{
-    margin: 5px 0;
-    position: fixed;
-    top: 0;
-}
 
 a{
     text-decoration: none;
@@ -22,10 +17,8 @@ a{
 }
 
 #userInfo{
-    position: sticky;
     justify-content: end;
     margin-right: 10px;
-    top: 62px;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -223,6 +216,7 @@ ul.pagination li.active {
 @media (max-width:767px){
     .navbar-nav{
         align-items: start;
+        margin: 5px 0;
     }
     .navbar-nav li:nth-last-child(3){
         padding: 3px;

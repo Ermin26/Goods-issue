@@ -125,6 +125,7 @@ body{
 #left{
     max-height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
     max-width: 100%;
     padding: 0;
 }
@@ -233,7 +234,9 @@ body{
 }
 .vacation {
     background-color: rgb(95, 189, 82);
-}form label{
+}
+
+form label{
     color: white !important;
 }
 
@@ -451,6 +454,10 @@ body{
         width: 100%;
         min-height: unset;
         height: auto;
+    }
+
+    #right{
+        padding: 0 !important;
     }
 
     .alert{

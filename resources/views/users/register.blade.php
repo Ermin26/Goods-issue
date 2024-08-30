@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{asset('css/register.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/allPages.css')}}">
+    <link rel="stylesheet" href="{{asset('css/header.css')}}">
     <title>Novi uporabnik</title>
 </head>
 

@@ -1,5 +1,5 @@
 <header>
-    <nav id="navbar" class="navbar navbar-dark navbar-expand-md bg-dark sticky-top text-light">
+    <nav id="navbar" class="navbar navbar-dark navbar-expand-md bg-dark text-light">
         <div class="container-fluid bg-dark">
             <a class="navbar-brand" href="/">Novi Račun</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

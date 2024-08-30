@@ -70,7 +70,7 @@ class EmployeeController extends Controller{
                 'working_status'=> $request->working_status,
                 'password' => Hash::make($request->password),
             ]);
-            return redirect()->route('users')->with('success', 'Uspječno dodan delavec!');
+            return redirect()->route('users')->with('success', 'Uspešno dodan delavec!');
         }else{
             return redirect()->back()->with('error', 'Nimate dovoljena za dodavanje uporabnika!');
         }
