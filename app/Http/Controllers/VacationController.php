@@ -341,10 +341,14 @@ class VacationController extends Controller{
             foreach($employees as $email){
                 Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $email){
                     $message->to($email)
-                            ->subject($msgInfo)
-                            ->cc("rataj.tvprodaja@gmail.com");
+                            ->subject($msgInfo);
                 });
             };
+
+            Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo){
+                $message->to("rataj.tvprodaja@gmail.com")
+                        ->subject($msgInfo);
+            });
 
             return response()->json([
                 'msg' => "Uspešno poslano sporočilo.",
