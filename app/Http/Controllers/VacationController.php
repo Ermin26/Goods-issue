@@ -115,7 +115,6 @@ class VacationController extends Controller{
                 
                 $user = Vacation::where('employee_id', $userId)->first();
                 $employee = Employee::where('id', $userId)->first();
-                dd("This is user: ", $user .", This is employee" .$employee);
                 if($user){
                     $user->last_year = $request->input('last_year');
                     $user->holidays = $request->input('holidays');
