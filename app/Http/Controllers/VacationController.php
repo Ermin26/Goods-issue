@@ -111,14 +111,28 @@ class VacationController extends Controller{
                     'used_holidays' => 'integer|required',
                     'overtime' => 'integer|required',
                 ]);
-                $user = Vacation::where('user', $request->input('user'))->first();
-
-                $user->last_year = $request->input('last_year');
-                $user->holidays = $request->input('holidays');
-                $user->used_holidays = $request->input('used_holidays');
-                $user->overtime = $request->input('overtime');
-                $user->save();
-
+                $userId = $request->input('user');
+                
+                $user = Vacation::where('employee_id', $userId)->first();
+                $employee = Employee::where('id', $userId)->first();
+                dd("This is user: ", $user .", This is employee" .$employee);
+                if($user){
+                    $user->last_year = $request->input('last_year');
+                    $user->holidays = $request->input('holidays');
+                    $user->used_holidays = $request->input('used_holidays');
+                    $user->overtime = $request->input('overtime');
+                    $user->save();
+                }
+                else{
+                    Vacation::create([
+                        'user'=>$employee->name ." ".$employee->last_name,
+                        'last_year'=>$request->input('last_year'),
+                        'holidays'=>$request->input('holidays'),
+                        'used_holidays'=>$request->input('used_holidays'),
+                        'overtime'=>$request->input('overtime'),
+                        'employee_id' =>$userId
+                    ]);
+                }
                 return redirect()->back()->with('success', "Uspešno posodobljeni podatki.");
             }catch(ValidationException $e){
                 $errors = $e->validator->errors()->all();

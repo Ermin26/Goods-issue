@@ -206,7 +206,7 @@
                                     <option selected>Izberi delavca</option>
                                     @foreach($employees as $employee)
                                         @if(Auth::user()->role !== 'visitor')
-                                            <option value="{{$employee->name.' '.$employee->last_name}}">{{$employee->name.' '.$employee->last_name}}</option>
+                                            <option value="{{$employee->id}}">{{$employee->name.' '.$employee->last_name}}</option>
                                             @else
                                             <option value="/">/</option>
                                         @endif
@@ -565,8 +565,9 @@
         function checkEmployee(){
             let employees = @json($vacations);
             const employee = document.getElementById('user').value;
+            console.log(employee);
             for(employeeData of employees){
-                if(employeeData.user == employee){
+                if(employeeData.id == employee){
                     holidays.value = employeeData.holidays;
                     lastYearHolidays.value = employeeData.last_year;
                     usedHolidays.value = employeeData.used_holidays;
