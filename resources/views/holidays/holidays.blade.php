@@ -563,11 +563,14 @@
         }
 
         function checkEmployee(){
+            holidays.value = 0;
+            lastYearHolidays.value = 0;
+            usedHolidays.value = 0;
+            hours.value = 0;
             let employees = @json($vacations);
             const employee = document.getElementById('user').value;
-            console.log(employee);
             for(employeeData of employees){
-                if(employeeData.id == employee){
+                if(employeeData.employee_id == employee){
                     holidays.value = employeeData.holidays;
                     lastYearHolidays.value = employeeData.last_year;
                     usedHolidays.value = employeeData.used_holidays;
