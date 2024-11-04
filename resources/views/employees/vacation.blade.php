@@ -104,18 +104,21 @@
 
         let id = @json($employee);
         let myHolidays = document.getElementById('myHolidays');
-        myHolidays.style.display='none';
-        document.getElementById('getVacations').addEventListener('submit', function(event){
-            event.preventDefault();
+        if(id.working_status == 'zaposlen/a'){
+            myHolidays.style.display='none';
 
-            let month = document.getElementById('month').value;
-            let year = document.getElementById('year').value;
-            let status = document.getElementById('status').value;
-            let url = "{{ route('myHolidays', ['id' => '__ID__']) }}".replace('__ID__', id);
-            fetchData(url,{month: month, year: year, status: status});
-        });
+            document.getElementById('getVacations').addEventListener('submit', function(event){
+                event.preventDefault();
 
-        function fetchData(url, params){
+                let month = document.getElementById('month').value;
+                let year = document.getElementById('year').value;
+                let status = document.getElementById('status').value;
+                //let url = "{{ route('myHolidays', ['id' => '__ID__']) }}".replace('__ID__', id.id);
+                let url = `myHolidays/${id.id}`;
+                fetchData(url,{month: month, year: year, status: status});
+            });
+            
+            function fetchData(url, params){
             let tbody = document.querySelector('#myHolidays tbody');
             tbody.innerHTML = "";
             myHolidays.style.display ='none';
@@ -132,9 +135,9 @@
                 showHolidays(data, tbody);
             })
             .catch(error=>console.error("Error: ", error));
-        };
+            };
 
-        function showHolidays(data, tbody){
+            function showHolidays(data, tbody){
             if(data && data.holidays.length > 0){
                 data.holidays.forEach(array => {
                     let row = tbody.insertRow();
@@ -156,16 +159,18 @@
                 h1.classList.add('text-center', 'bg-danger', 'p-2', 'text-light');
                 document.getElementById('error').appendChild(h1);
             }
+            }
+        }else{
+
+
+            document.getElementById('msg').addEventListener('input', function() {
+                if (this.value.trim() !== "") {
+                    this.classList.add('not-empty');
+                } else {
+                    this.classList.remove('not-empty');
+                }
+            });
         }
-
-        document.getElementById('msg').addEventListener('input', function() {
-                    if (this.value.trim() !== "") {
-                        this.classList.add('not-empty');
-                    } else {
-                        this.classList.remove('not-empty');
-                    }
-                });
-
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

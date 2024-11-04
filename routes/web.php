@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/importEmployee', [EmployeeController::class, 'importEmployee'])->name('importEmployee');
     Route::get('/importCosts', [CostsController::class, 'importCosts'])->name('importCosts');
     Route::get('/importBills', [BillsController::class, 'importBills'])->name('importBills');
+    #Route::get('/allDbs', [VacationController::class, 'allDbs'])->name('allDbs');
 
     Route::prefix('all')->group(function(){
         Route::get('/',[BillsController::class, 'testAll'])->name('all');

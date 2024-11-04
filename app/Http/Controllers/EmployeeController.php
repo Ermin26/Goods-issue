@@ -313,10 +313,11 @@ class EmployeeController extends Controller{
                 $month = $request->input('month');
                 $year = $request->input('year');
                 $status = $request->input('status');
-
+                
                 switch(true){
                     case !is_null($month) && is_null($year) && is_null($status):
                         $data = Holidays::whereMonth('from', $month)->where('employee_id', $id)->get();
+                        
                         return response()->json([
                             'holidays' => $data,
                         ]);

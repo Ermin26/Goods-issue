@@ -374,4 +374,10 @@ class VacationController extends Controller{
         }
     }
 
+    public function allDbs(Request $request){
+        $mongoClient = new MongoClient(env('MONGODB_HOST'));
+        $database = $mongoClient->selectDatabase('test');
+        var_dump($database);
+    }
+
 }
