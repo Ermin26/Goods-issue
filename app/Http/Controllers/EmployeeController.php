@@ -187,7 +187,7 @@ class EmployeeController extends Controller{
                     'employee_id'=>Auth::guard('employee')->user()->id,
                 ]);
 
-                Mail::raw("Delavec ".Auth::guard('employee')->user()->name. " " . Auth::guard('employee')->user()->last_name. " je oddal/a vlogo za dopust." ,function($message){
+                Mail::raw("Delavec ".Auth::guard('employee')->user()->name. " " . Auth::guard('employee')->user()->last_name. " je oddal/a vlogo za dopust. https://providiomb.42web.io/vacation" ,function($message){
                     $message->to("mb.providio@gmail.com")
                             ->subject("Dopust")
                             ->cc("rataj.tvprodaja@gmail.com");
