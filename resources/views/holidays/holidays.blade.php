@@ -270,7 +270,7 @@
                                 <option value="študenti">Študenti</option>
                                 @foreach($employees as $employee)
                                 <option value="{{$employee->email}}">{{$employee->name.' '.$employee->last_name}}</option>
-                                @endforeach
+                                 @endforeach
                             </select>
                             <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" "></textarea>
                             <span id="msgSpan">Sporočilo</span>

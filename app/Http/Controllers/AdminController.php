@@ -28,10 +28,9 @@ class AdminController extends Controller{
     public function getDb(Request $request){
         $db = $request->input('db');
 
-        $result = $db::all();
-        var_dump($db);
-        #return response()->json([
-        #    "data" => $result
-        #]);
+        $result = DB::table($db)->get();
+        return response()->json([
+            "data" => $result
+        ]);
     }
 }

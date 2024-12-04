@@ -1,0 +1,480 @@
+body{
+    overflow:hidden;
+    background-color: rgb(27, 27, 94);
+}
+#iconLi{
+    max-height: 50px;
+    width: 50px;
+    margin: 1px;
+}
+#notificationIcon{
+    display: inline-flex;
+    position: relative;
+    padding: 0;
+    align-items: center;
+    top: 4px;
+}
+#notificationIcon:hover{
+    cursor: pointer;
+}
+#notificationIcon >svg{
+    margin-top: 5px;
+}
+#notNumber{
+    position: relative;
+    top: -10px;
+    right: 8px;
+    background-color: white;
+    width: 14px;
+    border-radius: 50%;
+    text-align: center;
+}
+#notNum{
+    margin: 0;
+    padding: 1px;
+    width: 100%;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+}
+
+#notifications{
+    visibility:hidden;
+    position: absolute;
+    text-wrap: nowrap;
+    width: 320px;
+    margin-left: -260px;
+    margin-top: 0px;
+}
+#notifications a{
+    text-decoration: none;
+    color:black;
+}
+
+#notificationIcon:hover~#notifications, #notifications:hover{
+    cursor: pointer;
+    visibility: visible;
+    position: absolute;
+    width: fit-content;
+    text-wrap: nowrap;
+    margin-left: -260px;
+    margin-top: 0px;
+    list-style: none;
+    background-color: white;
+    text-align: start;
+    border: 1px solid black;
+}
+#notifications li:hover{
+    background-color: rgb(161, 161, 161);
+    box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
+}
+
+#userInfo{
+    justify-content: end;
+    padding: 0;
+    max-width: 100%;
+    margin: 0;
+    background-color: rgba(209, 210, 211);
+}
+.name, .role{
+    display: inline-flex;
+    max-width: fit-content;
+    margin: 0px 2px;
+}
+#section {
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(27, 27, 94);
+    max-width: 100%;
+    margin: 0;
+    top: 100px;
+    overflow: hidden;
+    min-height: 100dvh;
+}
+#left,#middle,#right{
+    min-height: calc(100vh - 89px);
+    color: white;
+    text-align: center;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: blue transparent;
+
+}
+#right{
+    max-height: 100vh;
+}
+.holidayTable{
+    table-layout: fixed;
+    background-color: rgb(27, 27, 94);
+}
+
+.holidayTable tr:hover{
+    color: white;
+    background-color: darkblue;
+}
+
+#infoHolidays,form{
+    color: white;
+    vertical-align: middle;
+}
+#infoHolidays tr:hover{
+    background-color: darkblue;
+}
+#left{
+    max-height: 100vh;
+    overflow-y: auto;
+    max-width: 100%;
+    padding: 0;
+}
+
+#vacationResults{
+    margin-bottom: 6rem;
+}
+
+.vacationForm{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+#userUsedHolidays{
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow-x: hidden;
+    margin-top: 20px;
+}
+
+#userUsedHolidays .mb-3{
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    max-width: 400px;
+}
+#selectYear, #selectUser{
+    margin: 2px;
+    padding: 2px 6px;
+    text-align: center;
+}
+#middle {
+    padding: 10px;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.pendingTable{
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color:  blue transparent;
+}
+#requestedTable{
+    border-collapse: collapse;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+#requestedTable th, #requestedTable tr, #requestedTable td{
+    text-align: center;
+    text-wrap: nowrap;
+    border: 1px solid white;
+}
+.resultTable tr{
+    border-bottom: 1px solid white;
+}
+.rowBtns{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+#clearBtn, #searchBtn{
+    margin: 2px 6px;
+}
+#requestedTable th{
+    padding: 4px 8px;
+}
+#requestedTable td{
+    padding: 6px 12px;
+}
+#calendar {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+#calendar th{
+    border: 1px solid white;
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+}
+#calendar td {
+    padding: 5px;
+    border: 1px solid white;
+    color: white;
+    text-align: start;
+    height: 80px;
+    width: 80px;
+    aspect-ratio: 1/1;
+}
+#calendar td >span{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    top: -30px;
+}
+.vacation {
+    background-color: rgb(95, 189, 82);
+}form label{
+    color: white !important;
+}
+
+#secondForm{
+    margin-bottom: 10vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#secondForm form > .mb-3{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#secondForm textarea{
+    margin-top: 16px;
+    padding: 12px;
+}
+#msgInfo{
+    padding: 12px;
+}
+
+#msgSpan, #msgInfoSpan{
+    display: inline-flex;
+    position: absolute;
+    color: black;
+    top: 70px;
+    left: 0;
+    margin: 4px;
+    padding: 4px 8px;
+    transition: all 0.5s ease-in-out;
+}
+
+#msgInfoSpan{
+    top: 5px;
+}
+
+#secondForm textarea:focus + #msgSpan,
+#secondForm textarea:not(:placeholder-shown) + #msgSpan,
+#msgInfo:focus + #msgInfoSpan,
+#msgInfo:not(:placeholder-shown) + #msgInfoSpan{
+    top: 50px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 4px;
+    transform:scale(0.7);
+}
+
+#msgInfo:focus + #msgInfoSpan, #msgInfo:not(:placeholder-shown) + #msgInfoSpan{
+    top: -22px;
+}
+
+#sendMsg button{
+    padding: 6px 12px;
+}
+
+
+.container {
+    margin-bottom: 10vh;
+}
+
+#showUserOnVacation{
+    border-collapse: collapse;
+    color: white;
+}
+
+#showUserOnVacation th, #showUserOnVacation td{
+    border: 1px solid white;
+}
+#showUserOnVacation th{
+    padding: 3px 6px;
+}
+
+#showUserOnVacation td{
+    padding: 4px 8px;
+}
+
+#iconLi{
+    max-height: 50px;
+    width: 50px;
+    margin: 1px;
+}
+#notificationIcon{
+    display: inline-flex;
+    position: relative;
+    padding: 0;
+    align-items: center;
+    top: 4px;
+}
+#notificationIcon:hover{
+    cursor: pointer;
+}
+#notificationIcon >svg{
+    margin-top: 8px;
+}
+.numLength{
+    position: relative;
+    top: -10px;
+    right: 8px;
+    background-color: red;
+    width: 14px;
+    border-radius: 50%;
+    text-align: center;
+}
+.num{
+    margin: 0;
+    padding: 1px;
+    width: 100%;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+}
+
+#notifications{
+    visibility:hidden;
+    position: absolute;
+    text-wrap: nowrap;
+    width: 300px;
+    margin-left: -260px;
+    margin-top: 0px;
+    background-color: inherit;
+    color: white;
+    padding: 0;
+}
+
+#notifications li{
+    margin: 0;
+    width: 100%;
+    padding: 4px;
+}
+#notifications a{
+    display: inline-flex;
+    text-decoration: none;
+    color:black;
+    width: 100%;
+}
+
+#notificationIcon:hover~#notifications, #notifications:hover{
+    cursor: pointer;
+    visibility: visible;
+    position: absolute;
+    width: fit-content;
+    text-wrap: nowrap;
+    width: 300px;
+    margin-left: -260px;
+    margin-top: -5px;
+    list-style: none;
+    background-color: white;
+    text-align: start;
+    border: 1px solid black;
+}
+#notifications li:hover{
+    background-color: rgb(161, 161, 161);
+    box-shadow: inset 0px 10px 10px 5px rgb(209, 208, 208);
+}
+
+#alertSection{
+    top: 40px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1500px) {
+    html {
+        overflow-x: hidden;
+        overflow-y: visible;
+        scrollbar-width: thin;
+    }
+
+    #section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    #left{
+        width: 40%;
+    }
+    #middle{
+        width: 60%;
+        scrollbar-width: thin;
+        scrollbar-color: blue transparent;
+    }
+
+    .vacationForm{
+        flex-direction: row;
+    }
+
+    #right {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+}
+
+@media(max-width: 1200px){
+    .vacationForm{
+        flex-direction: column;
+    }
+}
+
+@media(max-width: 992px){
+
+    #section{
+        flex-direction: column;
+    }
+    #left, #middle, #right {
+        width: 100%;
+        min-height: unset;
+        height: auto;
+    }
+
+    .alert{
+        order: -1;
+        margin-top: 50px;
+    }
+    #middle{
+        order: -1;
+    }
+
+    .vacationForm{
+        flex-direction: row;
+    }
+
+    #userUsedHolidays{
+        order: -1;
+    }
+}
+
+@media(max-width: 680px){
+    .vacationForm, #right{
+        flex-direction: column;
+    }
+    #userUsedHolidays{
+        order: unset;
+    }
+}
