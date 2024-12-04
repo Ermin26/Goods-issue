@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+
+<!-- Select2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{asset('css/header.css')}}">
-        <link rel="stylesheet" href="{{asset('css/holidays.css')}}">
+    <link rel="stylesheet" href="{{asset('css/header.css')}}">
+    <link rel="stylesheet" href="{{asset('css/holidays.css')}}">
     <title>Dopust</title>
 </head>
 <body>
@@ -251,11 +258,20 @@
             <div id="secondForm" {{Auth::user()->role == 'admin' ? "style=display:flex;" : "style=display:none;"}}>
                     <div id="resultMsg" class="text-center justify-content-center p-2" style="display: none;">
                     </div>
-                    <h4 class="p-4">Pošlji email vsem delavcem</h4>
+                    <h4 class="p-4">Pošlji email delavcem</h4>
                     <form id="sendMsg">
                         <div class="mb-3">
                             <input type="text" id="msgInfo" name="msgInfo" placeholder=" ">
                             <span id="msgInfoSpan">Zadeva</span>
+
+                            <select name="sendTo[]" id="sendTo" multiple="multiple">
+                                <option value="all">Vsem</option>
+                                <option value="zaposleni">Zaposlenim</option>
+                                <option value="študenti">Študenti</option>
+                                @foreach($employees as $employee)
+                                <option value="{{$employee->email}}">{{$employee->name.' '.$employee->last_name}}</option>
+                                @endforeach
+                            </select>
                             <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" "></textarea>
                             <span id="msgSpan">Sporočilo</span>
                         </div>
@@ -277,6 +293,16 @@
         let month = setMonth;  // Trenutni mesec
         let year = date.getFullYear();
         let vacationTable = document.querySelector('#showUserOnVacation tbody');
+
+
+    $(document).ready(function() {
+        $('#sendTo').select2({
+            placeholder: "Izberite prejemnike", // Nastavi privzeto sporočilo
+            tokenSeparators: [',', ' '] // Dovoli vnos ločen z vejicami ali presledki
+        });
+    });
+
+
 
         document.getElementById('userUsedHolidays').addEventListener('submit',function(event){
             event.preventDefault();
@@ -359,10 +385,13 @@
             e.preventDefault();
             let msgInfo = document.getElementById('msgInfo').value;
             let msg = document.getElementById('msg').value;
-            sendMsg('{{route('sendMsg')}}', {msgInfo: msgInfo, msg: msg});
+            let sendTo = document.getElementById('sendTo').value;
+            sendMsg('{{route('sendMsg')}}', {msgInfo: msgInfo, msg: msg, sendTo: sendTo});
         })
 
         function sendMsg(url, params){
+            let sendTo = $('#sendTo').val();
+            params.sendTo = sendTo;
             fetch(url,{
                 method: 'POST',
                 headers:{
@@ -385,10 +414,15 @@
             .then(data=>{
                 document.getElementById('msgInfo').value = "";
                 document.getElementById('msg').value = "";
+                $('#sendTo').select2({
+                    placeholder: "Izberite prejemnike", // Nastavi privzeto sporočilo
+                    tokenSeparators: [',', ' '] // Dovoli vnos ločen z vejicami ali presledki
+                });
                 let h3 = document.createElement('h3');
                 h3.innerHTML = data.msg;
                 resultMsg.appendChild(h3);
                 resultMsg.style.display = "flex";
+                console.log(data);
                 //resultMsg.style.backgroundColor = "green";
                 resultMsg.classList.add('bg-success')
             })
@@ -587,6 +621,7 @@
             }
         });
     </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"

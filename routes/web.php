@@ -7,6 +7,7 @@ use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CostsController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\AdminController;
 use App\Models\Vacation;
 
 /*
@@ -28,6 +29,9 @@ Route::post('/login', [LoginController::class, 'loginUser'])->name('login.login'
 
 
 Route::middleware(['auth'])->group(function(){
+    Route::get('/admin', [AdminController::class, 'dbs'])->name('admin');
+    Route::post('/getDb', [AdminController::class, 'getDb'])->name('getDb');
+
     Route::get('/', [BillsController::class, 'getNumbersPerMonthAndPerYear'])->name('home');
     Route::get('/importVacations', [VacationController::class, 'importVacations'])->name('importVacations');
     Route::get('/importEmployee', [EmployeeController::class, 'importEmployee'])->name('importEmployee');
@@ -98,6 +102,7 @@ Route::middleware(['auth.employee'])->group(function(){
         Route::Post('/studentSendEmail/{id}', [EmployeeController::class, 'studentSendEmail'])->name('studentSendEmail');
     });
 });
+
 
 Route::fallback(function () {
     return view('error404');

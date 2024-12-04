@@ -342,31 +342,53 @@ class VacationController extends Controller{
 
     public function sendMsg(Request $request){
         try{
-
-            $employees = Employee::where('status', '=', '1')
-                ->whereNotNull('email')
-                ->where('email', '!=', '')
-                ->pluck('email')
-                ->toArray();
-
             $msgInfo = $request->input('msgInfo');
             $msg = $request->input('msg');
-            foreach($employees as $email){
-                Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $email){
-                    $message->to($email)
-                            ->subject($msgInfo);
-                });
-            };
-
-            Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo){
-                $message->to("rataj.tvprodaja@gmail.com")
-                        ->subject($msgInfo);
-            });
-
+            $sendTo = $request->input('sendTo');
             return response()->json([
-                'msg' => "Uspešno poslano sporočilo.",
+                "msg"=>$sendTo,
             ]);
+            /*
+            switch($sendTo){
+                case "all":
+                    $employees = Employee::where('status', '=', '1')
+                        ->whereNotNull('email')
+                        ->where('email', '!=', '')
+                        ->pluck('email')
+                        ->toArray();
 
+                    foreach($employees as $email){
+                        Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $email){
+                            $message->to($email)
+                                    ->subject($msgInfo);
+                        });
+                    };
+
+                    #Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo){
+                    #    $message->to("rataj.tvprodaja@gmail.com")
+                    #            ->subject($msgInfo);
+                    #});
+
+                    break;
+                case "zaposleni":
+                    return response()->json([
+                        'msg' => $sendTo,
+                    ]);
+                    break;
+                case "študenti":
+                    break;
+                default:
+                    #Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $sendTo){
+                    #    $message->to($sendTo)
+                    #            ->subject($msgInfo);
+                    #});
+                    return response()->json([
+                        'msg' => $sendTo,
+                    ]);
+                    break;
+
+            }
+            */
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         } catch (\Exception $e) {

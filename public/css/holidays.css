@@ -192,15 +192,20 @@ form label{
     margin-top: 16px;
     padding: 12px;
 }
-#msgInfo{
+#msgInfo,#sendTo{
     padding: 12px;
+    margin: 10px 0;
+}
+
+.select2-selection__choice{
+    color: black;
 }
 
 #msgSpan, #msgInfoSpan{
     display: inline-flex;
     position: absolute;
     color: black;
-    top: 70px;
+    top: 140px;
     left: 0;
     margin: 4px;
     padding: 4px 8px;
@@ -208,14 +213,14 @@ form label{
 }
 
 #msgInfoSpan{
-    top: 5px;
+    top: 16px;
 }
 
 #secondForm textarea:focus + #msgSpan,
 #secondForm textarea:not(:placeholder-shown) + #msgSpan,
 #msgInfo:focus + #msgInfoSpan,
 #msgInfo:not(:placeholder-shown) + #msgInfoSpan{
-    top: 50px;
+    top: 100px;
     background-color: white;
     border: 2px solid black;
     border-radius: 4px;
@@ -223,7 +228,7 @@ form label{
 }
 
 #msgInfo:focus + #msgInfoSpan, #msgInfo:not(:placeholder-shown) + #msgInfoSpan{
-    top: -22px;
+    top: -12px;
 }
 
 #sendMsg button{
