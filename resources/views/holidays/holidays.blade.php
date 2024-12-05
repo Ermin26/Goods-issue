@@ -96,7 +96,7 @@
                         </select>
                     </div>
                     <div class="rowBtns">
-                        <button id="searchBtn" class="btn btn-primary btn-sm p-2 text-light d-inline-flex text-center">Potrdi</button>
+                        <button id="searchBtn" class="btn btn-primary btn-sm p-2 text-light d-inline-flex text-center" {{Auth::user()->role == 'visitor' ? "disabled" : " "}}>Potrdi</button>
                         <div id="clearBtn" class="btn btn-secondary btn-sm p-2" style="display: none" onclick="clearData()">Počisti</div>
                     </div>
                 </form>
@@ -257,7 +257,7 @@
                     <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Uredi</button>
                 </div>
             </div>
-            <div id="secondForm" {{Auth::user()->role == 'admin' ? "style=display:flex;" : "style=display:none;"}}>
+            <div id="secondForm">
                     <div id="resultMsg" class="text-center justify-content-center p-2" style="display: none;">
                     </div>
                     <h4 class="p-4">Pošlji email delavcem</h4>
@@ -268,8 +268,12 @@
                                 <option value="employees">Zaposlenim</option>
                                 <option value="students">Študenti</option>
                                 @foreach($employees as $employee)
-                                <option value="{{$employee->email}}">{{$employee->name.' '.$employee->last_name}}</option>
-                                 @endforeach
+                                    @if(Auth::user()->role == 'admin')
+                                        <option value="{{$employee->email}}">{{$employee->name.' '.$employee->last_name}}</option>
+                                    @else
+                                        <option>/</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
@@ -281,7 +285,7 @@
                             <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" "></textarea>
                             <span id="msgSpan">Sporočilo</span>
                         </div>
-                        <button type="submit" class="btn btn-outline-primary btn-sm">Pošlji</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm" {{Auth::user()->role == 'admin' ? " " : "disabled"}}>Pošlji</button>
                     </form>
             </div>
         </section>
