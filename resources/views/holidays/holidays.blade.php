@@ -86,7 +86,9 @@
                             <option value="">Izberi delavca</option>
                             @foreach($employees as $employee)
                                 @if(Auth::user()->role !== 'visitor')
+                                @if($employee->working_status == 'zaposlen/a')
                                     <option value="{{$employee->name.' '.$employee->last_name}}">{{$employee->name.' '.$employee->last_name}}</option>
+                                @endif
                                 @else
                                     <option value="/">/</option>
                                 @endif
@@ -261,17 +263,21 @@
                     <h4 class="p-4">Pošlji email delavcem</h4>
                     <form id="sendMsg">
                         <div class="mb-3">
-                            <input type="text" id="msgInfo" name="msgInfo" placeholder=" ">
-                            <span id="msgInfoSpan">Zadeva</span>
-
-                            <select name="sendTo[]" id="sendTo" multiple="multiple">
+                            <select name="sendTo[]" id="sendTo" class="w-100" multiple="multiple">
                                 <option value="all">Vsem</option>
-                                <option value="zaposleni">Zaposlenim</option>
-                                <option value="študenti">Študenti</option>
+                                <option value="employees">Zaposlenim</option>
+                                <option value="students">Študenti</option>
                                 @foreach($employees as $employee)
                                 <option value="{{$employee->email}}">{{$employee->name.' '.$employee->last_name}}</option>
                                  @endforeach
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" id="msgInfo" name="msgInfo" placeholder=" ">
+                            <span id="msgInfoSpan">Zadeva</span>
+                        </div>
+                        
+                        <div class="mb-3">
                             <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" "></textarea>
                             <span id="msgSpan">Sporočilo</span>
                         </div>
@@ -295,13 +301,23 @@
         let vacationTable = document.querySelector('#showUserOnVacation tbody');
 
 
-    $(document).ready(function() {
-        $('#sendTo').select2({
-            placeholder: "Izberite prejemnike", // Nastavi privzeto sporočilo
-            tokenSeparators: [',', ' '] // Dovoli vnos ločen z vejicami ali presledki
+        $(document).ready(function() {
+            $('#sendTo').select2({
+                placeholder: "Izberite prejemnike", // Nastavi privzeto sporočilo
+                tokenSeparators: [',', ' '] // Dovoli vnos ločen z vejicami ali presledki
+            });
         });
-    });
 
+        $('#sendTo').on('change', function(){
+            let selectedValues = $(this).val();
+            if(selectedValues.includes('all')){
+                $('#sendTo option:not([value="all"])').prop('disabled', true);
+                $(this).val(['all']);
+            }else{
+                $('#sendTo option').prop('disabled', false);
+            }
+            $('#sendTo').trigger('change.select2');
+        })
 
 
         document.getElementById('userUsedHolidays').addEventListener('submit',function(event){
@@ -379,7 +395,14 @@
             showResults.innerHTML = "";
             clearBtn.style.display = "none";
         }
+        $(document).ready(function() {
+            $('#sendTo').select2({
+                placeholder: "Izberite prejemnike", // Nastavi privzeto sporočilo
+                tokenSeparators: [',', ' '] // Dovoli vnos ločen z vejicami ali presledki
+            });
+        });
 
+        
 
         document.getElementById('sendMsg').addEventListener('submit', function(e){
             e.preventDefault();
@@ -390,6 +413,7 @@
         })
 
         function sendMsg(url, params){
+            $('#sendTo').trigger('change')
             let sendTo = $('#sendTo').val();
             params.sendTo = sendTo;
             fetch(url,{
@@ -402,6 +426,7 @@
             })
             .then(response =>{
                 if(!response.ok){
+                    resultMsg.innerHTML="";
                     let h3 = document.createElement('h3');
                     h3.innerHTML = response.status;
                     resultMsg.appendChild(h3);
@@ -412,27 +437,24 @@
                 return response.json();
             })
             .then(data=>{
+                resultMsg.innerHTML="";
                 document.getElementById('msgInfo').value = "";
                 document.getElementById('msg').value = "";
-                $('#sendTo').select2({
-                    placeholder: "Izberite prejemnike", // Nastavi privzeto sporočilo
-                    tokenSeparators: [',', ' '] // Dovoli vnos ločen z vejicami ali presledki
-                });
+                $('#sendTo').val(null).trigger('change');
                 let h3 = document.createElement('h3');
                 h3.innerHTML = data.msg;
                 resultMsg.appendChild(h3);
                 resultMsg.style.display = "flex";
-                console.log(data);
                 //resultMsg.style.backgroundColor = "green";
                 resultMsg.classList.add('bg-success')
             })
             .catch(error=>{
+                resultMsg.innerHTML="";
                 let h3 = document.createElement('h3');
-                h3.innerHTML = response.status;
+                h3.innerHTML = error;
                 resultMsg.appendChild(h3);
                 resultMsg.style.display = "flex";
-                resultMsg.classList.add('bg-success')
-                console.error('Error: ', error);
+                resultMsg.classList.add('bg-danger')
             })
         }
 

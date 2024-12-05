@@ -90,7 +90,8 @@ class VacationController extends Controller{
     public function vacationData(){
         $vacations = Vacation::all();
         $holidays = Holidays::all();
-        $employees = Employee::where('status', 1)->where('working_status', 'zaposlen/a')->get();
+        #->where('working_status', 'zaposlen/a')
+        $employees = Employee::where('status', 1)->get();
         $pending_holidays = Holidays::where('status', 'pending')->get();
         $notifications = Holidays::where('status', 'Pending')->get();
         $years = Holidays::selectRaw('YEAR(holidays.from) as year')
@@ -343,52 +344,91 @@ class VacationController extends Controller{
     public function sendMsg(Request $request){
         try{
             $msgInfo = $request->input('msgInfo');
-            $msg = $request->input('msg');
+            $message = $request->input('msg');
+            $msg = nl2br($message);
             $sendTo = $request->input('sendTo');
-            return response()->json([
-                "msg"=>$sendTo,
-            ]);
-            /*
-            switch($sendTo){
-                case "all":
-                    $employees = Employee::where('status', '=', '1')
+            if(in_array('all', $sendTo)){
+                $employees = Employee::where('status', '=', '1')
                         ->whereNotNull('email')
                         ->where('email', '!=', '')
                         ->pluck('email')
                         ->toArray();
 
-                    foreach($employees as $email){
-                        Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $email){
-                            $message->to($email)
-                                    ->subject($msgInfo);
-                        });
-                    };
-
-                    #Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo){
-                    #    $message->to("rataj.tvprodaja@gmail.com")
-                    #            ->subject($msgInfo);
-                    #});
-
-                    break;
-                case "zaposleni":
-                    return response()->json([
-                        'msg' => $sendTo,
-                    ]);
-                    break;
-                case "študenti":
-                    break;
-                default:
-                    #Mail::raw($msg." " . Auth::user()->name.".",function($message) use($msgInfo, $sendTo){
-                    #    $message->to($sendTo)
-                    #            ->subject($msgInfo);
-                    #});
-                    return response()->json([
-                        'msg' => $sendTo,
-                    ]);
-                    break;
-
+                foreach($employees as $email){
+                    Mail::send([],[],function($message) use($msgInfo, $email,$msg){
+                        $message->to($email)
+                                ->subject($msgInfo)
+                                ->setBody(
+                                    $msg."<br><br> " . Auth::user()->name.".",
+                                    'text/html'
+                                );
+                    });
+                };
+                return response()->json([
+                    "msg" => "Uspešno poslan email vsem."
+                ]);
             }
-            */
+            else if(in_array('students', $sendTo)){
+                $employees = Employee::where('status', '=', '1')
+                    ->where('working_status', '=', 'študent')
+                        ->whereNotNull('email')
+                        ->where('email', '!=', '')
+                        ->pluck('email')
+                        ->toArray();
+
+                foreach($employees as $email){
+                    Mail::send([],[],function($message) use($msgInfo, $email,$msg){
+                        $message->to($email)
+                                ->subject($msgInfo)
+                                ->setBody(
+                                    $msg."<br><br> " . Auth::user()->name.".",
+                                    'text/html'
+                                );
+                    });
+                };
+                return response()->json([
+                    'msg'=> "Uspešno poslan email študentom."
+                ]);
+            }
+            else if(in_array('employees', $sendTo)){
+                $employees = Employee::where('status', '=', '1')
+                        ->where('working_status', '=', 'zaposlen/a')
+                        ->whereNotNull('email')
+                        ->where('email', '!=', '')
+                        ->pluck('email')
+                        ->toArray();
+
+                foreach($employees as $email){
+                    Mail::send([],[],function($message) use($msgInfo, $email,$msg){
+                        $message->to($email)
+                                ->subject($msgInfo)
+                                ->setBody(
+                                    $msg."<br><br> " . Auth::user()->name.".",
+                                    'text/html'
+                                );
+                    });
+                };
+                return response()->json([
+                    "msg"=> "Uspešno poslan mail zaposlenim."
+                ]);
+            }
+            else{
+                $emails = Employee::whereIn('email', $sendTo)->pluck('email');
+                foreach($emails as $email){
+                    Mail::send([],[],function($message) use($msgInfo, $email,$msg){
+                        $message->to($email)
+                                ->subject($msgInfo)
+                                ->setBody(
+                                    $msg."<br><br> " . Auth::user()->name.".",
+                                    'text/html'
+                                );
+                    });
+                }
+                return response()->json([
+                    "msg"=> "Uspešno poslan email."
+                ]);
+            };
+
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         } catch (\Exception $e) {
