@@ -105,7 +105,7 @@
 
             </div>
         </section>
-        <section id="middle" class="col col-lg-7">
+        <section id="middle" class="col col-lg-6">
             <div class="row" id="pending_holidays">
                 @if($pending_holidays && count($pending_holidays) > 0)
                     <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
@@ -198,9 +198,9 @@
                 </table>
             </div>
         </section>
-        <section id="right" class="col col-lg-2">
+        <section id="right" class="col-lg-3 p-2">
             <div id="firstForm">
-                <div id="addUser" class="mt-5 mb-5">
+                <div id="editUserVacation" class="mt-5 mb-5">
                     <caption>
                         <h3 class="text-center">
                             Uredi podatke o dopustu
@@ -252,7 +252,7 @@
                         </form>
                     </div>
                 </div>
-                <div id="div" class="mb-5 text-center">
+                <div id="showVacationForm" class="mb-5 text-center">
                     <h3 class="p-4">Uredi podatke o dopustu.</h3>
                     <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Uredi</button>
                 </div>
@@ -599,15 +599,15 @@
                 findedDate.style.backgroundColor = "#474745";
             }
         }
-        document.getElementById('addUser').style.display = 'none';
+        document.getElementById('editUserVacation').style.display = 'none';
         const lastYearHolidays = document.getElementById('lastYearHolidays');
         const holidays = document.getElementById('holidays');
         const usedHolidays = document.getElementById('usedHolidays');
         const hours = document.getElementById('overtime');
 
         function editEmployeeHolidayData() {
-            document.getElementById('addUser').style.display = 'block';
-            document.getElementById('div').style.display = 'none';
+            document.getElementById('editUserVacation').style.display = 'flex';
+            document.getElementById('showVacationForm').style.display = 'none';
 
         }
 

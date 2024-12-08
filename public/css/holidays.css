@@ -1,12 +1,16 @@
 *{
     margin: 0;
     padding: 0;
+    scrollbar-width: thin;
+    scrollbar-color:  blue transparent;
 }
 
 body{
     overflow: hidden;
     margin: 0;
     padding: 0;
+    scrollbar-width: thin;
+    scrollbar-color:  blue transparent;
 }
 
 #mainSection{
@@ -27,6 +31,7 @@ body{
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: blue transparent;
+    margin-top: 10px;
 }
 
 #left{
@@ -152,6 +157,10 @@ body{
     background-color: rgb(95, 189, 82);
 }
 
+#showUser{
+    margin-bottom: 10vh;
+}
+
 #showUserOnVacation{
     border-collapse: collapse;
     color: white;
@@ -170,19 +179,36 @@ body{
 
 #right{
     max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
-
 
 
 form label{
     color: white !important;
 }
 
-#secondForm{
-    margin-bottom: 10vh;
+#firstForm,#secondForm,#editUserVacation{
     display: flex;
     flex-direction: column;
-    max-width: 300px;
+    flex-wrap: wrap;
+}
+
+#firstForm .mb-2{
+    max-width: 75%;
+    margin-left: auto;
+    margin-right:auto ;
+}
+
+#secondForm{
+    margin-bottom: 10vh;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
 }
 
 #resultMsg{
@@ -211,6 +237,10 @@ form label{
 
 .select2-selection__choice{
     color: black;
+}
+
+.select2-container{
+    width: 100% !important;
 }
 
 #msgSpan, #msgInfoSpan{
@@ -253,6 +283,7 @@ form label{
         overflow-y: visible;
         scrollbar-width: thin;
         scrollbar-color: blue transparent;
+        height: 100%;
     }
     #left{
         width: 40%;
@@ -274,6 +305,16 @@ form label{
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-evenly;
+    }
+    #firstForm,#secondForm{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+    #firstForm .mb-2{
+        max-width: 50%;
+        margin-left: auto;
+        margin-right:auto ;
     }
 }
 
@@ -309,13 +350,52 @@ form label{
     #userUsedHolidays{
         order: -1;
     }
+    #holidaysEdit .mb-2{
+        max-width: 70%;
+        margin-left: auto;
+        margin-right:auto ;
+    }
 }
 
 @media(max-width: 680px){
-    .vacationForm, #right{
+    .vacationForm, #addUser{
         flex-direction: column;
+    }
+    #middle{
+        max-height: fit-content;
+    }
+    #left{
+        all: unset;
+        height: 100%;
+        color: white;
+        text-align: center;
+        overflow: hidden;
+        border-top: 2px solid white;
+    }
+    #right{
+        all: unset;
+        display: flex;
+        flex-direction: column;
+        color: white;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15vh;
+    }
+    #firstForm, #secondForm{
+        width: 100%;
+    }
+    #secondForm{
+        margin-bottom: 15vh;
     }
     #userUsedHolidays{
         order: unset;
+    }
+    #sendMsg button{
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #firstForm .mb-2{
+        max-width: 80%;
     }
 }
