@@ -304,6 +304,10 @@
         let year = date.getFullYear();
         let vacationTable = document.querySelector('#showUserOnVacation tbody');
 
+        document.addEventListener('DOMContentLoaded', function () {
+            markVacations(month,year); //
+            infoHolidaysTable();
+        });
 
         $(document).ready(function() {
             $('#sendTo').select2({
@@ -471,7 +475,8 @@
             calendar.innerHTML = "";
             let daysInMonth = new Date(year, month,0).getDate();
             let startDate = new Date(year,month -1,1);
-            let firstDayOfMonth = startDate.getDay();
+            let firstDayMonth = startDate.getDay();
+            let firstDayOfMonth = firstDayMonth == 0 ? 7 : firstDayMonth;
             let currentDay = 1;
             let startDay = 1;
 
@@ -496,10 +501,7 @@
             vacationTable.innerHTML = "";
             document.getElementById('showUser').style.display = 'none';
         }
-        document.addEventListener('DOMContentLoaded', function () {
-            markVacations(month,year); //
-            infoHolidaysTable();
-        });
+
 
         function markVacations(month, year){
             generateCalendar(month,year);
