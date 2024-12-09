@@ -17,7 +17,11 @@
     <select class="m-5 p-2 w-50" name="db" id="db" onchange="getDb()">
         <option selected>Izberi tabelo</option>
         @foreach ($tables as $table )
-        <option value="{{$table->Tables_in_izdajablaga}}">{{$table->Tables_in_izdajablaga}}</option>
+            @if (app()->environment('production'))
+                <option value="{{$table->Tables_in_if0_36768205_providio}}">{{$table->Tables_in_if0_36768205_providio}}
+            @else
+                <option value="{{$table->Tables_in_izdajablaga}}">{{$table->Tables_in_izdajablaga}}</option>
+            @endif
         @endforeach
     </select>
 

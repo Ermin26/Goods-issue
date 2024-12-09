@@ -160,12 +160,16 @@ class EmployeeController extends Controller{
     public function vacation(){
         if(Auth::guard('employee')->user()){
             $employee = Auth::guard('employee')->user();
-            $vacation = Vacation::where('employee_id', $employee->id)->first();
-            $years = Holidays::selectRaw('YEAR(holidays.from) as year')
-                    ->distinct()
-                    ->orderBy('year', 'ASC')
-                    ->pluck('year');
-            return view('employees.vacation', compact('vacation', 'employee', 'years'));
+            if($employee->working_status != "študent"){
+                $vacation = Vacation::where('employee_id', $employee->id)->first();
+                $years = Holidays::selectRaw('YEAR(holidays.from) as year')
+                        ->distinct()
+                        ->orderBy('year', 'ASC')
+                        ->pluck('year');
+                return view('employees.vacation', compact('vacation', 'employee', 'years'));
+            }else{
+                return redirect()->back();
+            }
         }else {
             return redirect()->rout('login')->with('error', "Prijavite se.");
         }
@@ -397,20 +401,24 @@ class EmployeeController extends Controller{
                     'msgInfo' => 'required',
                     'msg' => 'required'
                 ]);
-                $employee = Employee::where('employee_id', $id)->get();
+                $employee = Employee::where('id', $id)->first();
                 $msgInfo = $request->input('msgInfo');
-                $msg = $request('msg');
+                $message = $request->input('msg');
+                $msg = nl2br($message);
 
-                Mail::raw($msg,function($message) use ($employee, $msgInfo){
+
+                Mail::send([],[],function($message) use($msgInfo,$msg,$employee){
                     $message->to('mb.providio@gmail.com')
-                            ->subject($msgInfo, $employee->name);
+                            ->subject($msgInfo)
+                            ->cc("rataj.tvprodaja@gmail.com")
+                            ->bcc("mb2.providio@gmail.com")
+                            ->setBody(
+                                $msg."<br><br> " .$employee->name.".",
+                                'text/html'
+                            );
                 });
-                Mail::raw($msg, function($message) use ($employee, $msgInfo) {
-                    $message->to("mb2.providio@gmail.com")
-                            ->subject($msgInfo, $employee->name)
-                            ->cc("rataj.tvprodaja@gmail.com");
-                });
-                return redirect()->route('employeeHome')->with('success',"Uspešno poslano sporočilo.");
+
+                return redirect()->route('employeeHome')->with('success',"Poslano");
             }catch(ValidationException $e){
                 $errors = $e->validator->errors()->all();
                 return redirect()->back()->with('error',"Error: ". $errors);

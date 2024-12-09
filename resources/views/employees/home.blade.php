@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,14 +30,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>52</td>
-                                <td>12</td>
-                                <td>2024</td>
-                                <td>25.07.2024</td>
-                                <td>3.65 €</td>
-                            </tr>
                             @foreach ($unpayedBills as $notPayed)
                                 <tr>
                                     <td>{{$notPayed->id}}</td>
@@ -49,7 +41,7 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td>Dolg</td>
+                                <td><strong>Dolg</strong></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -61,7 +53,7 @@
                 </div>
             @endif
         </section>
-
+        @if($employee->working_status != 'študent')
         <section id="vacationInfo">
             <h2>Stanje letnega dopust</h2>
             <table id="vacationTable" class="table table-responsive table-bordered border-1 border-light">
@@ -86,7 +78,22 @@
                     @endforeach
                 </tbody>
             </table>
+            
         </section>
+        @else
+        <section id="studentSection">
+            <form id="studentForm" action="{{route('studentSendEmail', $employee->id)}}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <input type="text" id="msgInfo" name="msgInfo" placeholder=" " required>
+                    <span id="msgInfoSpan">Zadeva</span>
+                    <textarea name="msg" id="msg" cols="36" rows="5" placeholder=" " required></textarea>
+                    <span id="msgSpan">Sporočilo</span>
+                </div>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Pošlji</button>
+            </form>
+        </section>
+        @endif
 
         <section id="holidays">
             @if(count($userHolidays) > 0)
@@ -125,8 +132,11 @@
     </main>
 
     <script>
-        let holidayTable = document.querySelector('#vacationTable tbody');
-        document.getElementById('leftHolidays').innerHTML = parseInt(holidayTable.rows[0].cells[2].innerHTML) - parseInt(holidayTable.rows[0].cells[3].innerHTML)
+        let user = @json($employee);
+        if(user.working_status != 'študent'){
+            let holidayTable = document.querySelector('#vacationTable tbody');
+            document.getElementById('leftHolidays').innerHTML = parseInt(holidayTable.rows[0].cells[2].innerHTML) - parseInt(holidayTable.rows[0].cells[3].innerHTML)
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
