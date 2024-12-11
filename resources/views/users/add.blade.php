@@ -49,6 +49,10 @@
                             <input type="password" name="password" id="password">
                         </div>
                         <div class="mb-2">
+                            <label for="password">Potrdi Geslo</label><br>
+                            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Potrdi geslo">
+                        </div>
+                        <div class="mb-2">
                             <label for="emplStatus">Status delavca:</label><br>
                             <select class="form-select form-select-sm text-center ms-auto me-auto" id="emplStatus"
                                 aria-label=".form-select-sm example" name="working_status">

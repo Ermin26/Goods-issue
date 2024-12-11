@@ -53,24 +53,31 @@ class EmployeeController extends Controller{
     }
     public function addEmployee(Request $request){
         if(Auth::user()->role !== 'visitor'){
-            $request->validate([
-                'user_name' => 'required|string|max:255',
-                'name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'email' => 'required|string|max:255|unique:employee',
-                'password' => 'required|string|max:255|',
-                'status' => 'required|string|max:255',
-                'working_status' => 'required|string',
-            ]);
-            Employee::create([
-                'user_name' => $request->user_name,
-                'name' => $request->name,
-                'last_name' => $request->last_name,
-                'email' => $request->email,
-                'working_status'=> $request->working_status,
-                'password' => Hash::make($request->password),
-            ]);
-            return redirect()->route('users')->with('success', 'Uspešno dodan delavec!');
+            try{
+                $request->validate([
+                    'user_name' => 'required|string|max:255',
+                    'name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'email' => 'required|string|max:255|unique:employee',
+                    'password' => 'required|string|max:255|confirmed',
+                    'status' => 'required|string|max:255',
+                    'working_status' => 'required|string',
+                ]);
+                Employee::create([
+                    'user_name' => $request->user_name,
+                    'name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'working_status'=> $request->working_status,
+                    'password' => Hash::make($request->password),
+                ]);
+                return redirect()->route('users')->with('success', 'Uspešno dodan delavec!');
+            }catch(ValidationException $e){
+                $error = $e->validator->errors()->all();
+                $errors = implode('<br>', $error);
+                return redirect()->back()->with('error', $errors);
+            }
+            
         }else{
             return redirect()->back()->with('error', 'Nimate dovoljena za dodavanje uporabnika!');
         }
@@ -92,18 +99,22 @@ class EmployeeController extends Controller{
 
     public function updateEmployee(Request $request, $id){
         if(Auth::user()->role !== 'visitor'){
-            $employee = Employee::findOrFail($id);
             try {
+                $employee = Employee::findOrFail($id);
                 $request->validate([
                     'name' => 'required|string|max:255',
                     'last_name' => 'required|string|max:255',
                     'email' => 'nullable|string|max:255',
                     'user_name' => 'required|string|max:255',
-                    'password' => 'required|string|max:255',
+                    'password' => 'nullable|string|confirmed',
                     'status' => 'required|string',
                     'working_status' => 'required|string',
                 ]);
                 $status = $request->input('status') === 'active' ? 1 : 0;
+                $newPassword = $employee->password;
+                if(!empty($request->input('password'))){
+                    $newPassword = Hash::make($request->input('password'));
+                }
                 $employee->update([
                     'user_name' => $request->input('user_name'),
                     'name' => $request->input('name'),
@@ -111,17 +122,17 @@ class EmployeeController extends Controller{
                     'email' => $request->input('email'),
                     'working_status'=> $request->input('working_status'),
                     'status' => $status,
-                    'password' => Hash::make($request->input('password')),
+                    'password' => $newPassword,
                 ]);
 
                 return redirect()->route('users')->with('success', 'Uspešno posodbljeni podatki!');
             } catch (ValidationException $e) {
-                $errors = $e->validator->errors()->all();
+                $error = $e->validator->errors()->all();
+                $errors = implode('<br>', $error);
                 return redirect()->back()->with('error', $errors);
             }
 
         }else{
-            #return redirect()->back()->with('error', 'Nimate dovoljena za spreminjanje podatkov!');
             return redirect()->route('home')->with('error', 'Nimate dovoljena za spreminjanje podatkov!');
         }
     }
@@ -226,7 +237,7 @@ class EmployeeController extends Controller{
                 $request->validate([
                     'username'=> 'string|required',
                     'email'=> 'required',
-                    'password'=> 'required'
+                    'password'=> 'nullable|required|string|confirmed'
                 ]);
                 $password = $request->input('password');
                 $employeeData = Employee::findOrFail($id);
@@ -239,7 +250,8 @@ class EmployeeController extends Controller{
                 $employeeData->save();
                 return redirect()->route('profile')->with('success',"Podatki uspešno posodobljeni");
             }catch(ValidationException $e){
-                $error = $e->validator->errors()->all();
+                $errors = $e->validator->errors()->all();
+                $error = implode("<br/>",$errors);
                 return redirect()->back()->with('error', $error);
             }
         }else{
@@ -410,8 +422,6 @@ class EmployeeController extends Controller{
                 Mail::send([],[],function($message) use($msgInfo,$msg,$employee){
                     $message->to('mb.providio@gmail.com')
                             ->subject($msgInfo)
-                            ->cc("rataj.tvprodaja@gmail.com")
-                            ->bcc("mb2.providio@gmail.com")
                             ->setBody(
                                 $msg."<br><br> " .$employee->name.".",
                                 'text/html'
@@ -421,8 +431,11 @@ class EmployeeController extends Controller{
                 return redirect()->route('employeeHome')->with('success',"Poslano");
             }catch(ValidationException $e){
                 $errors = $e->validator->errors()->all();
-                return redirect()->back()->with('error',"Error: ". $errors);
+                $error = implode("<br>", $errors);
+                return redirect()->back()->with('error',"Error: ". $error);
             }
+        }else{
+            return redirect()->route('login')->with('error', "Prijavite se.");
         }
     }
 }

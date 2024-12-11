@@ -27,7 +27,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="password">Geslo</label>
-                    <input type="password" name="password" id="password" value="{{$myProfile->password}}">
+                    <input type="password" name="password" id="password" placeholder="Pusti prazno će ne želiš spreminjati geslo">
+                </div>
+                <div class="mb-2">
+                    <label for="password">Potrdi Geslo</label><br>
+                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Potrdi geslo">
                 </div>
                     <button class="btn btn-sm btn-warning">Posodobi</button>
             </form>

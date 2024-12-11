@@ -53,14 +53,18 @@
                     </div>
                     <div class="mb-2">
                         <label for="password">Geslo</label><br>
-                        <input type="password" name="password" id="password" value="{{$employee->password}}">
+                        <input type="password" name="password" id="password" value="{{ old('password', '') }}" placeholder="Pusti prazno če ne želiš spremeniti">
+                    </div>
+                    <div class="mb-2">
+                        <label for="password">Potrdi Geslo</label><br>
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Potrdi geslo">
                     </div>
                     <div class="mb-2">
                         <label for="emplStatus">Status zaposlenog:</label><br>
                         <select class="form-select form-select-sm ms-auto me-auto text-center" id="emplStatus"
                             aria-label=".form-select-sm example" name="working_status">
-                            <option selected>
-                                @if(Auth::user()->role !== 'visitor'){{$employee->working_status}}@else / @endif
+                            <option selected value="{{$employee->working_status}}">
+                                {{$employee->working_status}}
                             </option>
                             <option value="zaposlen/a">Zaposlen/a</option>
                             <option value="študent">Študent</option>
@@ -72,8 +76,8 @@
                         <label for="status">Status</label><br>
                         <select class="form-select form-select-sm text-center ms-auto me-auto" id="status"
                             aria-label=".form-select-sm example" name="status">
-                            <option selected>
-                                @if(Auth::user()->role !== 'visitor')@if($employee->status == 1) Aktiven @else Neaktiven @endif @else/@endif
+                            <option selected value="{{$employee->status == 1 ? 'active' : 'inactive'}}">
+                                {{$employee->status == 1 ? 'Aktiven' : 'Neaktiven'}}
                             </option>
                             <option value="active">Aktiven</option>
                             <option value="inactive">Neaktiven</option>

@@ -80,7 +80,7 @@
             </table>
             
         </section>
-        @else
+        @endif
         <section id="studentSection">
             <form id="studentForm" action="{{route('studentSendEmail', $employee->id)}}" method="POST">
                 @csrf
@@ -93,7 +93,6 @@
                 <button type="submit" class="btn btn-outline-primary btn-sm">Pošlji</button>
             </form>
         </section>
-        @endif
 
         <section id="holidays">
             @if(count($userHolidays) > 0)
