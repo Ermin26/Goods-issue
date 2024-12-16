@@ -195,7 +195,7 @@ class VacationController extends Controller{
                 $employee = Employee::where('id', $holiday->employee_id)->first();
 
                 $holiday->update([
-                    'status' => 'Approved',
+                    'status' => 'Rejected',
                     'user_name'=> Auth::user()->name,
                 ]);
 

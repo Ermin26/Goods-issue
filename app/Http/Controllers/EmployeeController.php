@@ -195,14 +195,17 @@ class EmployeeController extends Controller{
                     'days'=> 'integer|required',
                 ]);
 
+                $from = $request->input('from');
+                $to= $request->input('to');
+
                 Holidays::create([
-                    'from'=>$request->input('from'),
-                    'to'=>$request->input('to'),
+                    'from'=>$from,
+                    'to'=>$to,
                     'days'=>$request->input('days'),
                     'employee_id'=>Auth::guard('employee')->user()->id,
                 ]);
 
-                Mail::raw("Delavec ".Auth::guard('employee')->user()->name. " " . Auth::guard('employee')->user()->last_name. " je oddal/a vlogo za dopust. https://providiomb.42web.io/vacation" ,function($message){
+                Mail::raw("Delavec ".Auth::guard('employee')->user()->name. " " . Auth::guard('employee')->user()->last_name. " je oddal/a vlogo za dopust od ".$from ." - ".$to. ". https://providiomb.42web.io/vacation" ,function($message){
                     $message->to("mb.providio@gmail.com")
                             ->subject("Dopust")
                             ->cc("rataj.tvprodaja@gmail.com");
