@@ -8,6 +8,7 @@ body{
     color: whitesmoke;
     background-color: rgba(40, 41, 41, 0.671);
     box-shadow:  0px 0px 15px 5px black;
+    max-width: 600px;
 }
 
 .alert li{
@@ -36,6 +37,18 @@ form{
 }
 form input{
     width: 100%;
+}
+
+input, select, option{
+    color: black;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+}
+
+#user-exists{
+    padding: 4px;
+    margin: 4px 0;
 }
 @media (max-width: 767px){
     #formField div{

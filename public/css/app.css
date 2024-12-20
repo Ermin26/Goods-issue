@@ -18,6 +18,9 @@ body {
     width: 100%;
     min-height: 100vh;
     overflow-x: hidden;
+    background-color: white;
+    color: black !important;
+    color: black !important;
 }
 
 #main {
@@ -28,11 +31,13 @@ body {
     margin-right: auto;
     overflow-y: visible;
     margin: 50px 0;
+    color: black !important;
 }
 .topSection h2{
     text-align: center;
     padding: 4px;
     margin: 0;
+    color: black !important;
 }
 
 .topSection hr{
@@ -51,11 +56,16 @@ section{
     position: relative;
     left: 0;
     margin-right: auto;
+    color: black !important;
 }
 
 .izdal p:first-child{
     margin: 2px 0;
 
+}
+
+input, label, p, h5, h4{
+    color: black !important;
 }
 
 .izdal input{
@@ -67,12 +77,14 @@ section{
     margin: 40px 0 10px 0;
     padding: 0;
     width: 100%;
+    color: black !important;
 }
 .numbers{
     display: flex;
     flex-direction: column;
     padding: 0;
     justify-content: start;
+    color: black !important;
 }
 
 .mb{
@@ -118,6 +130,10 @@ input[name="num_per_month"]{
     list-style: none;
     margin-left: auto;
     margin-right: 0;
+}
+
+.dates ul li{
+    color: black !important;
 }
 
 input[name="soldDate"]{

@@ -1,4 +1,6 @@
-
+*{
+    color: whitesmoke;
+}
 
 body{
     overflow-y: auto;
@@ -34,6 +36,11 @@ a{
     margin: 3px;
 }
 
+#billsStatus, option{
+    color: black !important;
+}
+
+
 .caption {
     margin-left: 10px;
 }
@@ -46,6 +53,12 @@ a{
     overflow-x: auto;
     scrollbar-width: thin;
     width: 100%;
+    color: whitesmoke;
+}
+
+.hoverable tr:hover, .hoverable tr:hover td, .hoverable tr:hover th {
+    color: whitesmoke !important;
+    background-color: #000;
 }
 
 .pagination-wrapper{

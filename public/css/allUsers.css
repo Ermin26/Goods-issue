@@ -17,9 +17,16 @@ body {
     margin-right: auto;
     width: 55%;
 }
-#employeeThead th,#usersTable th{
-    color: black !important;
+
+.status{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
 }
+
 
 @media (max-width: 1023px) {
     .containerr {

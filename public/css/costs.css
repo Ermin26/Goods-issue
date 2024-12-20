@@ -1,4 +1,6 @@
-
+*{
+    color: whitesmoke;
+}
 a {
     text-decoration: none;
 }
@@ -87,7 +89,7 @@ a {
         width: 100%;
     }
     #col1{
-        max-height: 6vh;
+        max-height: 100%;
     }
     #btn-func {
         margin: 3px;

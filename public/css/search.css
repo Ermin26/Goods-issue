@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    color: whitesmoke;
 }
 
 
@@ -12,12 +13,13 @@
 
 #search {
     height: max-content;
+    display: flex;
+    justify-content: center;
 }
 
 #searchUser{
     display: inline-flex;
     flex-direction: column;
-    margin-right: auto;
     align-items: center;
 }
 .infos{
@@ -25,8 +27,11 @@
 }
 .searchInfo{
     background-color: rgb(179, 176, 176);
-    padding: 2px 8px;
+    padding: 4px 8px;
     margin-top: 10px;
+    font-size: 18px;
+    width: 80%;
+    margin-left: auto;
 }
 
 #table span, #table img, #unPayedBills span{
@@ -52,7 +57,9 @@
 #notPayedTable{
     max-width: 100;
 }
-
+#productsRow{
+    max-width: 100%;
+}
 
 @media (max-width:800px) {
     #row {
@@ -61,6 +68,12 @@
         width: 100%;
         flex-direction: column;
         flex-wrap: wrap;
+    }
+
+    .searchInfo{
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
     }
 
     #search, #results {

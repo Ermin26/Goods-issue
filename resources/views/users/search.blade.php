@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <link rel="stylesheet" href="{{asset('css/header.css')}}">
         <link rel="stylesheet" href="{{asset('css/search.css')}}">
         <title>Išči</title>
@@ -16,10 +15,13 @@
 <body>
      @include('navbar')
 
-     <section class="topSection border-bottom border-3 border-dark mt-5">
+     <section class="topSection mt-5">
         @include('flash')
-        <div class="row row-cols-2 d-flex flex-row-reverse flex-wrap-reverse" id="row">
-            <div class="col-12 col-md-7 p-0" id="search">
+        <div id="" class="text-center">
+            <h2 class="text-center mt-3">Upišite ime delavca ali produkta!</h2>
+        </div>
+        <div class="row row-cols-2 d-flex flex-row-reverse flex-wrap-reverse border-bottom border-3 border-light" id="row">
+            <div class="col-12 col-md-6 p-0" id="search">
                     <form class="text-center" id="searchUser">
                         <div class="form-group mt-3 me-auto">
                             <label for="user">Delavec</label>
@@ -40,7 +42,7 @@
                         </div>
                     </form>
             </div>
-            <div class="col-12 col-md-5 infos text-start ms-auto me-auto p-4">
+            <div class="col-12 col-md-6 infos text-start ms-auto me-auto p-4">
                 <div class="searchInfo">
                     <small>-Vpiši samo ime delavca če želiš pridobit vse račune.</small><br>
                     <small>-Vpiši ime delavca in ime produkta če želiš pridobit vse račune in tudi kolikokrat je delavec kupil iskani produkt.</small><br>
@@ -63,7 +65,7 @@
                     <caption>
                         <h2 class="text-center">Product kupljen</h2>
                     </caption>
-                    <table id="tableProducts" class="table table-info table-hover text-center text-dark">
+                    <table id="tableProducts" class="table table-dark table-hover text-center w-75 ms-auto me-auto">
                         <thead>
                             <th>#</th>
                             <th>Product</th>
@@ -75,9 +77,7 @@
             </div>
         </div>
     </section>
-    <div id="empty" class="text-center">
-        <h2 class="text-center mt-3">Upišite ime delavca ali produkta!</h2>
-    </div>
+
 
     <div id="allBills" style="display: none">
                     <div class="head text-center">
@@ -147,7 +147,7 @@
                 let userName = document.getElementById('userName');
                 let buyedProductsDiv = document.getElementById('qtyBuyedProducts');
                 let btns = document.getElementById('searchBtns');
-                let emptyDiv = document.getElementById('empty');
+                //let emptyDiv = document.getElementById('empty');
 
                 document.getElementById('searchUser').addEventListener('submit', function(event) {
                     event.preventDefault();
@@ -166,7 +166,7 @@
                     tbody.innerHTML = '';
                     allBillsResults.style.display = "none";
                     buyedProductsDiv.style.display = "none";
-                    emptyDiv.style.display = "none";
+                    //emptyDiv.style.display = "none";
                     fetch(url, {
                         method: 'POST',
                         headers: {
@@ -208,7 +208,7 @@
 
                 function searchedNameAndProduct(data, tbody, allBillsTable, allBillsResults,notPayedTable, buyedProductsDiv,btns){
                     if(data.bills.length || data.products.length){
-                        emptyDiv.style.display = 'none';
+                        //emptyDiv.style.display = 'none';
                         //! If data.products fill table for searched products
                         if(data.products.length){
                             btns.style.display = 'block';

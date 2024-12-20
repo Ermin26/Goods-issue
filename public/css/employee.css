@@ -12,9 +12,26 @@
 input, #emplStatus, #status{
     width: 200px;
     margin: 5px 0;
+    color: black;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
 }
 
 
+option{
+    color: black;
+}
+#user-exists, #email-exists{
+    padding: 4px;
+    margin: 4px 0;
+}
+
+.submit{
+    width: fit-content;
+    padding: 6px 12px;
+    margin: 20px;
+}
 @media (max-width: 767px){
     input, #emplStatus, #status{
         width: 100%;

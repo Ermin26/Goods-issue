@@ -1,6 +1,10 @@
 *{
     margin: 0;
     padding: 0;
+    color: whitesmoke;
+}
+body{
+    background-color: #17202a;
 }
 
 header{
@@ -25,6 +29,7 @@ header{
     width: fit-content;
     margin: 0 2px;
     font-weight: 700;
+    align-content: center;
 }
 
 #iconLi{
@@ -125,7 +130,7 @@ header{
     aspect-ratio: 1/1;
     justify-content: center;
     align-items: center;
-    font-weight: 800;
+    font-weight: 700;
     transition: all 0.4s ease-in-out;
 }
 

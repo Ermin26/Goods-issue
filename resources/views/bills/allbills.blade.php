@@ -1,5 +1,5 @@
 <div id="allUsers" class="text-center">
-    <table id="all" class="table table-striped-columns table-hover mb-0 ">
+    <table id="all" class="table table-striped-columns mb-0 hoverable">
       <thead id="table-data" class="table-dark text-center align-middle border-bottom">
           <tr class="text-light">
               <th class="col">Kupec</th>

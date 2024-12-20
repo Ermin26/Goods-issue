@@ -9,7 +9,6 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{asset('css/employee.css')}}">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/header.css')}}">
     <title>Dodaj delavca</title>
 </head>
@@ -22,7 +21,7 @@
                     <h1>Dodaj delavca</h1>
                 </div>
                 <div class="add col col-md-8 ms-auto me-auto mb-5">
-                    <form action="{{route('users.addEmployee')}}" method="post">
+                    <form action="{{route('users.addEmployee')}}" method="post" class="row row-cols-2 justify-content-center">
                         @csrf
                         <div class="mb-2">
                             <label for="username">Ime</label><br>
@@ -37,12 +36,12 @@
                         <div class="mb-2">
                             <label for="email">E-naslov</label><br>
                             <input type="email" name="email" id="email" autocomplete="off"><br>
-                            <span class="m-2 p-1" id="email-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Email že obstaja!</span>
+                            <span class="m-2 p-1" id="email-exists" style="display:none; color:red;">Email že obstaja!</span>
                         </div>
                         <div class="mb-2">
                             <label for="user_name">Uporabniško ime</label><br>
                             <input type="text" name="user_name" id="user_name" autocomplete="off" required><br>
-                            <span class="m-2 p-1" id="user-exists" style="display:none; color:red; background-color:rgb(26, 25, 25)">Uporabniško ime že obstaja</span>
+                            <span class="m-2 p-1" id="user-exists" style="display:none; color:red;">Uporabniško ime že obstaja</span>
                         </div>
                         <div class="mb-2">
                             <label for="password">Geslo</label><br>
@@ -72,14 +71,14 @@
                                 <option value="inactive">Neaktiven</option>
                             </select>
                         </div>
-                        @if(Auth::user()->role !== 'visitor')
-                            <button class="btn btn-success mt-2">Dodaj</button>
-                        @else
-                            <button class="btn btn-success mt-2" disabled="true">Dodaj</button>
-                        @endif
+                            @if(Auth::user()->role !== 'visitor')
+                                <button class="btn btn-success mt-2 submit">Dodaj</button>
+                            @else
+                                <button class="btn btn-success mt-2" disabled="true">Dodaj</button>
+                            @endif
                     </form>
+                    <a href="/users"><button class="btn btn-dark mt-2">Nazaj</button></a>
                 </div>
-                <a href="/users"><button class="btn btn-dark mt-2">Nazaj</button></a>
         </div>
 
 
@@ -102,16 +101,20 @@
                         console.log(existingEmails);
                         if (existingEmails.includes(email)) {
                             $('#email-exists').show();
+                            $('.submit').prop("disabled",true);
                         } else {
                             $('#email-exists').hide();
+                            $('.submit').prop("disabled",false);
                         }
                     });
                     $('#user_name').on('keyup',function(){
                         var username = $(this).val();
                         if(existingusername.includes(username)){
                             $('#user-exists').show();
+                            $('.submit').prop("disabled",true);
                         }else{
                             $('#user-exists').hide();
+                            $('.submit').prop("disabled",false);
                         }
                     })
                 });

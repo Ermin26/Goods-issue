@@ -9,7 +9,6 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{asset('css/register.css')}}">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/header.css')}}">
     <title>Novi uporabnik</title>
 </head>
@@ -28,7 +27,7 @@
                     <div class="mb-2 d-flex flex-column ms-auto me-auto">
                         <label for="username">Ime:</label>
                         <input type="text" name="name" id="username" autocomplete="off" required>
-                        <span id="user-exists" style="display:none; color:red; background-color:rgb(24, 23, 23)">Uporabnik že obstaja!</span>
+                        <span id="user-exists" style="display:none; color:red;">Uporabnik že obstaja!</span>
                     </div>
                     <div class="mb-2 d-flex flex-column ms-auto me-auto">
 
@@ -66,12 +65,12 @@
 
             <script>
                 $(document).ready(function() {
-                    var existingEmails = @json($users);
+                    var existingName = @json($users);
         
                     $('#username').on('keyup', function() {
-                        var email = $(this).val();
+                        var name = $(this).val();
         
-                        if (existingEmails.includes(email)) {
+                        if (existingName.includes(name)) {
                             $('#user-exists').show();
                             $('#submit').attr('disabled','true');
                         } else {

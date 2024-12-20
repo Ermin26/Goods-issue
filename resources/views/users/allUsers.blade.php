@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/header.css')}}">
     <link rel="stylesheet" href="{{asset('css/allUsers.css')}}">
     <title>Vsi uporabniki</title>
@@ -24,7 +23,7 @@
                             <div>
                                 <h1>Uporabniki</h1>
                             </div>
-                            <table class="table table-info table-hover table-bordered border-dark align-middle">
+                            <table class="table table-dark table-hover table-bordered border-dark align-middle text-light">
                                 <thead id="usersTable">
                                     <tr>
                                         <th>Ime</th>
@@ -93,7 +92,12 @@
                                                     <td>{{Auth::user()->role != 'visitor' ? $employee->name : "/"}}</td>
                                                     <td>{{Auth::user()->role != 'visitor' ? $employee->last_name : "/"}}</td>
                                                     <td>{{$employee->working_status}}</td>
-                                                    <td>{{$employee->status === 1 ? 'Aktiven' : 'Neaktiven'}} </td>
+                                                    <td>@if($employee->status === 1)
+                                                            <span class="status bg-success"></span>
+                                                        @else
+                                                            <span class="status bg-danger"></span>
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         @if(Auth::user()->role === 'admin')
                                                             <a href="users/employee/{{$employee->id}}" class="btn btn-warning">Uredi</a>
@@ -129,19 +133,13 @@
                 let employee = document.getElementById('employeeTable')
                 let employeeRows = employee.rows.length - 1
                 let number = 0
+
                 for (let i = 1; i <= employeeRows; i++) {
                     let status = document.getElementById('employeeTable').rows[i].cells[4].innerText;
                     number += 1
                     employee.rows[i].cells[0].innerHTML = number;
-                    if (status == 'Neaktiven') {
-                        //document.getElementById('employeeTable').rows[i].setAttribute('class', 'bg-danger')
-                        document.getElementById('employeeTable').rows[i].style.backgroundColor = 'gray';
-                    } else {
-                        document.getElementById('employeeTable').rows[i].setAttribute('class', 'bg-success')
-
-                    }
-
                 }
+
             </script>
 
 

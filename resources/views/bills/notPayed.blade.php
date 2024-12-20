@@ -2,7 +2,7 @@
     @php
     \Log::info('Neto Not Payed (Blade): ' . $netoNotPayed);
 @endphp
-    <table id="all" class="table table-striped-columns table-hover mb-0 ">
+    <table id="all" class="table table-striped-columns hoverable mb-0 ">
       <thead id="table-data" class="table-dark text-center align-middle border-bottom">
           <tr class="text-light">
               <th class="col">Kupec</th>
