@@ -13,6 +13,7 @@ header{
     z-index: 1000;
 }
 
+
 .navbar-nav{
     align-items: center;
 }
@@ -121,6 +122,11 @@ header{
     margin: 4px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    color: black !important;
+}
+
+.alert strong{
+    color: black !important;
 }
 
 .alert span{
@@ -132,6 +138,7 @@ header{
     align-items: center;
     font-weight: 700;
     transition: all 0.4s ease-in-out;
+    color: black !important;
 }
 
 .alert-success span:hover{
