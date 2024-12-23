@@ -22,7 +22,7 @@
     @include('navbar')
     <section id="mainSection" class="row">
         @include('flash')
-        <section id="left" class="col col-lg-3">
+        <section id="left" class="col col-lg-3 border-bottom border-2 border-light">
             <div id="usersQtyHolidays" class="text-center ms-auto me-auto">
                 <div class="caption mt-2">
                     <h2 class="mb-3">Stanje dopusta</h2>
@@ -105,7 +105,7 @@
 
             </div>
         </section>
-        <section id="middle" class="col col-lg-6">
+        <section id="middle" class="col col-lg-6 border-bottom border-2 border-light">
             <div class="row" id="pending_holidays">
                 @if($pending_holidays && count($pending_holidays) > 0)
                     <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
@@ -257,6 +257,7 @@
                     <button class="btn btn-primary" onclick="editEmployeeHolidayData()">Uredi</button>
                 </div>
             </div>
+            @if(Auth::user()->role == 'admin' || Auth::user()->name == 'Alma')
             <div id="secondForm">
                     <div id="resultMsg" class="text-center justify-content-center p-2" style="display: none;">
                     </div>
@@ -288,6 +289,7 @@
                         <button type="submit" class="btn btn-outline-primary btn-sm" {{Auth::user()->role == 'admin' ? " " : "disabled"}}>Pošlji</button>
                     </form>
             </div>
+            @endif
         </section>
     </section>
 
@@ -410,8 +412,8 @@
             });
         });
 
-        
 
+        if(@json(Auth::user()->name == 'Alma')|| @json(Auth::user()->role == 'admin')){
         document.getElementById('sendMsg').addEventListener('submit', function(e){
             e.preventDefault();
             let msgInfo = document.getElementById('msgInfo').value;
@@ -419,7 +421,7 @@
             let sendTo = document.getElementById('sendTo').value;
             sendMsg('{{route('sendMsg')}}', {msgInfo: msgInfo, msg: msg, sendTo: sendTo});
         })
-
+        }
         function sendMsg(url, params){
             $('#sendTo').trigger('change')
             let sendTo = $('#sendTo').val();

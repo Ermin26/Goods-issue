@@ -244,6 +244,7 @@ form label{
     border-radius: 4px;
     resize: both;
     max-width: 100%;
+    color: black;
 }
 #msgInfo,#sendTo{
     padding: 12px;
@@ -254,6 +255,9 @@ form label{
 
 .select2-selection__choice{
     color: black;
+}
+#select2-sendTo-results li{
+    color: black !important;
 }
 
 .select2-container{

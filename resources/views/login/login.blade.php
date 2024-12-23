@@ -24,14 +24,13 @@
                             <div class="card-header" id="image">
                             </div>
                             <div id="fieldsGroup" class="card-body text-center">
-                                <div id="field" class="d-inline-flex mb-1 p-2 text-center">
+                                <div id="field" class="d-inline-flex p-2 text-center">
                                     <label id="label" for="username"
                                         class="d-inline-flex"><strong>Uporabniško ime:</strong></label>
                                     <input type="text" class="col d-inline-flex text-center" name="name" id="name"
                                         placeholder="Uporabniško ime">
                                 </div>
-                                <br>
-                                <div id="field" class="d-inline-flex mb-2 p-2 text-center">
+                                <div id="field" class="d-inline-flex p-2 text-center">
                                     <label id="label" for="password" class="d-inline-flex"><strong>Geslo:
                                         </strong></label>
                                     <input type="password" class="col d-inline-flex text-center" name="password"
