@@ -132,7 +132,7 @@
                                             @if($vacation)
                                             <td>{{$vacation->user}}
                                             </td>
-                                            <td>{{\Carbon\Carbon::parse($pending->from)->format('d.m.Y')}}</td>
+                                            <td>{{\Carbon\Carbon::parse($pending->from_date)->format('d.m.Y')}}</td>
                                             <td>{{\Carbon\Carbon::parse($pending->to)->format('d.m.Y')}}</td>
                                             <td>{{$pending->days}}</td>
                                             <td>{{\Carbon\Carbon::parse($pending->apply_date)->format('d.m.Y')}}</td>
@@ -366,7 +366,7 @@
                     table.appendChild(tbody);
                     user.holidays.forEach(function(holiday){
                         let rows = tbody.insertRow();
-                        let formatFrom = holiday.from;
+                        let formatFrom = holiday.from_date;
                         let formatTo = holiday.to;
                         let newFromDate = new Date(formatFrom);
                         let newToDate = new Date(formatTo);
@@ -509,10 +509,10 @@
             generateCalendar(month,year);
             let thisYear = new Date();
             vacations.forEach(function(vacation) {
-                let splitDate = vacation.from.split(' ');
+                let splitDate = vacation.from_date.split(' ');
                 let getYear = splitDate[0].split('-');
                 if(vacation.status === 'Approved' && getYear[0] == year){
-                    let startDate = vacation.from.split(' ');
+                    let startDate = vacation.from_date.split(' ');
                     let endDate = vacation.to.split(' ');
                     let from = new Date(startDate[0]);
                     let to = new Date(endDate[0]);
@@ -528,7 +528,7 @@
                         document.getElementById('showUser').style.display = 'block';
                         for(employee of employees) {
                             if(employee.employee_id == vacation.employee_id){
-                                let fromDate = new Date(vacation.from);
+                                let fromDate = new Date(vacation.from_date);
                                 let toDate = new Date(vacation.to);
                                 row.insertCell(0).innerHTML = role != 'visitor' ? employee.user : "Ime delavca";
                                 row.insertCell(1).innerHTML = ('0' + fromDate.getDate()).slice(-2) + '.' + ('0' + (fromDate.getMonth()+1)).slice(-2) + '.' + fromDate.getFullYear();

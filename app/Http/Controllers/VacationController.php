@@ -72,7 +72,7 @@ class VacationController extends Controller{
                         $applyed = date('Y-m-d', $apply);
                         //dd("vacations",$vacation);
                         Holidays::create([
-                            'from'=>$changeDate,
+                            'from_date'=>$changeDate,
                             'to'=> $changeDate2,
                             'status'=>$data['status'][0],
                             'days'=>$data['days'][0],
@@ -94,7 +94,7 @@ class VacationController extends Controller{
         $employees = Employee::where('status', 1)->get();
         $pending_holidays = Holidays::where('status', 'pending')->get();
         $notifications = Holidays::where('status', 'Pending')->get();
-        $years = Holidays::selectRaw('YEAR(holidays.from) as year')
+        $years = Holidays::selectRaw('YEAR(holidays.from_date) as year')
         ->distinct()
         ->orderBy('year', 'ASC')
         ->pluck('year');
@@ -251,7 +251,7 @@ class VacationController extends Controller{
                                     'user' => $group->first()->user,
                                     'holidays' => $group->map(function($holiday){
                                         return [
-                                            'from' => $holiday->from,
+                                            'from' => $holiday->from_date,
                                             'to' => $holiday->to,
                                             'days' => $holiday->days,
                                             'status' => $holiday->status,
@@ -275,7 +275,7 @@ class VacationController extends Controller{
                         'user' => $group->first()->user,
                         'holidays' => $group->map(function($holiday){
                             return [
-                                'from' => $holiday->from,
+                                'from' => $holiday->from_date,
                                 'to' => $holiday->to,
                                 'days' => $holiday->days,
                                 'status' => $holiday->status,
@@ -297,7 +297,7 @@ class VacationController extends Controller{
                                     'user' => $group->first()->user,
                                     'holidays' => $group->map(function($holiday){
                                         return [
-                                            'from' => $holiday->from,
+                                            'from' => $holiday->from_date,
                                             'to' => $holiday->to,
                                             'days' => $holiday->days,
                                             'status' => $holiday->status,
@@ -319,7 +319,7 @@ class VacationController extends Controller{
                                     'user' => $group->first()->user,
                                     'holidays' => $group->map(function($holiday){
                                         return [
-                                            'from' => $holiday->from,
+                                            'from' => $holiday->from_date,
                                             'to' => $holiday->to,
                                             'days' => $holiday->days,
                                             'status' => $holiday->status,

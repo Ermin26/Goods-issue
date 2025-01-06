@@ -173,7 +173,7 @@ class EmployeeController extends Controller{
             $employee = Auth::guard('employee')->user();
             if($employee->working_status != "študent"){
                 $vacation = Vacation::where('employee_id', $employee->id)->first();
-                $years = Holidays::selectRaw('YEAR(holidays.from) as year')
+                $years = Holidays::selectRaw('YEAR(holidays.from_date) as year')
                         ->distinct()
                         ->orderBy('year', 'ASC')
                         ->pluck('year');
@@ -199,7 +199,7 @@ class EmployeeController extends Controller{
                 $to= $request->input('to');
 
                 Holidays::create([
-                    'from'=>$from,
+                    'from_date'=>$from,
                     'to'=>$to,
                     'days'=>$request->input('days'),
                     'employee_id'=>Auth::guard('employee')->user()->id,
@@ -283,7 +283,7 @@ class EmployeeController extends Controller{
                 $holiday = Holidays::findOrFail($id);
 
                 $holiday->update([
-                    'from'=> $request->input('from'),
+                    'from_date'=> $request->input('from'),
                     'to'=> $request->input('to'),
                     'days'=> $request->input('days'),
                 ]);
