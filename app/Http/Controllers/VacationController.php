@@ -90,8 +90,7 @@ class VacationController extends Controller{
     public function vacationData(){
         $vacations = Vacation::all();
         $holidays = Holidays::all();
-        #->where('working_status', 'zaposlen/a')
-        $employees = Employee::where('status', 1)->get();
+        $employees = Employee::where('status', 1)->where('working_status', 'zaposlen/a')->get();
         $pending_holidays = Holidays::where('status', 'pending')->get();
         $notifications = Holidays::where('status', 'Pending')->get();
         $years = Holidays::selectRaw('YEAR(holidays.from_date) as year')
