@@ -239,7 +239,7 @@ class VacationController extends Controller{
             $holidays = null;
             if($user && $year){
                 $userId = Vacation::where('user', 'LIKE', "%{$user}%")->pluck('employee_id')->first();
-                $holidays = Holidays::whereYear('holidays.from', $year)->where('holidays.employee_id','=', $userId)
+                $holidays = Holidays::whereYear('holidays.from_date', $year)->where('holidays.employee_id','=', $userId)
                             ->join('vacation','holidays.employee_id', '=','vacation.employee_id')
                             ->select('holidays.*', 'vacation.user')
                             ->orderBy('holidays.to', 'DESC')
@@ -250,6 +250,7 @@ class VacationController extends Controller{
                                     'user' => $group->first()->user,
                                     'holidays' => $group->map(function($holiday){
                                         return [
+                                            'id' => $holiday->id,
                                             'from' => $holiday->from_date,
                                             'to' => $holiday->to,
                                             'days' => $holiday->days,
@@ -274,6 +275,7 @@ class VacationController extends Controller{
                         'user' => $group->first()->user,
                         'holidays' => $group->map(function($holiday){
                             return [
+                                'id' => $holiday->id,
                                 'from' => $holiday->from_date,
                                 'to' => $holiday->to,
                                 'days' => $holiday->days,
@@ -286,7 +288,7 @@ class VacationController extends Controller{
                 ->toArray();
             }else if(!$user && $year){
                 $holidays = Vacation::join('holidays','vacation.employee_id','=' ,'holidays.employee_id')
-                            ->whereYear('holidays.from', $year)
+                            ->whereYear('holidays.from_date', $year)
                             ->select('vacation.user', 'holidays.*')
                             ->orderBy('holidays.to', 'DESC')
                             ->get()
@@ -296,6 +298,7 @@ class VacationController extends Controller{
                                     'user' => $group->first()->user,
                                     'holidays' => $group->map(function($holiday){
                                         return [
+                                            'id' => $holiday->id,
                                             'from' => $holiday->from_date,
                                             'to' => $holiday->to,
                                             'days' => $holiday->days,
@@ -310,7 +313,7 @@ class VacationController extends Controller{
             }else{
                 $holidays = Vacation::join('holidays','vacation.employee_id','=' ,'holidays.employee_id')
                             ->select('vacation.user', 'holidays.*')
-                            ->orderBy('holidays.from', 'DESC')
+                            ->orderBy('holidays.from_date', 'DESC')
                             ->get()
                             ->groupBy('user')
                             ->map(Function($group){
@@ -318,6 +321,7 @@ class VacationController extends Controller{
                                     'user' => $group->first()->user,
                                     'holidays' => $group->map(function($holiday){
                                         return [
+                                            'id' => $holiday->id,
                                             'from' => $holiday->from_date,
                                             'to' => $holiday->to,
                                             'days' => $holiday->days,
@@ -337,6 +341,63 @@ class VacationController extends Controller{
             return response()->json(['error' => $e->getMessage()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function usedHolidayEdit(Request $request, $id){
+        $holiday = Holidays::join('employee','holidays.employee_id','=','employee.id')
+                            ->join('vacation', 'vacation.employee_id', '=', 'holidays.employee_id')
+                            ->where('holidays.id', $id)
+                            ->select('vacation.*', 'employee.*','holidays.*')
+                            ->first();
+                            $notifications = Holidays::where('status', 'Pending')->get();
+        if($holiday){
+            return view('holidays.editUsedHoliday', compact('holiday','notifications'));
+        }else{
+            return redirect()->back();
+        }
+    }
+
+    public function updateUserHoliday(Request $request, $id){
+        $holiday = Holidays::find($id);
+        if($this->checkRole()){
+        try{
+            $request->validate([
+                'from' =>'required|date',
+                'to' =>'required|date',
+                'days' =>'required|numeric',
+            ]);
+            $holiday->update([
+                'from_date' => $request->input('from'),
+                'to' => $request->input('to'),
+                'days' => $request->input('days'),
+                'user_name'=> Auth::user()->name
+            ]);
+            $holiday->save();
+            return redirect()->route('vacation')->with('success', 'Uspešno posodobljeni podatki.');
+        }catch(ValidationException $e){
+            $errors = $e->validator->errors()->all();
+            return redirect()->back()->with('error', implode(', ', $errors));
+        }
+        }else{
+            return redirect()->back()->with('error', "Nimate dovoljena za posodobitev podatkov.");
+        }
+    }
+
+    public function deleteUserHoliday(Request $request,$id){
+        if($this->checkRole()){
+            $holiday = Holidays::find($id);
+            $vacation = Vacation::where('employee_id', '=', $holiday->employee_id)->first();
+            if($holiday->status == "Approved"){
+                $vacation->update([
+                    'used_holidays' => $vacation->used_holidays - $holiday->days,
+                ]);
+                $vacation->save();
+            }
+            $holiday->delete();
+            return redirect()->route('vacation')->with('success', 'Uspešno izbrisan dopust.');
+        }else{
+            return redirect()->route('vacation')->with('error', 'Nimate dovoljenja za brisanje.');
         }
     }
 
@@ -439,6 +500,10 @@ class VacationController extends Controller{
         $mongoClient = new MongoClient(env('MONGODB_HOST'));
         $database = $mongoClient->selectDatabase('test');
         var_dump($database);
+    }
+
+    private function checkRole(){
+        return Auth::user()->role == 'admin' || Auth::user()->name == 'Alma';
     }
 
 }

@@ -62,12 +62,15 @@ Route::middleware(['auth'])->group(function(){
 
     Route::prefix('vacation')->group(function(){
         Route::get('/',[VacationController::class, 'vacationData'])->name('vacation');
+        Route::get('/user/holiday/edit/{id}',[VacationController::class, 'usedHolidayEdit'])->name('holidayEdit');
         Route::post('/updateVacations', [VacationController::class, 'updateVacations'])->name('updateVacation');
         Route::post('/approveHoliday/{id}', [VacationController::class, 'approveHoliday'])->name('approveHoliday');
         Route::post('/rejectHoliday/{id}', [VacationController::class, 'rejectHoliday'])->name('rejectHoliday');
         Route::post('/userUsedHolidays', [VacationController::class, 'userUsedHolidays'])->name('userUsedHolidays');
         Route::post('/sendMsg',[VacationController::class, 'sendMsg'])->name('sendMsg');
+        Route::post('/updateUserHoliday/{id}', [VacationController::class, 'updateUserHoliday'])->name('updateUserHoliday');
     });
+    Route::delete('/deleteUserHoliday/{id}',[VacationController::class, 'deleteUserHoliday'])->name('deleteUserHoliday');
     Route::prefix('users')->group(function(){
         Route::get('/',[UsersController::class, 'findAllUsers'])->name('users');
         #Route::get('/',[EmployeeController::class, 'importEmployee'])->name('users');
@@ -78,7 +81,8 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/employeeupdate/{id}',[EmployeeController::class, 'updateEmployee'])->name('users.updateEmployee');
         Route::post('/addEmployee',[EmployeeController::class, 'addEmployee'])->name('users.addEmployee');
         Route::get('/register',[UsersController::class, 'checkUsers'])->name('users.register');
-
+        
+        
         Route::delete('/{id}', [UsersController::class, 'deleteUser'])->name('users.destroy');
         Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('users.deleteEmployee');
     });

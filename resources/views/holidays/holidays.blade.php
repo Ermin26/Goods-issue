@@ -22,7 +22,7 @@
     @include('navbar')
     <section id="mainSection" class="row">
         @include('flash')
-        <section id="left" class="col col-lg-3 border-bottom border-2 border-light">
+        <section id="left" class="col col-lg-3">
             <div id="usersQtyHolidays" class="text-center ms-auto me-auto">
                 <div class="caption mt-2">
                     <h2 class="mb-3">Stanje dopusta</h2>
@@ -105,7 +105,7 @@
 
             </div>
         </section>
-        <section id="middle" class="col col-lg-6 border-bottom border-2 border-light">
+        <section id="middle" class="col col-lg-6">
             <div class="row" id="pending_holidays">
                 @if($pending_holidays && count($pending_holidays) > 0)
                     <h2 class="text-center p-2 mb-2">Oddane vloge</h2>
@@ -362,11 +362,12 @@
                     row.insertCell(1).innerHTML = "Do";
                     row.insertCell(2).innerHTML = "Dni";
                     row.insertCell(3).innerHTML = "Status";
+                    row.insertCell(4).innerHTML = "Edit";
                     table.appendChild(thead);
                     table.appendChild(tbody);
                     user.holidays.forEach(function(holiday){
                         let rows = tbody.insertRow();
-                        let formatFrom = holiday.from_date;
+                        let formatFrom = holiday.from;
                         let formatTo = holiday.to;
                         let newFromDate = new Date(formatFrom);
                         let newToDate = new Date(formatTo);
@@ -393,11 +394,13 @@
                             rows.insertCell(3).innerHTML = "Preverjanje";
                             rows.cells[3].style.backgroundColor = "#d0d000"
                         }
+                        rows.insertCell(4).innerHTML = `<a class="btn btn-sm btn-warning" href="vacation/user/holiday/edit/${holiday.id}">Uredi</a>`;
                     })
                     showResults.appendChild(h3);
                     showResults.appendChild(table);
                     clearBtn.style.display = "flex"
                 })
+                document.getElementById('vacationResults').style.display ="block";
             })
         }
 

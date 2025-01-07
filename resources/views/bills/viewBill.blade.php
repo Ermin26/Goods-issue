@@ -98,11 +98,9 @@
                                 EDIT
                             </button>
                         </a>
-
                     </td>
-
                     <td>
-                        <form action="/all/delete/{{$bill->id}}/?_method=DELETE" method="post">
+                        <form action="/all/delete/{{$bill->id}}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm" {{Auth::user()->role == 'visitor' ? "disabled" : ' '}}>DELETE</button>
