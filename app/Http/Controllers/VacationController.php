@@ -360,25 +360,46 @@ class VacationController extends Controller{
 
     public function updateUserHoliday(Request $request, $id){
         $holiday = Holidays::find($id);
+        $vacation = Vacation::where('employee_id', '=', $holiday->employee_id)->first();
         if($this->checkRole()){
-        try{
-            $request->validate([
-                'from' =>'required|date',
-                'to' =>'required|date',
-                'days' =>'required|numeric',
-            ]);
-            $holiday->update([
-                'from_date' => $request->input('from'),
-                'to' => $request->input('to'),
-                'days' => $request->input('days'),
-                'user_name'=> Auth::user()->name
-            ]);
-            $holiday->save();
-            return redirect()->route('vacation')->with('success', 'Uspešno posodobljeni podatki.');
-        }catch(ValidationException $e){
-            $errors = $e->validator->errors()->all();
-            return redirect()->back()->with('error', implode(', ', $errors));
-        }
+            try{
+                $request->validate([
+                    'from' =>'required|date',
+                    'to' =>'required|date',
+                    'days' =>'required|numeric',
+                ]);
+                if($holiday->status == 'Approved'){
+                    $days = $request->input('days');
+                    if($holiday->days > $days){
+                        $updateUsedHolidays = $holiday->days - $days;
+                        $newUsedHolidays = $vacation->used_holidays - $updateUsedHolidays;
+                        $vacation->update([
+                            'used_holidays' => $newUsedHolidays
+                        ]);
+                        $vacation->save();
+                    }else{
+                        $updateUsedHolidays = $days - $holiday->days;
+                        $newUsedHolidays = $vacation->used_holidays + $updateUsedHolidays;
+                        $vacation->update([
+                            'used_holidays' => $newUsedHolidays
+                        ]);
+                        $vacation->save();
+                    }
+                    $holiday->update([
+                        'from_date' => $request->input('from'),
+                        'to' => $request->input('to'),
+                        'days' => $request->input('days'),
+                        'user_name'=> Auth::user()->name
+                    ]);
+                    $holiday->save();
+                    return redirect()->route('vacation')->with('success', 'Uspešno posodobljeni podatki.');
+                }else{
+                    return redirect()->back()->with('error', 'Dopust ki ima status "Zavrnjeno" se ne more spreminjat!');
+                }
+            }catch(ValidationException $e){
+                $errors = $e->validator->errors()->all();
+                return redirect()->back()->with('error', implode(', ', $errors));
+            }
         }else{
             return redirect()->back()->with('error', "Nimate dovoljena za posodobitev podatkov.");
         }
@@ -386,16 +407,32 @@ class VacationController extends Controller{
 
     public function deleteUserHoliday(Request $request,$id){
         if($this->checkRole()){
-            $holiday = Holidays::find($id);
-            $vacation = Vacation::where('employee_id', '=', $holiday->employee_id)->first();
-            if($holiday->status == "Approved"){
-                $vacation->update([
-                    'used_holidays' => $vacation->used_holidays - $holiday->days,
-                ]);
-                $vacation->save();
+            try{
+                $holiday = Holidays::find($id);
+                $vacation = Vacation::where('employee_id', '=', $holiday->employee_id)->first();
+                if($holiday->status == "Approved"){
+                    $vacation->update([
+                        'used_holidays' => $vacation->used_holidays - $holiday->days,
+                    ]);
+                    $vacation->save();
+
+                    $employee = Employee::where('id', '=', $holiday->employee_id)->first();
+                    $changeDate = strtotime($holiday->from_date);
+                    $changeDate2 = strtotime($holiday->to);
+                    $from = date('d.m.Y',$changeDate);
+                    $to = date('d.m.Y',$changeDate2);
+                    Mail::raw("Obvestilo: Dopust za zaposlenega ".$employee->name." Od: ".$from." Do: ".$to." je bil PREKLICAN. Lep pozdrav, ".Auth::user()->name.".", function ($message) {
+                        $message->to("mb2.providio@gmail.com")
+                                ->subject("Obvestilo o dopustu")
+                                ->cc("rataj.tvprodaja@gmail.com");
+                    });
+                }
+                $holiday->delete();
+                return redirect()->route('vacation')->with('success', 'Uspešno izbrisan dopust.');
+            }catch(ValidationException $e){
+                $errors = $e->validator->errors()->all();
+                return redirect()->route('vacation')->with('error', implode(',', $errors));
             }
-            $holiday->delete();
-            return redirect()->route('vacation')->with('success', 'Uspešno izbrisan dopust.');
         }else{
             return redirect()->route('vacation')->with('error', 'Nimate dovoljenja za brisanje.');
         }

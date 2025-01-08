@@ -3,6 +3,7 @@
     height: 150px;
     margin-left: auto;
     margin-right: auto;
+    align-content: center;
     background-image: url("../img/logo.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -14,7 +15,9 @@
 }
 
 .card{
-    box-shadow: 0 10px 10px 0 #32383f;
+    padding: 12px 6px;
+    box-shadow: 0 0 10px 10px #32383f;
+    justify-content: center;
 }
 
 #name,
@@ -28,6 +31,20 @@
 
 
 
+
+#contactAdmin{
+    margin: 20px 0 !important;
+    padding: 10px 20px !important;
+    align-items: center;
+    width: fit-content;
+    max-width: 300px;
+    border-radius: 6px;
+    box-shadow:  0 0 4px 2px rgb(84, 84, 84);
+}
+#contactAdmin p{
+    margin: 0;
+    padding: 0;
+}
 
 
 
@@ -155,7 +172,7 @@
     }
 }
 
-
+/*
 @media (max-width: 460px) {
     #container {
         all: unset;
@@ -222,3 +239,4 @@
         box-shadow: 0 0 5px 5px rgba(32, 32, 32, 0.432);
     }
 }
+    */

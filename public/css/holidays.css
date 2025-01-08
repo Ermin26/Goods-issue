@@ -85,7 +85,9 @@ body{
 #vacationResults{
     margin-bottom: 15vh;
 }
-
+.resultTable{
+    vertical-align: middle;
+}
 #clearBtn, #searchBtn{
     margin: 2px 6px;
 }

@@ -42,7 +42,7 @@
                             </div>
                         </form>
                     </div>
-                        <div class="col d-inline-flex caption ms-auto me-auto text-center p-2">
+                        <div id="contactAdmin" class="row d-inline-flex caption ms-auto me-auto text-center">
                             <p>Imate težave s prijavo?<a href="mailto:mb.providio@gmail.com"> Kontakt
                                     Admin.</a></p>
                         </div>

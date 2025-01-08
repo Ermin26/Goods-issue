@@ -20,8 +20,8 @@
 </head>
 <body>
     @include('navbar')
+    @include('flash')
     <section id="mainSection" class="row">
-        @include('flash')
         <section id="left" class="col col-lg-3">
             <div id="usersQtyHolidays" class="text-center ms-auto me-auto">
                 <div class="caption mt-2">
@@ -417,7 +417,7 @@
 
 
         if(@json(Auth::user()->name == 'Alma')|| @json(Auth::user()->role == 'admin')){
-        document.getElementById('sendMsg').addEventListener('submit', function(e){
+            document.getElementById('sendMsg').addEventListener('submit', function(e){
             e.preventDefault();
             let msgInfo = document.getElementById('msgInfo').value;
             let msg = document.getElementById('msg').value;
