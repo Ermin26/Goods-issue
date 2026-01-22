@@ -179,7 +179,7 @@
                     .then(data => {
                         //if(data.bills && data.bills.length > 0  && !data.products){
                         if(username.value && !product.value){
-                            console.log("this is if");
+                            //console.log("this is if");
                             searchedName(data, tbody, allBillsTable, allBillsResults,notPayedTable, buyedProductsDiv,btns);
                             notPayedBills(data)
                         }
