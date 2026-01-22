@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    @include('navbar')
     @include('flash')
         <div id="container" class="container mt-5 d-flex justify-content-center">
             <div class="row mt-2">
@@ -27,13 +26,13 @@
                                 <div id="field" class="d-inline-flex p-2 text-center">
                                     <label id="label" for="username"
                                         class="d-inline-flex"><strong>Uporabniško ime:</strong></label>
-                                    <input type="text" class="col d-inline-flex text-center" name="name" id="name"
+                                    <input type="text" class="col d-inline-flex text-center" name="name" id="name" value="test1"
                                         placeholder="Uporabniško ime">
                                 </div>
                                 <div id="field" class="d-inline-flex p-2 text-center">
                                     <label id="label" for="password" class="d-inline-flex"><strong>Geslo:
                                         </strong></label>
-                                    <input type="password" class="col d-inline-flex text-center" name="password"
+                                    <input type="password" class="col d-inline-flex text-center" name="password" value="test1"
                                         id="password" placeholder="Vaše geslo">
                                 </div>
                             </div>
@@ -43,8 +42,9 @@
                         </form>
                     </div>
                         <div id="contactAdmin" class="row d-inline-flex caption ms-auto me-auto text-center">
-                            <p>Imate težave s prijavo?<a href="mailto:mb.providio@gmail.com"> Kontakt
-                                    Admin.</a></p>
+                            <p>Imate težave s prijavo?
+                                <br><a href="mailto:mb.providio@gmail.com"> Kontakt Admin.</a>
+                                </p>
                         </div>
                     </div>
                 </div>
