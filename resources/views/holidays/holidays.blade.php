@@ -96,7 +96,7 @@
                         </select>
                     </div>
                     <div class="rowBtns">
-                        <button id="searchBtn" class="btn btn-primary btn-sm p-2 text-light d-inline-flex text-center" {{Auth::user()->role == 'visitor' ? "disabled" : " "}}>Potrdi</button>
+                        <button id="searchBtn" class="btn btn-primary btn-sm p-2 text-light d-inline-flex text-center">Potrdi</button>
                         <div id="clearBtn" class="btn btn-secondary btn-sm p-2" style="display: none" onclick="clearData()">Počisti</div>
                     </div>
                 </form>
@@ -352,7 +352,7 @@
                 data.holidays.forEach(function(user){
                     let h3 = document.createElement('h3');
                     h3.classList.add('mt-4')
-                    h3.innerHTML = user.user;
+                    h3.innerHTML = role != 'visitor' ? user.user : "Ime delavca";
                     let table = document.createElement('table');
                     table.classList.add('resultTable', 'table', 'table-responsive', 'text-light', 'border-1', 'border-dark', 'text-center', 'mb-5')
                     let thead = document.createElement('thead');
@@ -512,10 +512,10 @@
             generateCalendar(month,year);
             let thisYear = new Date();
             vacations.forEach(function(vacation) {
-                let splitDate = vacation.from_date.split(' ');
+                let splitDate = vacation.from.split(' ');
                 let getYear = splitDate[0].split('-');
                 if(vacation.status === 'Approved' && getYear[0] == year){
-                    let startDate = vacation.from_date.split(' ');
+                    let startDate = vacation.from.split(' ');
                     let endDate = vacation.to.split(' ');
                     let from = new Date(startDate[0]);
                     let to = new Date(endDate[0]);
@@ -531,7 +531,7 @@
                         document.getElementById('showUser').style.display = 'block';
                         for(employee of employees) {
                             if(employee.employee_id == vacation.employee_id){
-                                let fromDate = new Date(vacation.from_date);
+                                let fromDate = new Date(vacation.from);
                                 let toDate = new Date(vacation.to);
                                 row.insertCell(0).innerHTML = role != 'visitor' ? employee.user : "Ime delavca";
                                 row.insertCell(1).innerHTML = ('0' + fromDate.getDate()).slice(-2) + '.' + ('0' + (fromDate.getMonth()+1)).slice(-2) + '.' + fromDate.getFullYear();
